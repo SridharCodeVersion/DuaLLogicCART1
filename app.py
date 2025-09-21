@@ -1,10 +1,10 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import numpy as np
 import json
 import base64
 from io import BytesIO
-import zipfile
 from data_processor import DataProcessor
 from logic_gates import LogicGateAnalyzer
 from cart_diagram import CARTDiagramGenerator
@@ -20,13 +20,80 @@ st.set_page_config(
 
 # Initialize session state
 if 'data_processor' not in st.session_state:
-    st.session_state.data_processor = None
-if 'biomarkers_df' not in st.session_state:
-    st.session_state.biomarkers_df = None
+    st.session_state.data_processor = DataProcessor('pancreatic_biomarkers.csv')
+if 'biomarkers_data' not in st.session_state:
+    st.session_state.biomarkers_data = st.session_state.data_processor.get_categories_with_biomarkers()
+if 'selected_tumor_antigens' not in st.session_state:
+    st.session_state.selected_tumor_antigens = []
+if 'selected_healthy_antigens' not in st.session_state:
+    st.session_state.selected_healthy_antigens = []
 if 'analysis_results' not in st.session_state:
     st.session_state.analysis_results = None
+if 'theme' not in st.session_state:
+    st.session_state.theme = 'light'
+
+def apply_theme():
+    """Apply custom CSS for theme."""
+    if st.session_state.theme == 'dark':
+        st.markdown("""
+        <style>
+        .stApp {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            z-index: 999;
+            background-color: #333;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: white;
+            cursor: pointer;
+        }
+        .stSelectbox > div > div {
+            background-color: #333;
+            color: white;
+        }
+        .stDataFrame {
+            background-color: #2d2d2d;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+        <style>
+        .theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            z-index: 999;
+            background-color: #f0f2f6;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: #333;
+            cursor: pointer;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+def toggle_theme():
+    """Toggle between light and dark theme."""
+    st.session_state.theme = 'dark' if st.session_state.theme == 'light' else 'light'
 
 def main():
+    apply_theme()
+    
+    # Theme toggle button
+    col1, col2 = st.columns([10, 1])
+    with col2:
+        if st.button("🌓", key="theme_toggle", help="Toggle Dark/Light Mode"):
+            toggle_theme()
+            st.rerun()
+    
     st.title("🧬 CAR-T Design Tool for PDAC")
     st.markdown("### Dual-Logic CAR-T Strategy Designer for Pancreatic Ductal Adenocarcinoma")
     
@@ -36,164 +103,155 @@ def main():
     # Sidebar for navigation
     st.sidebar.title("Navigation")
     page = st.sidebar.radio(
-        "Select Page",
-        ["Data Upload", "Antigen Selection", "Logic Gate Analysis", "CAR-T Diagram", "Results & Download"]
+        "Select Section",
+        ["🎯 Antigen Selection", "🔬 Logic Gate Analysis", "🧬 CAR-T Diagram"]
     )
     
-    if page == "Data Upload":
-        data_upload_page()
-    elif page == "Antigen Selection":
+    if page == "🎯 Antigen Selection":
         antigen_selection_page()
-    elif page == "Logic Gate Analysis":
+    elif page == "🔬 Logic Gate Analysis":
         logic_gate_analysis_page()
-    elif page == "CAR-T Diagram":
+    elif page == "🧬 CAR-T Diagram":
         cart_diagram_page()
-    elif page == "Results & Download":
-        results_download_page()
-
-def data_upload_page():
-    st.header("📁 Data Upload & Validation")
-    
-    # File upload
-    uploaded_file = st.file_uploader(
-        "Upload biomarker dataset (CSV)",
-        type=['csv'],
-        help="CSV file should contain: biomarker_name, category, indication (↑ oncogenic, ↓ suppressor)"
-    )
-    
-    # Sample data option
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Load Sample Dataset"):
-            st.session_state.biomarkers_df = pd.read_csv("sample_data.csv")
-            st.session_state.data_processor = DataProcessor(st.session_state.biomarkers_df)
-            st.success("Sample dataset loaded successfully!")
-    
-    with col2:
-        if st.button("View Sample Data Format"):
-            sample_df = pd.read_csv("sample_data.csv")
-            st.dataframe(sample_df.head())
-    
-    if uploaded_file is not None:
-        try:
-            df = pd.read_csv(uploaded_file)
-            st.session_state.data_processor = DataProcessor(df)
-            
-            # Validate dataset
-            validation_result = st.session_state.data_processor.validate_dataset()
-            
-            if validation_result['valid']:
-                st.session_state.biomarkers_df = df
-                st.success("✅ Dataset uploaded and validated successfully!")
-                
-                # Display dataset info
-                st.subheader("Dataset Overview")
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    st.metric("Total Biomarkers", len(df))
-                with col2:
-                    st.metric("Categories", int(df['category'].nunique()))
-                with col3:
-                    oncogenic_count = len(df[df['indication'].str.contains('↑', na=False)])
-                    st.metric("Oncogenic Markers", oncogenic_count)
-                
-                # Display data
-                st.dataframe(df)
-                
-            else:
-                st.error(f"❌ Dataset validation failed: {validation_result['error']}")
-                
-        except Exception as e:
-            st.error(f"Error loading dataset: {str(e)}")
 
 def antigen_selection_page():
-    st.header("🎯 Antigen Pair Selection")
+    st.header("🎯 Antigen Selection")
+    st.markdown("Select biomarkers from the comprehensive pancreatic cancer dataset")
     
-    if st.session_state.biomarkers_df is None:
-        st.warning("Please upload a dataset first.")
-        return
+    # Dataset overview
+    st.subheader("📊 Dataset Overview")
+    total_biomarkers = sum(len(biomarkers) for biomarkers in st.session_state.biomarkers_data.values())
+    col1, col2, col3 = st.columns(3)
     
-    df = st.session_state.biomarkers_df
+    with col1:
+        st.metric("Total Biomarkers", total_biomarkers)
+    with col2:
+        st.metric("Categories", len(st.session_state.biomarkers_data))
+    with col3:
+        oncogenic_count = len(st.session_state.data_processor.get_oncogenic_biomarkers())
+        st.metric("Oncogenic Markers", oncogenic_count)
     
-    st.subheader("Select Tumor Antigens")
+    # Tabular display of biomarkers by category
+    st.subheader("🗂️ Biomarker Categories")
+    
+    # Category selection
+    selected_category = st.selectbox(
+        "Select Category to View:",
+        list(st.session_state.biomarkers_data.keys()),
+        key="category_selector"
+    )
+    
+    if selected_category:
+        biomarkers_in_category = st.session_state.biomarkers_data[selected_category]
+        
+        # Create DataFrame for display
+        display_df = pd.DataFrame(biomarkers_in_category)
+        if not display_df.empty:
+            display_df = display_df[['biomarker_name', 'category', 'indication']].copy()
+            display_df['Select'] = False
+            display_df.index = range(len(display_df))
+            
+            # Display the table with selection
+            st.write(f"**{selected_category}** ({len(biomarkers_in_category)} biomarkers)")
+            
+            # Multiselect for tumor antigens
+            tumor_options = [b['biomarker_name'] for b in biomarkers_in_category if b['indication'] in ['↑', '↑/↓']]
+            selected_tumor = st.multiselect(
+                "Select Tumor Antigens (↑ oncogenic):",
+                tumor_options,
+                default=[x for x in st.session_state.selected_tumor_antigens if x in tumor_options],
+                key=f"tumor_{selected_category}"
+            )
+            
+            # Multiselect for healthy cell antigens
+            healthy_options = [b['biomarker_name'] for b in biomarkers_in_category if b['indication'] in ['↓', '↑/↓']]
+            selected_healthy = st.multiselect(
+                "Select Healthy Cell Antigens (↓ suppressor):",
+                healthy_options,
+                default=[x for x in st.session_state.selected_healthy_antigens if x in healthy_options],
+                key=f"healthy_{selected_category}"
+            )
+            
+            # Update global selections
+            # Remove previous selections from this category and add new ones
+            st.session_state.selected_tumor_antigens = [
+                x for x in st.session_state.selected_tumor_antigens 
+                if x not in [b['biomarker_name'] for b in biomarkers_in_category]
+            ] + selected_tumor
+            
+            st.session_state.selected_healthy_antigens = [
+                x for x in st.session_state.selected_healthy_antigens 
+                if x not in [b['biomarker_name'] for b in biomarkers_in_category]
+            ] + selected_healthy
+            
+            # Display table
+            st.dataframe(display_df[['biomarker_name', 'category', 'indication']], use_container_width=True)
+    
+    # Selection summary
+    st.subheader("📋 Current Selection Summary")
     col1, col2 = st.columns(2)
     
     with col1:
-        tumor_antigen_1 = st.selectbox(
-            "Tumor Antigen 1",
-            options=df['biomarker_name'].tolist(),
-            key="tumor_ag1"
-        )
-        
+        st.write("**Selected Tumor Antigens:**")
+        if st.session_state.selected_tumor_antigens:
+            for antigen in st.session_state.selected_tumor_antigens:
+                st.write(f"• {antigen}")
+        else:
+            st.write("None selected")
+    
     with col2:
-        tumor_antigen_2 = st.selectbox(
-            "Tumor Antigen 2",
-            options=[marker for marker in df['biomarker_name'].tolist() if marker != tumor_antigen_1],
-            key="tumor_ag2"
-        )
+        st.write("**Selected Healthy Cell Antigens:**")
+        if st.session_state.selected_healthy_antigens:
+            for antigen in st.session_state.selected_healthy_antigens:
+                st.write(f"• {antigen}")
+        else:
+            st.write("None selected")
     
-    st.subheader("Select Healthy Cell Antigens")
-    col3, col4 = st.columns(2)
-    
-    with col3:
-        healthy_antigen_1 = st.selectbox(
-            "Healthy Cell Antigen 1",
-            options=df['biomarker_name'].tolist(),
-            key="healthy_ag1"
-        )
-        
-    with col4:
-        healthy_antigen_2 = st.selectbox(
-            "Healthy Cell Antigen 2",
-            options=[marker for marker in df['biomarker_name'].tolist() if marker != healthy_antigen_1],
-            key="healthy_ag2"
-        )
-    
-    # Display selected antigens
-    if st.button("Confirm Antigen Selection"):
-        st.session_state.selected_antigens = {
-            'tumor': [tumor_antigen_1, tumor_antigen_2],
-            'healthy': [healthy_antigen_1, healthy_antigen_2]
-        }
-        
-        st.success("✅ Antigen selection confirmed!")
-        
-        # Display selection summary
-        st.subheader("Selection Summary")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            st.write("**Tumor Antigens:**")
-            for ag in st.session_state.selected_antigens['tumor']:
-                antigen_info = df[df['biomarker_name'] == ag].iloc[0]
-                st.write(f"• {ag} ({antigen_info['category']}) - {antigen_info['indication']}")
-        
-        with col2:
-            st.write("**Healthy Cell Antigens:**")
-            for ag in st.session_state.selected_antigens['healthy']:
-                antigen_info = df[df['biomarker_name'] == ag].iloc[0]
-                st.write(f"• {ag} ({antigen_info['category']}) - {antigen_info['indication']}")
+    # Clear selections button
+    if st.button("🗑️ Clear All Selections"):
+        st.session_state.selected_tumor_antigens = []
+        st.session_state.selected_healthy_antigens = []
+        st.rerun()
 
 def logic_gate_analysis_page():
     st.header("🔬 Truth Table & Logic Gate Analysis")
     
-    if not hasattr(st.session_state, 'selected_antigens'):
-        st.warning("Please select antigens first.")
+    if not st.session_state.selected_tumor_antigens:
+        st.warning("⚠️ Please select tumor antigens first in the Antigen Selection page.")
         return
     
-    # Initialize logic gate analyzer
-    analyzer = LogicGateAnalyzer(st.session_state.biomarkers_df, st.session_state.selected_antigens)
+    if len(st.session_state.selected_tumor_antigens) < 2:
+        st.warning("⚠️ Please select at least 2 tumor antigens for logic gate analysis.")
+        return
     
-    # Generate truth tables
-    if st.button("Generate Truth Tables & Analysis"):
+    # Display selected antigens for analysis
+    st.subheader("🎯 Selected Antigens for Analysis")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.write("**Tumor Antigens:**")
+        for antigen in st.session_state.selected_tumor_antigens[:2]:  # Limit to first 2 for binary logic
+            st.write(f"• {antigen}")
+    
+    with col2:
+        st.write("**Healthy Cell Antigens:**")
+        for antigen in st.session_state.selected_healthy_antigens:
+            st.write(f"• {antigen}")
+    
+    # Generate logic gate analysis
+    if st.button("🚀 Generate Logic Gate Analysis"):
         with st.spinner("Analyzing logic gates..."):
-            # Generate truth tables for all gates
+            # Create analyzer with proper data structure
+            selected_antigens = {
+                'tumor': st.session_state.selected_tumor_antigens[:2],  # Use first 2 for binary logic
+                'healthy': st.session_state.selected_healthy_antigens
+            }
+            
+            analyzer = LogicGateAnalyzer(st.session_state.data_processor.df, selected_antigens)
+            
+            # Generate analysis
             truth_tables = analyzer.generate_all_truth_tables()
-            
-            # Calculate selectivity scores
             selectivity_scores = analyzer.calculate_selectivity_scores(truth_tables)
-            
-            # Get best gate recommendation
             best_gate = analyzer.get_best_gate_recommendation(selectivity_scores)
             
             st.session_state.analysis_results = {
@@ -202,10 +260,11 @@ def logic_gate_analysis_page():
                 'best_gate': best_gate
             }
     
+    # Display results
     if st.session_state.analysis_results:
         results = st.session_state.analysis_results
         
-        # Display best gate recommendation
+        # Best gate recommendation
         st.subheader("🏆 Best Logic Gate Recommendation")
         best_gate = results['best_gate']
         
@@ -218,158 +277,109 @@ def logic_gate_analysis_page():
             st.write("**Explanation:**")
             st.write(best_gate['explanation'])
         
-        # Display selectivity scores for all gates
-        st.subheader("📊 Selectivity Score Rankings")
+        # Selectivity scores comparison
+        st.subheader("📊 Logic Gate Selectivity Comparison")
         scores_df = pd.DataFrame([
-            {'Gate': gate, 'Selectivity Score': score, 'Rank': idx + 1}
+            {'Gate': gate, 'Selectivity Score': f"{score:.3f}", 'Rank': idx + 1}
             for idx, (gate, score) in enumerate(
                 sorted(results['selectivity_scores'].items(), key=lambda x: x[1], reverse=True)
             )
         ])
-        st.dataframe(scores_df)
+        st.dataframe(scores_df, use_container_width=True)
         
-        # Display truth tables
+        # Truth tables
         st.subheader("📋 Truth Tables")
-        visualizer = TruthTableVisualizer()
         
         for gate_name, truth_table in results['truth_tables'].items():
-            with st.expander(f"{gate_name} Truth Table"):
+            with st.expander(f"📈 {gate_name} Gate Truth Table"):
+                # Create tabular display
+                table_data = []
+                inputs = truth_table['inputs']
+                outputs = truth_table['outputs']
+                probabilities = truth_table['probabilities']
+                cell_types = truth_table['cell_types']
+                
+                for i in range(len(inputs)):
+                    input_str = ''.join(map(str, inputs[i]))
+                    table_data.append({
+                        'Input Pattern': input_str,
+                        'Hard Logic Output': outputs[i],
+                        'Probabilistic Output': f"{probabilities[i]:.3f}",
+                        'Cell Type': cell_types[i]
+                    })
+                
+                truth_df = pd.DataFrame(table_data)
+                st.dataframe(truth_df, use_container_width=True)
+                
+                # Visualize with heatmap
+                visualizer = TruthTableVisualizer()
                 fig = visualizer.create_truth_table_heatmap(truth_table, gate_name)
                 st.plotly_chart(fig, use_container_width=True)
 
 def cart_diagram_page():
     st.header("🧬 CAR-T Structure Diagram")
     
-    if not hasattr(st.session_state, 'selected_antigens'):
-        st.warning("Please select antigens first.")
+    if not st.session_state.selected_tumor_antigens:
+        st.warning("⚠️ Please select tumor antigens first in the Antigen Selection page.")
         return
     
-    # Initialize diagram generator
-    diagram_gen = CARTDiagramGenerator(st.session_state.selected_antigens)
+    # Selected antigens summary
+    st.subheader("🎯 Selected Antigens for CAR-T Design")
+    col1, col2 = st.columns(2)
     
-    # Customization options
-    st.subheader("Diagram Customization")
+    with col1:
+        st.write("**Tumor Antigens (Target for Killing):**")
+        for antigen in st.session_state.selected_tumor_antigens:
+            st.write(f"🔴 {antigen}")
+    
+    with col2:
+        st.write("**Healthy Cell Antigens (Protect from Killing):**")
+        for antigen in st.session_state.selected_healthy_antigens:
+            st.write(f"🟢 {antigen}")
+    
+    # Diagram customization
+    st.subheader("⚙️ Diagram Customization")
     col1, col2 = st.columns(2)
     
     with col1:
         costimulatory_domain = st.selectbox(
-            "Costimulatory Domain",
+            "Costimulatory Domain:",
             options=["CD28", "4-1BB"],
             help="Select the costimulatory domain for the CAR-T construct"
         )
     
     with col2:
         diagram_style = st.selectbox(
-            "Diagram Style",
+            "Diagram Style:",
             options=["Standard", "Detailed", "Simplified"],
             help="Choose the level of detail for the diagram"
         )
     
-    if st.button("Generate CAR-T Diagram"):
+    if st.button("🚀 Generate CAR-T Diagram"):
         with st.spinner("Generating personalized CAR-T diagram..."):
-            # Generate SVG diagram
+            # Prepare antigen data
+            selected_antigens = {
+                'tumor': st.session_state.selected_tumor_antigens,
+                'healthy': st.session_state.selected_healthy_antigens
+            }
+            
+            # Generate diagram
+            diagram_gen = CARTDiagramGenerator(selected_antigens)
             svg_content = diagram_gen.generate_cart_diagram(
                 costimulatory_domain=costimulatory_domain,
                 style=diagram_style
             )
             
             # Display diagram
-            st.subheader("Personalized CAR-T Structure")
-            st.components.v1.html(svg_content, height=600)
+            st.subheader("🧬 Personalized CAR-T Structure")
+            components.html(svg_content, height=600)
             
-            # Store diagram for download
-            st.session_state.cart_diagram_svg = svg_content
-            
-            # Generate PNG version
-            png_data = diagram_gen.svg_to_png(svg_content)
-            st.session_state.cart_diagram_png = png_data
-            
-            # Display download buttons
-            col1, col2 = st.columns(2)
-            with col1:
-                st.download_button(
-                    label="Download SVG",
-                    data=svg_content,
-                    file_name="cart_diagram.svg",
-                    mime="image/svg+xml"
-                )
-            
-            with col2:
-                st.download_button(
-                    label="Download PNG",
-                    data=png_data,
-                    file_name="cart_diagram.png",
-                    mime="image/png"
-                )
-
-def results_download_page():
-    st.header("📥 Results & Download")
-    
-    if not hasattr(st.session_state, 'analysis_results'):
-        st.warning("Please complete the analysis first.")
-        return
-    
-    st.subheader("Available Downloads")
-    
-    # Prepare download data
-    results = st.session_state.analysis_results
-    
-    # Truth tables as CSV
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        if st.button("Download Truth Tables (CSV)"):
-            zip_buffer = BytesIO()
-            with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
-                for gate_name, truth_table in results['truth_tables'].items():
-                    csv_data = pd.DataFrame(truth_table).to_csv(index=False)
-                    zip_file.writestr(f"{gate_name}_truth_table.csv", csv_data)
-            
-            st.download_button(
-                label="Download ZIP",
-                data=zip_buffer.getvalue(),
-                file_name="truth_tables.zip",
-                mime="application/zip"
-            )
-    
-    with col2:
-        if st.button("Download Analysis Results (JSON)"):
-            json_data = {
-                'selected_antigens': st.session_state.selected_antigens,
-                'selectivity_scores': results['selectivity_scores'],
-                'best_gate': results['best_gate'],
-                'analysis_timestamp': pd.Timestamp.now().isoformat()
-            }
-            
-            st.download_button(
-                label="Download JSON",
-                data=json.dumps(json_data, indent=2),
-                file_name="analysis_results.json",
-                mime="application/json"
-            )
-    
-    with col3:
-        if hasattr(st.session_state, 'cart_diagram_svg'):
-            st.download_button(
-                label="Download CAR-T Diagram (SVG)",
-                data=st.session_state.cart_diagram_svg,
-                file_name="cart_diagram.svg",
-                mime="image/svg+xml"
-            )
-    
-    # Summary report
-    st.subheader("Analysis Summary")
-    
-    if hasattr(st.session_state, 'selected_antigens'):
-        st.write("**Selected Antigens:**")
-        st.write(f"Tumor: {', '.join(st.session_state.selected_antigens['tumor'])}")
-        st.write(f"Healthy: {', '.join(st.session_state.selected_antigens['healthy'])}")
-        
-        st.write("**Best Logic Gate:**")
-        best_gate = results['best_gate']
-        st.write(f"Gate: {best_gate['gate']}")
-        st.write(f"Selectivity Score: {best_gate['score']:.3f}")
-        st.write(f"Explanation: {best_gate['explanation']}")
+            # Information about the design
+            st.subheader("📋 CAR-T Design Summary")
+            st.write(f"**Target Strategy:** Dual-logic CAR-T for PDAC")
+            st.write(f"**Primary Targets:** {', '.join(st.session_state.selected_tumor_antigens[:2])}")
+            st.write(f"**Costimulatory Domain:** {costimulatory_domain}")
+            st.write(f"**Design Principle:** Selectively target tumor cells expressing oncogenic markers while sparing healthy cells with tumor suppressor expression")
 
 if __name__ == "__main__":
     main()

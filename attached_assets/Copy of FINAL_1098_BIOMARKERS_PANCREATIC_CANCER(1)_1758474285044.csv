@@ -1,0 +1,1098 @@
+﻿Serum Protein Biomarker,Category,Indication
+CA19-9,Glycolipid/protein,↑
+sTRA,Glycolipid/protein,↑
+CEA,Protein,↑
+CA125 (MUC16),Glycoprotein,↑
+CA242,Glycoprotein,↑
+Osteonectin,Protein,↑
+Osteopontin,Protein,↑
+DUPAN-2,Glycolipid antigen,↑
+LAMC2,Protein (laminin),↑
+ULBP2,Protein,↑
+sCD40L,Protein,↑
+LRG1,Protein,↑
+C4BPA,Protein (complement),↑
+Cofilin-1,Protein,↑
+sgC1qR,Protein receptor,↑
+Trypsinogen-2,Enzyme precursor,↑
+DKK1,Protein (Wnt inhibitor),↑
+THBS-2,Protein (Thrombospondin),↑
+THBS-1,Protein,↑
+AGR2,Protein,↑
+REG1A,Protein,↑
+REGIII,Protein,↑
+REG1β,Protein,↑
+REG4,Protein,↑
+SYCN,Protein,↑
+LOXL2,Enzyme (lysyl oxidase),↑
+PARK7/DJ-1,Protein,↑
+TTR (Transthyretin),Protein,↑ / ↓ (context-dependent)
+"TTF1, TTF2, TTF3",Transcription factors,↑
+GPNMB,Protein,↑
+PRX-1 (Peroxiredoxin),Antioxidant protein,↑
+TFPI,Protein,↑
+TIMP-1,Protein (MMP inhibitor),↑
+MMP-9,Enzyme,↑
+IGFBP-1,Binding protein,↑
+IGFBP-2,Binding protein,↑
+IGFBP-3,Binding protein,↑
+MSLN (Mesothelin),Protein,↑
+C5,Complement protein,↑
+MMP-7,Enzyme,↑
+Cathepsin-D,Enzyme,↑
+MMP-12,Enzyme,↑
+OPG (Osteoprotegerin),Protein,↑
+Kisspeptin,Protein,↓
+Galectin,Protein,↑
+MUC16,Glycoprotein,↑
+MUC5AC,Glycoprotein,↑
+PAM4,Antibody marker,↑
+HSP27,Heat shock protein,↑
+CAM17.1,Antibody marker,↑
+Fuc-Hpt,Fucosylated glycoprotein,↑
+SAA (Serum Amyloid A),Protein,↑
+APN/CD13,Enzyme,↑
+M2-PK,Metabolic enzyme,↑
+APOA2,Apolipoprotein,↑
+APOC1,Apolipoprotein,↑
+APOC2,Apolipoprotein,↑
+APOE,Apolipoprotein,↑
+ITIH,Protein inhibitor,↑
+APOA1,Apolipoprotein,↑ / ↓ (context-dependent)
+APOL1,Apolipoprotein,↑
+TGF-β,Growth factor,↑
+VEGF,Growth factor,↑
+FGF-10 / KGF-2,Growth factor,↑
+PDGF,Growth factor,↑
+TSGF,Growth factor,↑
+IP-10 (CXCL10),Cytokine/chemokine,↑ / ↓ (context-dependent)
+IL-6,Cytokine,↑
+MIC-1 / GDF15,Cytokine,↑
+IL-11,Cytokine,↑
+YKL-40,Cytokine-like,↑
+IL-8,Cytokine,↑
+IL-10,Cytokine,↑
+IL-1β,Cytokine,↑
+OSM (Oncostatin M),Cytokine,↑
+TNF-α,Cytokine,↑
+M-CSF,Cytokine,↑
+CXCL11,Chemokine,↑ / ↓ (context-dependent)
+SCF (Stem Cell Factor),Cytokine,↑
+Eotaxin,Chemokine,↑
+HGF,Cytokine,↑
+MCP-1 (CCL2),Chemokine,↑
+CXCL10,Chemokine,↑ / ↓ (context-dependent)
+CEACAM1,Adhesion molecule,↑
+ICAM-1,Adhesion molecule,↑
+lncRNA,Category,Indication
+LINC-PINT,lncRNA,↓
+SNHG15,lncRNA,↑
+LINC01238,lncRNA,↑
+ABHD11-AS1,lncRNA,↑
+HULC,lncRNA,↑
+UFC1,lncRNA,↑
+miRNA,Category,Indication
+miR-21,miRNA,↑
+miR-25,miRNA,↑
+miR-210-3p,miRNA,↑
+miR-29a,miRNA,↑
+miR-19a,miRNA,↑
+miR-210,miRNA,↑
+miR-155,miRNA,↑
+miR-499a-5p,miRNA,↑
+miR-125a-3p,miRNA,↓
+miR-6893-5p,miRNA,↑
+miR-125b-1-3p,miRNA,↓
+miR-6075,miRNA,↑
+miR-6836-3p,miRNA,↑
+miR-1469,miRNA,↑
+miR-6729-5p,miRNA,↑
+miR-575,miRNA,↑
+miR-204-3p,miRNA,↓
+miR-6820-5p,miRNA,↑
+miR-4294,miRNA,↑
+miR-4476,miRNA,↑
+miR-4792,miRNA,↑
+miR-196a,miRNA,↑
+miR-18a,miRNA,↑
+miR-10b,miRNA,↑
+miR-106b,miRNA,↑
+miR-642-3p,miRNA,↑
+miR-885-5p,miRNA,↑
+miR-22-3p,miRNA,↑
+miR-34a,miRNA,↓
+miR-191,miRNA,↑
+miR-451a,miRNA,↓
+miR-121-5p,miRNA,↑
+miR-30c,miRNA,↓
+miR-483-5p,miRNA,↑
+miR-1290,miRNA,↑
+miR-24,miRNA,↑
+miR-134,miRNA,↓
+miR-146a,miRNA,↑/↓
+miR-378,miRNA,↑
+miR-484,miRNA,↑
+miR-628-4p,miRNA,↑
+miR-1825,miRNA,↑
+miR-1246,miRNA,↑
+miR-482-3p,miRNA,↑/↓
+miR-16,miRNA,↓
+miR-27a-3p,miRNA,↑
+miR-192,miRNA,↑/↓
+miR-642b-3p,miRNA,↑
+miR-492,miRNA,↑
+miR-663a,miRNA,↑
+miR-194,miRNA,↓
+miR-223,miRNA,↑
+miR-774-5p,miRNA,↑
+miR-409-3p,miRNA,↓
+miR-128-3p,miRNA,↓
+miR-20a,miRNA,↑
+miR-27a,miRNA,↑
+miR-29c,miRNA,↓
+miR-30a-5p,miRNA,↓
+miR-323-3p,miRNA,↑
+miR-345,miRNA,↓
+Serum based ‘liquid biopsy’ Biomarkers,Category,Indication
+GPC1,Exosome,↑
+miR-10b,Exosome,↑
+miR-30c,Exosome,↓
+miR-181a,Exosome,↑
+miR-let7a,Exosome,↓
+miR-17-5p,Exosome,↑
+miR-21,Exosome,↑
+miR-1246,Exosome,↑
+miR-4644,Exosome,↑
+miR-3976,Exosome,↑
+miR-4306,Exosome,↑
+KRAS (mutation),ctDNA,↑
+ADAMTS1,ctDNA,↑
+BNC1,ctDNA,↑
+CAPI+/CD45-,CTC,↑
+CK+ (Cytokeratin),CTC,↑
+CEA+,CTC,↑
+CD45-/DAPI+/CEP8,CTC,↑
+CD45,CTC,↓
+CCK19,CTC,↑
+Pdx-1,CTC,↑
+KRAS mutation (CTC),CTC,↑
+CEP8,CTC,↑
+CK,CTC,↑
+DAPI,CTC,Neutral
+Chromosome 8,CTC,↑
+Folate-receptor positive CTCs,CTC,↑
+Urinary Biomarkers,Category,Indication
+LYVE1,Protein,↑
+REG1A,Protein,↑
+TTF1,Protein,↑
+TIMP1,Protein,↑
+MMP-2,Protein,↑
+NGAL,Protein,↑
+PGE2 metabolites,Protein,↑
+CD59,Protein,↑
+ANXA2,Protein,↑
+21 kDa gelsolin fragment,Protein,↑
+S100A9,Protein,↑
+KRAS mutation (UcfDNA),Liquid biopsy,↑
+miR-3940-5p,Exosomal miRNA,↑
+miR-8069,Exosomal miRNA,↑
+miR-143,miRNA (RNA),↓
+miR-223,miRNA (RNA),↑
+miR-30e,miRNA (RNA),↓
+miR-1246,miRNA (RNA),↑
+Calcium,Metallomics,↑
+Magnesium,Metallomics,↑
+VOCs,Other,↑
+Pancreatic Juice Biomarkers,Category,Indication
+CA19-9,Protein,↑
+MIC-1,Protein,↑
+NGAL,Protein,↑
+CEA,Protein,↑
+AMYP,Protein,↑
+PRSS1,Protein,↑
+GP2-1,Protein,↑
+CCDC132,Protein,↑
+REG1A,Protein,↑
+REG1B,Protein,↑
+REG3A,Protein,↑
+LIPRP2,Protein,↑
+KL-6/MUC1,Protein,↑
+CPA5,Protein,↑
+LIPRP1 (inactive),Protein,↑
+KLK1,Protein,↑
+HBD,Protein,↑
+TTR,Protein,↑
+S100P,Protein,↑
+MMP-9,Protein,↑
+MMP-7,Protein,↑
+DJ-1,Protein,↑
+A1BG,Protein,↑
+PAP-1,Protein,↑
+AGR2,Protein,↑
+IL-8,Protein,↑
+Cathepsin E,Protein,↑
+miR-21,RNA (miRNA),↑
+miR-155,RNA (miRNA),↑
+miR-205,RNA (miRNA),↑
+miR-210,RNA (miRNA),↑
+miR-492,RNA (miRNA),↑
+miR-1427,RNA (miRNA),↑
+Mesothelin (mRNA),RNA,↑
+hTERT,RNA (other),↑
+Telomerase activity,RNA (other),↑
+CEACAM1,Liquid biopsy (Exosome),↑
+CEACAM5,Liquid biopsy (Exosome),↑
+Tenascin C,Liquid biopsy (Exosome),↑
+MMP7,Liquid biopsy (Exosome),↑
+LAMB3,Liquid biopsy (Exosome),↑
+LAMC2,Liquid biopsy (Exosome),↑
+MUC1,Liquid biopsy (Exosome),↑
+MUC4,Liquid biopsy (Exosome),↑
+MUC5AC,Liquid biopsy (Exosome),↑
+MUC6,Liquid biopsy (Exosome),↑
+MUC16,Liquid biopsy (Exosome),↑
+CFTR,Liquid biopsy (Exosome),↑
+MDR1,Liquid biopsy (Exosome),↑
+ex-miR-21,Liquid biopsy (Exosomal miRNA),↑
+ex-miR-155,Liquid biopsy (Exosomal miRNA),↑
+KRAS (methylated DNA),Liquid biopsy (DNA),↑
+ppENK (methylated DNA),Liquid biopsy (DNA),↓
+p16 (methylated DNA),Liquid biopsy (DNA),↓
+Cyclin D2 (methylated DNA),Liquid biopsy (DNA),↑
+FOXE1 (methylated DNA),Liquid biopsy (DNA),↓
+NPTX2 (methylated DNA),Liquid biopsy (DNA),↓
+TFPI2 (methylated DNA),Liquid biopsy (DNA),↓
+CD1D (methylated DNA),Liquid biopsy (DNA),↓
+KCNK12 (methylated DNA),Liquid biopsy (DNA),↓
+CLEC11A (methylated DNA),Liquid biopsy (DNA),↓
+NDRG4 (methylated DNA),Liquid biopsy (DNA),↓
+IKZF1 (methylated DNA),Liquid biopsy (DNA),↓
+PKRCB (methylated DNA),Liquid biopsy (DNA),↓
+MUC1 (methylated DNA),Liquid biopsy (DNA),↑
+MUC2 (methylated DNA),Liquid biopsy (DNA),↑
+MUC4 (methylated DNA),Liquid biopsy (DNA),↑
+Pancreatic cyst fluid Biomarker,Category,Indication
+CEA,Protein,↑
+Glucose,Protein,↑
+MUC4,Protein,↑
+PGE2,Protein,↑
+IL-1B,Protein,↑
+PGE synthetase 2,Protein,↑
+IL-4,Protein,↑
+CA72-4,Protein,↑
+sFASL,Protein,↑
+MMP9,Protein,↑
+AREG (Amphiregulin),Protein,↑
+SPINK1,Protein,↑
+mAB Das-1,Protein,↑
+IL-10,Protein,↑
+GM-CSF,Protein,↑
+MUC1,Protein,↑
+MUC2,Protein,↑
+MUC5AC,Protein,↑
+miR-21,RNA (miRNA),↑
+miR-221,RNA (miRNA),↑
+miR-18a,RNA (miRNA),↑
+miR-24,RNA (miRNA),↑
+miR-30a-3p,RNA (miRNA),↑
+miR-92a,RNA (miRNA),↑
+miR-99b,RNA (miRNA),↑
+miR-106b,RNA (miRNA),↑
+miR-142-3p,RNA (miRNA),↑
+miR-342-3p,RNA (miRNA),↑
+miR-532-3p,RNA (miRNA),↑
+KRAS mutations,DNA (Other),↑
+GNAS mutations,DNA (Other),↑
+Salivary fluid Biomarker,Category,Indication
+HOTAIR,RNA (LncRNA),↑
+PVT1,RNA (LncRNA),↑
+miR-21,RNA (miRNA),↑
+miR-23a,RNA (miRNA),↑
+miR-23b,RNA (miRNA),↑
+miR-29c,RNA (miRNA),↓
+miR-1246,RNA (miRNA),↑
+miR-4644,RNA (miRNA),↑
+miR-34a,RNA (miRNA),↓
+miR-155,RNA (miRNA),↑
+miR-200b,RNA (miRNA),↓
+miR-376a,RNA (miRNA),↑
+miR-216,RNA (miRNA),↑
+miR-940,RNA (miRNA),↑
+miR-3679-5p,RNA (miRNA),↑
+miR-17,RNA (miRNA),↑
+miR-181b,RNA (miRNA),↑
+miR-196a,RNA (miRNA),↑
+Alanine,Other (Salivary polyamine),↑
+N1-acetylspermidine,Other (Salivary polyamine),↑
+2-oxobutyrate,Other (Salivary polyamine),↑
+2-hydroxybutyrate,Other (Salivary polyamine),↑
+Biliary fluid diagnostic Biomarkers,Category,Indication
+VEGF,Protein,↑
+CA19-9,Protein,↑
+CA125,Protein,↑
+CA72-4,Protein,↑
+CEA,Protein,↑
+sLR11,Protein,↑
+MUC4,Protein,↑
+IGF-1,Protein,↑
+NGAL,Protein,↑
+CEAM6,Protein,↑
+LG3BP,Protein,↑
+MMP7,Protein,↑
+MUC5B,Protein,↑
+MCM5,Protein,↑
+Trypsinogen-1,Protein,↑
+Trypsinogen-2,Protein,↑
+TFPI2 (methylated DNA),Liquid biopsy,↑
+NPTX2 (methylated DNA),Liquid biopsy,↑
+CCND2 (methylated DNA),Liquid biopsy,↑
+miR-10b,RNA (miRNA),↑
+miR-106b,RNA (miRNA),↑
+miR-30c,RNA (miRNA),↑
+miR-155,RNA (miRNA),↑
+miR-212,RNA (miRNA),↑
+miR-1247,RNA (miRNA),↑
+miR-200a,RNA (miRNA),↓
+miR-200b,RNA (miRNA),↓
+Faecal diagnostic Biomarker,Category,Indication
+Adnab-9,Protein,↑
+miR-181b,RNA (miRNA),↑
+miR-210,RNA (miRNA),↑
+miR-155,RNA (miRNA),↑
+miR-216a,RNA (miRNA),↑
+miR-196a,RNA (miRNA),↑
+miR-143,RNA (miRNA),↓
+Mutant KRAS,Liquid biopsy,↑
+mBMP3,Liquid biopsy (methylated DNA),↑
+,,
+Structural Variant Gene Biomarker ,Category,Indication
+RB1,Tumor suppressor,↓
+MDC1,DNA damage response,↓
+SMARCB1,Tumor suppressor,↓
+RPLP0P2,Pseudogene (Not biomarker),—
+KEAP1,Oxidative stress regulator,↑
+TESK2,Kinase (Not validated),—
+SLC4A4,Transporter (Not validated),—
+RPS6KA4,Oncogenic kinase,↑
+GJA1,Gap junction protein (not biomarker),—
+TFG,Oncogenic fusion protein,↑
+RPS19,Ribosomal protein (not biomarker),—
+PPP2R1A,Tumor suppressor,↓
+CHEK1,DNA damage checkpoint,↑
+AKT3,Oncogene,↑
+TRIM24,Oncogene,↑
+AKT1,Oncogene,↑
+SOX9,Developmental oncogene,↑
+B2M,"Immune regulator, cancer progression",↑
+TP63,p53 family oncogene,↑
+ICOSLG,Immune checkpoint,↑
+UNC13C,Synaptic vesicle priming (Not biomarker),—
+ZNF284,Transcription factor (Not validated),—
+P3H2,Hydroxylase (Not validated),—
+RECQL,"DNA repair, tumor suppressor",↓
+DDX10,Oncogene,↑
+SND1,Oncogene,↑
+NUP93,Nuclear pore protein (oncogenic role),↑
+EML4,Oncogenic fusion partner,↑
+INPP4B,Tumor suppressor,↓
+SHTN1,Axon guidance (Not biomarker),—
+EWSR1,Fusion oncogene,↑
+TP53,Tumor suppressor,↓
+MAOB,Metabolic enzyme (Not biomarker),—
+GIPR,GPCR (Not biomarker),—
+AIRE,Immune regulator (Not biomarker),—
+AGAP1,GTPase regulator (Not biomarker),—
+PIK3R1,Oncogene,↑
+CBARP,Calcium-binding protein (Not biomarker),—
+CD79A,Immune signaling (oncogenic role),↑
+BRIP1,"DNA repair, tumor suppressor",↓
+HMGXB4,Transcription factor (not validated),—
+TSPAN9,Membrane protein (not validated),—
+RAD21,DNA repair/oncogene,↑
+AGMO,Metabolic enzyme (not biomarker),—
+H3C3,Chromatin modifier (oncogenic),↑
+H3C4,Chromatin modifier (oncogenic),↑
+H3C6,Chromatin modifier (oncogenic),↑
+ZRSR2,"Splicing factor, tumor suppressor",↓
+INSR,Growth signaling oncogene,↑
+BRAF,Oncogene,↑
+GRIN2B,Receptor (not biomarker),—
+UBAC1,Ubiquitin pathway (not biomarker),—
+SMARCA4,Tumor suppressor,↓
+ZZZ3,Transcription regulator (not biomarker),—
+FUBP1,Oncogene/transcription factor,↑
+FAT1,Tumor suppressor,↓
+ATM,"DNA damage checkpoint, tumor suppressor",↓
+CTRC,Protease (not biomarker),—
+BAP1,Tumor suppressor,↓
+ATR,DNA damage checkpoint,↓
+EZH2,Epigenetic oncogene,↑
+PTPRT,Tumor suppressor,↓
+RET,Oncogene,↑
+C2CD2,Unknown role (not biomarker),—
+BRCA1,Tumor suppressor,↓
+KRI1,Ribosome biogenesis (not biomarker),—
+GLI1,Hedgehog pathway oncogene,↑
+PHF7,Transcription regulator (not biomarker),—
+BRCA2,Tumor suppressor,↓
+BABAM1,DNA repair/tumor suppressor,↓
+DNER,Signaling protein (not biomarker),—
+RAC2,Oncogenic GTPase,↑
+KIF13B,Motor protein (not biomarker),—
+CIC,Tumor suppressor,↓
+JAK3,Oncogenic tyrosine kinase,↑
+SPMIP11,Not validated,—
+DUSP4,Tumor suppressor/regulator,↓
+UPF1,"RNA surveillance, tumor suppressor",↓
+PBRM1,Tumor suppressor (SWI/SNF complex),↓
+IFNGR1,"Immune signaling, tumor suppressor role",↓
+NCOA3,Oncogenic coactivator,↑
+NCOA4,"Autophagy adaptor, oncogenic",↑
+TET1,"DNA demethylase, tumor suppressor",↓
+RAD51B,"DNA repair, tumor suppressor",↓
+ANKFN1,Not validated,—
+AEBP2,Transcriptional repressor (not validated),—
+SDHAF2,Tumor suppressor (metabolism),↓
+CSDE1,RNA-binding oncogene,↑
+RARA,"Nuclear receptor, oncogenic role",↑
+PDZRN3,Not validated,—
+CD44,"Stemness/cell adhesion, oncogene",↑
+AMER1,Tumor suppressor (Wnt pathway),↓
+PRKN,Tumor suppressor,↓
+KANK1,Not validated,—
+LIN37,Cell cycle regulator (not validated),—
+DOT1L,Oncogenic epigenetic regulator,↑
+GREB1L,Not validated,—
+TMPRSS2,"Oncogene (fusion driver, e.g., TMPRSS2-ERG)",↑
+ADCY1,Not validated,—
+CENPA,Chromatin/centromere oncogene,↑
+ADCY6,Not validated,—
+EGFR,Oncogene,↑
+RECQL4,DNA repair/tumor suppressor,↓
+NSD3,Oncogenic histone methyltransferase,↑
+SLX4,DNA repair tumor suppressor,↓
+NSD1,Oncogenic histone methyltransferase,↑
+NSD2,Oncogenic histone methyltransferase,↑
+RICTOR,Oncogene (mTOR pathway),↑
+MGAT1,Not validated,—
+LDLR,Metabolic receptor (not biomarker),—
+MON2,Not validated,—
+CDKN2B,Tumor suppressor,↓
+NPM1,Oncogene (frequently mutated),↑
+CDKN2A,Tumor suppressor,↓
+CARD8,Inflammasome regulator (not biomarker),—
+CIMAP1D,Not validated,—
+STAT3,Oncogenic transcription factor,↑
+VEGFA,Angiogenesis oncogene,↑
+NFIA,Transcription factor (not validated),—
+AXL,Oncogene,↑
+GOPC,Oncogene,↑
+RIPOR2,Oncogene,↓
+IRS2,Oncogene,↑
+CEP128,Oncogene,↓
+STK11,Tumor Suppressor,↑
+ZNF83,Oncogene,↓
+CDH1,Tumor Suppressor,↑
+EP300,Tumor Suppressor,↑
+ARID2,Tumor Suppressor,↑
+ROS1,Oncogene,↑
+MEN1,Tumor Suppressor,↑
+LMO1,Oncogene,↑
+RNF43,Tumor Suppressor,↑
+SLC30A6,Oncogene,↓
+MAP2K4,Tumor Suppressor,↑
+MAP2K2,Oncogene,↑
+DGAT1,Oncogene,↓
+HGF,Oncogene,↑
+TAP2,Tumor Suppressor,↑
+ARID5B,Tumor Suppressor,↑
+TAP1,Tumor Suppressor,↑
+TSC2,Tumor Suppressor,↑
+VRK3,Oncogene,↓
+ATP1B1,Oncogene,↓
+FOXP1,Oncogene,↑
+MSH6,DNA Repair/Tumor Suppressor,↑
+SRSF2,Oncogene,↑
+PGR,Oncogene,↑
+RAF1,Oncogene,↑
+EMID1,Oncogene,↓
+FKBP5,Oncogene,↓
+NOTCH2,Oncogene,↑
+KMT2D,Tumor Suppressor,↑
+CSF1R,Oncogene,↑
+DNMT1,Oncogene,↑
+NOTCH1,Oncogene,↑
+CBFB,Tumor Suppressor,↑
+KMT2A,Tumor Suppressor,↑
+MAX,Oncogene,↑
+KMT2C,Tumor Suppressor,↑
+NOTCH4,Oncogene,↑
+KMT2B,Tumor Suppressor,↑
+CORO1B,Oncogene,↓
+COP1,Tumor Suppressor,↑
+ADGRG7,Oncogene,↓
+TNFRSF14,Tumor Suppressor,↑
+ZFHX3,Tumor Suppressor,↑
+SMAD4,Tumor Suppressor,↑
+SMAD3,Tumor Suppressor,↑
+IDH1,Oncogene,↑
+TNFRSF10B,Tumor Suppressor,↓
+PALB2,Tumor Suppressor,↑
+PTPRD,Tumor Suppressor,↑
+CDK8,Oncogene,↑
+CDK4,Oncogene,↑
+MAFG,Oncogene,↓
+NF1,Tumor Suppressor,↑
+TUBGCP3,Oncogene,↓
+REEP6,Oncogene,↓
+TCF3,Oncogene,↑
+NF2,Tumor Suppressor,↑
+MAP3K13,Oncogene,↑
+MAP3K14,Oncogene,↑
+FGFR3,Oncogene,↑
+FGFR2,Oncogene,↑
+FGFR1,Oncogene,↑
+BCL2L1,Oncogene,↑
+BMPR1A,Tumor Suppressor,↑
+NFE2L2,Oncogene,↑
+KDM5A,Oncogene,↑
+ALK,Oncogene,↑
+CFAP418-AS1,Non-coding RNA,↓
+ZNF770,Oncogene,↓
+FLT3,Oncogene,↑
+FLT4,Oncogene,↑
+ARRB1,Oncogene,↓
+PIK3C2G,Oncogene,↑
+ELAVL2,Oncogene,↓
+TRIM69,Oncogene,↓
+WDR7,Oncogene,↓
+POLE,DNA Repair/Tumor Suppressor,↑
+SGCG,Oncogene,↓
+KDM6A,Tumor Suppressor,↑
+CERS5,Oncogene,↓
+TRPC6,Oncogene,↓
+DIPK2B,Oncogene,↓
+DIS3,Tumor Suppressor,↑
+DCXR,Oncogene,↓
+NRG1,Oncogene,↑
+ARID1A,Tumor Suppressor,↑
+UPK3A,Oncogene,↓
+ARID1B,Tumor Suppressor,↑
+TGFBR1,Tumor Suppressor,↑
+TGFBR2,Tumor Suppressor,↑
+ETV6,Tumor Suppressor,↑
+DNM2,Oncogene,↑
+IRF4,Oncogene,↑
+PEX6,Oncogene,↓
+CAT,Antioxidant/Tumor Suppressor,↓
+CDHR3,Oncogene (candidate),↓
+PIK3C3,Oncogene,↑
+NSRP1,RNA-binding/regulatory,↓
+MET,Oncogene,↑
+LUC7L2,RNA-binding/regulatory,↓
+KDM7A,Epigenetic regulator,↓
+SLC24A2,Transporter,↓
+SMARCD1,Chromatin remodeler,↑
+NUTM1,Oncogene (fusion driver),↑
+ROCK1,Oncogene candidate,↓
+DNAH8,Motor protein,↓
+MLLT1,Oncogene (fusion partner),↑
+ASAP2,Signaling regulator,↓
+ASB17,Adapter protein,↓
+PPM1D,Oncogene,↑
+MALT1,Oncogene,↑
+CDC42,Oncogene (Rho GTPase family),↑
+RAB25,Oncogene candidate,↓
+ERBB3,Oncogene,↑
+NT5DC2,Oncogene candidate,↓
+POLD1,DNA repair/Tumor suppressor,↑
+ERBB2,Oncogene,↑
+DROSHA,microRNA biogenesis regulator,↑
+MAPK4,Oncogene candidate,↓
+SMARCE1,Chromatin remodeler,↑
+NTRK1,Oncogene,↑
+SLC12A3,Transporter,↓
+NHERF2,Scaffold protein,↓
+NDUFA3,Mitochondrial enzyme,↓
+MGA,Transcriptional regulator / Tumor suppressor,↑
+NTRK3,Oncogene,↑
+TBX3,Oncogene (developmental regulator),↑
+TSHR,Oncogene (endocrine cancers),↑
+RAD50,DNA repair / Tumor suppressor,↑
+CAPN11,Protease (non-canonical),↓
+H3-5,Epigenetic regulator,↑
+APC,Tumor suppressor,↑
+CARM1,Epigenetic regulator,↑
+ERCC2,DNA repair enzyme,↑
+RPS6KB2,Oncogene (mTOR pathway effector),↑
+ASXL2,Epigenetic regulator,↑
+ARB2A,Candidate gene,↓
+PDCD1,Immune checkpoint,↑
+TEK,Oncogene / Angiogenesis regulator,↑
+BCOR,Tumor suppressor,↑
+KCNK3,Channel protein,↓
+Mutated Gene Biomarker,Category,Indication
+RB1,Tumor Suppressor,↓
+MDC1,Tumor Suppressor,↓
+ARAF,Oncogene,↑
+PREX2,Oncogene,↑
+SOX17,Tumor Suppressor,↓
+PPP4R2,Tumor Suppressor,↓
+MYC,Oncogene,↑
+AKT2,Oncogene,↑
+AKT3,Oncogene,↑
+AKT1,Oncogene,↑
+PRKCI,Oncogene,↑
+DAXX,Tumor Suppressor,↓
+MEF2B,Oncogene,↑
+DICER1,Tumor Suppressor,↓
+KNSTRN,Oncogene,↑
+NUP93,Tumor Suppressor,↓
+AR,Oncogene,↑
+MTAP,Tumor Suppressor,↓
+PRKAR1A,Tumor Suppressor,↓
+PRKD1,Oncogene,↑
+MAPKAP1,Oncogene,↑
+PRDM14,Oncogene,↑
+GATA3,Tumor Suppressor,↓
+BCL10,Oncogene,↑
+GATA2,Tumor Suppressor,↓
+GATA1,Tumor Suppressor,↓
+GRIN2A,Tumor Suppressor,↓
+TERT,Oncogene,↑
+NTHL1,Tumor Suppressor,↓
+RAD21,Oncogene,↑
+PLCG2,Oncogene,↑
+NKX2-1,Oncogene,↑
+BARD1,Tumor Suppressor,↓
+LYN,Oncogene,↑
+JUN,Oncogene,↑
+CREBBP,Tumor Suppressor,↓
+PLK2,Tumor Suppressor,↓
+BRAF,Oncogene,↑
+H1-2,Tumor Suppressor,↓
+CYLD,Tumor Suppressor,↓
+AGO2,Oncogene,↑
+FAT1,Tumor Suppressor,↓
+REL,Oncogene,↑
+CDK12,Tumor Suppressor,↓
+EZH1,Oncogene,↑
+EZH2,Oncogene,↑
+RET,Oncogene,↑
+CDKN1A,Tumor Suppressor,↓
+SETD2,Tumor Suppressor,↓
+CDKN1B,Tumor Suppressor,↓
+CTCF,Tumor Suppressor,↓
+GLI1,Oncogene,↑
+PHF6,Tumor Suppressor,↓
+BBC3,Tumor Suppressor,↓
+MED12,Tumor Suppressor,↓
+NUF2,Oncogene,↑
+CTLA4,Tumor Suppressor,↓
+ELOC,Tumor Suppressor,↓
+CIC,Tumor Suppressor,↓
+JAK2,Oncogene,↑
+IKBKE,Oncogene,↑
+JAK3,Oncogene,↑
+JAK1,Oncogene,↑
+DUSP4,Tumor Suppressor,↓
+UPF1,Tumor Suppressor,↓
+IFNGR1,Tumor Suppressor,↓
+TET2,Tumor Suppressor,↓
+RRAS2,Oncogene,↑
+TET1,Tumor Suppressor,↓
+PAX5,Tumor Suppressor,↓
+NCOR1,Tumor Suppressor,↓
+RARA,Oncogene,↑
+POT1,Tumor Suppressor,↓
+PPARG,Tumor Suppressor,↓
+FH,Tumor Suppressor,↓
+GPS2,Tumor Suppressor,↓
+CENPA,Oncogene,↑
+EGFR,Oncogene,↑
+RECQL4,Tumor Suppressor,↓
+NSD3,Oncogene,↑
+NRAS,Oncogene,↑
+H3C13,Oncogene,↑
+NSD1,Oncogene,↑
+H3C11,Oncogene,↑
+NSD2,Oncogene,↑
+SPOP,Tumor Suppressor,↓
+H3C10,Oncogene,↑
+PMS2,Tumor Suppressor,↓
+RICTOR,Oncogene,↑
+SF3B1,Oncogene,↑
+PMS1,Tumor Suppressor,↓
+BRD4,Oncogene,↑
+CDKN2B,Tumor Suppressor,↓
+CDKN2C,Tumor Suppressor,↓
+CDKN2A,Tumor Suppressor,↓
+RYBP,Tumor Suppressor,↓
+WT1,Tumor Suppressor,↓
+INHA,Oncogene,↑
+CRLF2,Oncogene,↑
+CSF3R,Oncogene,↑
+MRE11,Tumor Suppressor,↓
+IRS1,Oncogene,↑
+IRS2,Oncogene,↑
+STK19,Oncogene,↑
+MSI1,Oncogene,↑
+MSI2,Oncogene,↑
+FGF3,Oncogene,↑
+FGF4,Oncogene,↑
+STK11,Tumor Suppressor,↓
+CYSLTR2,Oncogene,↑
+CDH1,Tumor Suppressor,↓
+SESN2,Tumor Suppressor,↓
+PIM1,Oncogene,↑
+NBN,Tumor Suppressor,↓
+KMT5A,Oncogene,↑
+ROS1,Oncogene,↑
+MEN1,Tumor Suppressor,↓
+RNF43,Tumor Suppressor,↓
+MAP2K4,Tumor Suppressor,↓
+MAP2K1,Oncogene,↑
+MAP2K2,Oncogene,↑
+FBXW7,Tumor Suppressor,↓
+EIF1AX,Oncogene,↑
+TAP2,Tumor Suppressor,↓
+TAP1,Tumor Suppressor,↓
+MITF,Oncogene,↑
+FOXP1,Oncogene,↑
+MSH6,Tumor Suppressor,↓
+SMO,Oncogene,↑
+MSH2,Tumor Suppressor,↓
+MSH3,Tumor Suppressor,↓
+ERF,Tumor Suppressor,↓
+PGR,Oncogene,↑
+ERG,Oncogene,↑
+NOTCH2,Oncogene,↑
+CD274,Oncogene,↑
+CSF1R,Oncogene,↑
+KMT2D,Tumor Suppressor,↓
+NOTCH3,Oncogene,↑
+DNMT1,Oncogene,↑
+BLM,Tumor Suppressor,↓
+NOTCH1,Oncogene,↑
+CBFB,Tumor Suppressor,↓
+KMT2A,Oncogene,↑
+MAX,Oncogene,↑
+CUL3,Tumor Suppressor,↓
+ANKRD11,Tumor Suppressor,↓
+NOTCH4,Oncogene,↑
+KMT2C,Tumor Suppressor,↓
+KMT2B,Oncogene,↑
+VTCN1,Oncogene,↑
+CYP19A1,Oncogene,↑
+FOXO1,Tumor Suppressor,↓
+BCL2L11,Tumor Suppressor,↓
+SOCS1,Tumor Suppressor,↓
+ATXN7,Tumor Suppressor,↓
+ABL1,Oncogene,↑
+SMYD3,Oncogene,↑
+MCL1,Oncogene,↑
+CD276,Oncogene,↑
+FANCA,Tumor Suppressor,↓
+FANCC,Tumor Suppressor,↓
+PALB2,Tumor Suppressor,↓
+PTPRD,Tumor Suppressor,↓
+CDK8,Oncogene,↑
+CDK6,Oncogene,↑
+BCL6,Oncogene,↑
+CDK4,Oncogene,↑
+RHEB,Oncogene,↑
+NF1,Tumor Suppressor,↓
+BCL2,Oncogene,↑
+MDM2,Oncogene,↑
+MDM4,Oncogene,↑
+NF2,Tumor Suppressor,↓
+MAP3K13,Oncogene,↑
+MYD88,Oncogene,↑
+BCL2L1,Oncogene,↑
+NFE2L2,Oncogene,↑
+ALK,Oncogene,↑
+FLT1,Oncogene,↑
+FLT3,Oncogene,↑
+FLT4,Oncogene,↑
+PTEN,Tumor Suppressor,↓
+PIK3CD,Oncogene,↑
+PIK3C2G,Oncogene,↑
+PIK3CB,Oncogene,↑
+CDC73,Tumor Suppressor,↓
+PIK3CG,Oncogene,↑
+PPP6C,Tumor Suppressor,↓
+DNMT3B,Oncogene,↑
+NKX3-1,Tumor Suppressor,↓
+DIS3,Tumor Suppressor,↓
+ATRX,Tumor Suppressor,↓
+DNMT3A,Oncogene,↑
+TRAF2,Oncogene,↑
+FOXL2,Oncogene,↑
+PTP4A1,Oncogene,↑
+TRAF7,Oncogene,↑
+PIK3CA,Oncogene,↑
+PIK3C3,Oncogene,↑
+TOP1,Oncogene,↑
+SOS1,Oncogene,↑
+MET,Oncogene,↑
+BIRC3,Oncogene,↑
+SMARCD1,Oncogene,↑
+CEBPA,Tumor Suppressor,↓
+SRC,Oncogene,↑
+U2AF1,Oncogene,↑
+PPM1D,Oncogene,↑
+MALT1,Oncogene,↑
+CDC42,Oncogene,↑
+DNAJB1,Oncogene,↑
+FIP1L1,Oncogene,↑
+E2F3,Oncogene,↑
+FYN,Oncogene,↑
+EIF4E,Oncogene,↑
+SH2B3,Tumor Suppressor,↓
+NTRK1,Oncogene,↑
+NTRK2,Oncogene,↑
+MGA,Tumor Suppressor,↓
+NTRK3,Oncogene,↑
+PTPN11,Oncogene,↑
+KLF4,Tumor Suppressor,↓
+MTOR,Oncogene,↑
+TBX3,Oncogene,↑
+PNRC1,Oncogene,↑
+ASXL1,Tumor Suppressor,↓
+RAD52,Tumor Suppressor,↓
+RAD50,Tumor Suppressor,↓
+KLF5,Oncogene,↑
+RAD51,Tumor Suppressor,↓
+APC,Tumor Suppressor,↓
+ASXL2,Tumor Suppressor,↓
+PDCD1,Tumor Suppressor,↓
+BCOR,Tumor Suppressor,↓
+EIF4A2,Oncogene,↑
+ERRFI1,Tumor Suppressor,↓
+SMARCB1,Tumor Suppressor,↓
+KEAP1,Tumor Suppressor,↓
+IKZF1,Tumor Suppressor,↓
+CRKL,Oncogene,↑
+RPS6KA4,Oncogene,↑
+SOX2,Oncogene,↑
+PPP2R1A,Tumor Suppressor,↓
+CHEK2,Tumor Suppressor,↓
+CHEK1,Tumor Suppressor,↓
+KDR,Oncogene,↑
+SOX9,Oncogene,↑
+EPHB1,Oncogene,↑
+B2M,Tumor Suppressor,↓
+TP63,Oncogene,↑
+ICOSLG,Oncogene,↑
+EPHA5,Oncogene,↑
+ACVR1,Oncogene,↑
+EPHA7,Oncogene,↑
+HLA-B,Tumor Suppressor,↓
+RECQL,Tumor Suppressor,↓
+HNF1A,Tumor Suppressor,↓
+HLA-A,Tumor Suppressor,↓
+RUNX1,Tumor Suppressor,↓
+INPP4A,Tumor Suppressor,↓
+INPP4B,Tumor Suppressor,↓
+RRAGC,Oncogene,↑
+BTK,Oncogene,↑
+CCNQ,Oncogene,↑
+TP53,Tumor Suppressor,↓
+EPHA3,Oncogene,↑
+RTEL1,Tumor Suppressor,↓
+EPAS1,Oncogene,↑
+DCUN1D1,Oncogene,↑
+PIK3R3,Oncogene,↑
+PIK3R2,Oncogene,↑
+MST1R,Oncogene,↑
+PIK3R1,Oncogene,↑
+CD79B,Oncogene,↑
+CD79A,Oncogene,↑
+BRIP1,Tumor Suppressor,↓
+RRAS,Oncogene,↑
+PGBD5,Oncogene,↑
+H3C3,Tumor Suppressor,↓
+TP53BP1,Tumor Suppressor,↓
+H3C2,Tumor Suppressor,↓
+H3C4,Tumor Suppressor,↓
+RBM10,Tumor Suppressor,↓
+H3C7,Tumor Suppressor,↓
+H3C6,Tumor Suppressor,↓
+STAT5A,Oncogene,↑
+ZRSR2,Tumor Suppressor,↓
+STAT5B,Oncogene,↑
+WWTR1,Oncogene,↑
+YES1,Oncogene,↑
+SETDB1,Oncogene,↑
+XRCC2,Tumor Suppressor,↓
+INSR,Oncogene,↑
+SH2D1A,Oncogene,↑
+IGF2,Oncogene,↑
+IGF1,Oncogene,↑
+SMARCA2,Tumor Suppressor,↓
+SMARCA4,Tumor Suppressor,↓
+STAG2,Tumor Suppressor,↓
+FUBP1,Tumor Suppressor,↓
+ATM,Tumor Suppressor,↓
+CALR,Oncogene,↑
+BAP1,Tumor Suppressor,↓
+ATR,Tumor Suppressor,↓
+PTPRT,Tumor Suppressor,↓
+PTPRS,Tumor Suppressor,↓
+BRCA1,Tumor Suppressor,↓
+BRCA2,Tumor Suppressor,↓
+BABAM1,Tumor Suppressor,↓
+RPTOR,Oncogene,↑
+XPO1,Oncogene,↑
+RAC2,Oncogene,↑
+RAC1,Oncogene,↑
+H3-3A,Tumor Suppressor,↓
+IL10,Tumor Suppressor,↓
+H3C8,Tumor Suppressor,↓
+PBRM1,Tumor Suppressor,↓
+PARP1,Tumor Suppressor,↓
+SYK,Oncogene,↑
+NCOA3,Oncogene,↑
+MST1,Tumor Suppressor,↓
+PDCD1LG2,Tumor Suppressor,↓
+RHOA,Oncogene,↑
+RAD51B,Tumor Suppressor,↓
+RAD51D,Tumor Suppressor,↓
+RAD51C,Tumor Suppressor,↓
+CSDE1,Tumor Suppressor,↓
+KIT,Oncogene,↑
+STK40,Oncogene,↑
+DDR2,Oncogene,↑
+YAP1,Oncogene,↑
+AMER1,Tumor Suppressor,↓
+PRKN,Tumor Suppressor,↓
+DOT1L,Oncogene,↑
+XIAP,Oncogene,↑
+CXCR4,Oncogene,↑
+TMPRSS2,Oncogene,↑
+ALOX12B,Oncogene,↑
+PAK1,Oncogene,↑
+RXRA,Oncogene,↑
+SLX4,Tumor Suppressor,↓
+RAD54L,Tumor Suppressor,↓
+SHOC2,Oncogene,↑
+PAK5,Oncogene,↑
+SUZ12,Oncogene,↑
+NPM1,Oncogene,↑
+MAP3K1,Tumor Suppressor,↓
+H2BC5,Tumor Suppressor,↓
+MLH1,Tumor Suppressor,↓
+VEGFA,Oncogene,↑
+ETAA1,Tumor Suppressor,↓
+RIT1,Oncogene,↑
+AXL,Oncogene,↑
+CTNNB1,Oncogene,↑
+TRIP13,Oncogene,↑
+FOXA1,Oncogene,↑
+MPL,Oncogene,↑
+INPPL1,Tumor Suppressor,↓
+PRDM1,Tumor Suppressor,↓
+ARHGAP35,Tumor Suppressor,↓
+IGF1R,Oncogene,↑
+CCND3,Oncogene,↑
+CCND2,Oncogene,↑
+CCND1,Oncogene,↑
+EP300,Tumor Suppressor,↓
+ARID2,Tumor Suppressor,↓
+PDGFRB,Oncogene,↑
+LMO1,Oncogene,↑
+PDGFRA,Oncogene,↑
+HGF,Oncogene,↑
+TSC2,Tumor Suppressor,↓
+ARID5B,Tumor Suppressor,↓
+TSC1,Tumor Suppressor,↓
+SDHC,Tumor Suppressor,↓
+SDHD,Tumor Suppressor,↓
+SDHA,Tumor Suppressor,↓
+MYCL,Oncogene,↑
+MYCN,Oncogene,↑
+SLFN11,Tumor Suppressor,↓
+CCNE1,Oncogene,↑
+RAF1,Oncogene,↑
+CARD11,Oncogene,↑
+HOXB13,Oncogene,↑
+COP1,Tumor Suppressor,↓
+TMEM127,Tumor Suppressor,↓
+SMAD2,Tumor Suppressor,↓
+SMAD4,Tumor Suppressor,↓
+ZFHX3,Tumor Suppressor,↓
+SMAD3,Tumor Suppressor,↓
+IDH1,Oncogene,↑
+PTCH1,Tumor Suppressor,↓
+IDH2,Oncogene,↑
+INHBA,Oncogene,↑
+ESR1,Oncogene,↑
+PHOX2B,Oncogene,↑
+NFKBIA,Tumor Suppressor,↓
+FGF19,Oncogene,↑
+GNB1,Oncogene,↑
+GNAS,Oncogene,↑
+TCF3,Oncogene,↑
+IL7R,Oncogene,↑
+FGFR4,Oncogene,↑
+FGFR3,Oncogene,↑
+FGFR2,Oncogene,↑
+FGFR1,Oncogene,↑
+BMPR1A,Tumor Suppressor,↓
+KDM5A,Oncogene,↑
+GSK3B,Tumor Suppressor,↓
+KDM5C,Tumor Suppressor,↓
+TNFAIP3,Tumor Suppressor,↓
+FLCN,Tumor Suppressor,↓
+SPRED1,Tumor Suppressor,↓
+CASP8,Tumor Suppressor,↓
+POLE,Tumor Suppressor,↓
+KDM6A,Tumor Suppressor,↓
+EGFL7,Oncogene,↑
+EED,Tumor Suppressor,↓
+PDPK1,Oncogene,↑
+AXIN1,Tumor Suppressor,↓
+ETV1,Oncogene,↑
+AXIN2,Tumor Suppressor,↓
+ARID1A,Tumor Suppressor,↓
+ARID1B,Tumor Suppressor,↓
+TENT5C,Tumor Suppressor,↓
+TGFBR1,Tumor Suppressor,↓
+TGFBR2,Tumor Suppressor,↓
+ETV6,Tumor Suppressor,↓
+LATS1,Tumor Suppressor,↓
+GREM1,Oncogene,↑
+LATS2,Tumor Suppressor,↓
+ELF3,Oncogene,↑
+IRF4,Oncogene,↑
+MYOD1,Oncogene,↑
+RASA1,Tumor Suppressor,↓
+ABRAXAS1,Tumor Suppressor,↓
+CBL,Tumor Suppressor,↓
+AURKB,Oncogene,↑
+AURKA,Oncogene,↑
+ERBB3,Oncogene,↑
+ERBB4,Oncogene,↑
+POLD1,Tumor Suppressor,↓
+GNA11,Oncogene,↑
+ERBB2,Oncogene,↑
+MAPK1,Oncogene,↑
+DROSHA,Oncogene,↑
+VHL,Tumor Suppressor,↓
+MUTYH,Tumor Suppressor,↓
+MAPK3,Oncogene,↑
+SPEN,Tumor Suppressor,↓
+TCF7L2,Oncogene,↑
+NEGR1,Tumor Suppressor,↓
+TSHR,Oncogene,↑
+H3-5,Oncogene,↑
+REST,Tumor Suppressor,↓
+H3-4,Oncogene,↑
+ERCC3,Tumor Suppressor,↓
+ERCC4,Tumor Suppressor,↓
+CARM1,Oncogene,↑
+ERCC2,Tumor Suppressor,↓
+RPS6KB2,Oncogene,↑
+KRAS,Oncogene,↑
+ERCC5,Tumor Suppressor,↓
+TEK,Oncogene,↑

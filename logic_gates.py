@@ -13,7 +13,8 @@ class LogicGateAnalyzer:
         
         # Import data processor for expression simulation
         from data_processor import DataProcessor
-        self.data_processor = DataProcessor(biomarkers_df)
+        self.data_processor = DataProcessor()
+        self.data_processor.df = biomarkers_df
     
     def generate_truth_table(self, gate_type: str) -> Dict[str, Any]:
         """
