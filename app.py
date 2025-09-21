@@ -228,127 +228,112 @@ def antigen_selection_page():
         st.rerun()
 
 def logic_gate_analysis_page():
-    st.header("🔬 Truth Table & Logic Gate Analysis")
+    st.header("🔬 Logic Gate Analysis")
     
-    if not st.session_state.selected_tumor_antigens:
-        st.warning("⚠️ Please select tumor antigens first in the Antigen Selection page.")
+    if not st.session_state.selected_tumor_antigens and not st.session_state.selected_healthy_antigens:
+        st.warning("⚠️ Please select antigens first in the Antigen Selection page.")
         return
     
-    if len(st.session_state.selected_tumor_antigens) < 2:
-        st.warning("⚠️ Please select at least 2 tumor antigens for logic gate analysis.")
-        return
-    
-    # Show constraint message if more than 2 selected
-    if len(st.session_state.selected_tumor_antigens) > 2:
-        st.info(f"ℹ️ Logic gate analysis uses the first 2 tumor antigens for binary logic gates. Selected: {st.session_state.selected_tumor_antigens[:2]}")
-    
-    # Display selected antigens for analysis
+    # Display selected antigens
     st.subheader("🎯 Selected Antigens for Analysis")
     col1, col2 = st.columns(2)
     
     with col1:
-        st.write("**Tumor Antigens (for Binary Logic):**")
-        for i, antigen in enumerate(st.session_state.selected_tumor_antigens[:2]):
-            st.write(f"• Input {chr(65+i)}: {antigen}")
+        st.write("**Tumor Antigens:**")
+        if st.session_state.selected_tumor_antigens:
+            for antigen in st.session_state.selected_tumor_antigens:
+                st.write(f"• {antigen}")
+        else:
+            st.write("None selected")
     
     with col2:
-        st.write("**Healthy Cell Antigens:**")
-        for antigen in st.session_state.selected_healthy_antigens:
-            st.write(f"• {antigen}")
+        st.write("**Healthy Cell Antigens (HCA):**")
+        if st.session_state.selected_healthy_antigens:
+            for antigen in st.session_state.selected_healthy_antigens:
+                st.write(f"• {antigen}")
+        else:
+            st.write("None selected")
     
     # Generate logic gate analysis
     if st.button("🚀 Generate Logic Gate Analysis"):
         with st.spinner("Analyzing logic gates..."):
-            # Create analyzer with proper data structure
-            selected_antigens = {
-                'tumor': st.session_state.selected_tumor_antigens[:2],  # Use first 2 for binary logic
-                'healthy': st.session_state.selected_healthy_antigens
-            }
-            
-            analyzer = LogicGateAnalyzer(st.session_state.data_processor.df, selected_antigens)
-            
-            # Generate analysis
-            truth_tables = analyzer.generate_all_truth_tables()
-            selectivity_scores = analyzer.calculate_selectivity_scores(truth_tables)
-            best_gate = analyzer.get_best_gate_recommendation(selectivity_scores)
-            
-            st.session_state.analysis_results = {
-                'truth_tables': truth_tables,
-                'selectivity_scores': selectivity_scores,
-                'best_gate': best_gate
-            }
+            try:
+                # Create analyzer
+                selected_antigens = {
+                    'tumor': st.session_state.selected_tumor_antigens,
+                    'healthy': st.session_state.selected_healthy_antigens
+                }
+                
+                analyzer = LogicGateAnalyzer(st.session_state.data_processor.df, selected_antigens)
+                
+                # Generate analysis
+                truth_tables = analyzer.generate_all_truth_tables()
+                selectivity_scores = analyzer.calculate_selectivity_scores(truth_tables)
+                best_gate = analyzer.get_best_gate_recommendation(selectivity_scores)
+                
+                st.session_state.analysis_results = {
+                    'truth_tables': truth_tables,
+                    'selectivity_scores': selectivity_scores,
+                    'best_gate': best_gate
+                }
+                st.success("✅ Analysis completed successfully!")
+                
+            except Exception as e:
+                st.error(f"❌ Error during analysis: {str(e)}")
+                return
     
     # Display results
     if st.session_state.analysis_results:
         results = st.session_state.analysis_results
         
-        # Enhanced layout for results display
-        col_main, col_sidebar = st.columns([2, 1])
+        # Recommendation section
+        st.subheader("🏆 Recommended Logic Gate")
+        best_gate = results['best_gate']
         
-        with col_sidebar:
-            # Quick recommendation summary
-            st.subheader("🏆 Top Choice")
-            best_gate = results['best_gate']
-            
-            st.metric("Recommended Gate", best_gate['gate'])
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Best Gate", best_gate['gate'])
+        with col2:
             st.metric("Selectivity Score", f"{best_gate['score']:.3f}")
-            
-            if 'safety_note' in best_gate:
-                st.success(f"🛡️ {best_gate['safety_note']}")
+        with col3:
+            st.info(f"🛡️ {best_gate.get('safety_note', 'Standard monitoring recommended.')}")
         
-        with col_main:
-            st.subheader("🎯 PDAC-Optimized Logic Gate Analysis")
-            st.write(best_gate['explanation'])
+        st.write("**Explanation:**", best_gate['explanation'])
         
-        # Selectivity scores comparison
-        st.subheader("📊 Logic Gate Selectivity Comparison")
-        scores_df = pd.DataFrame([
-            {'Gate': gate, 'Selectivity Score': f"{score:.3f}", 'Rank': idx + 1}
-            for idx, (gate, score) in enumerate(
-                sorted(results['selectivity_scores'].items(), key=lambda x: x[1], reverse=True)
-            )
-        ])
-        st.dataframe(scores_df, width='stretch')
+        # Truth Tables section
+        st.subheader("📋 Truth Tables with Your Antigens")
+        st.markdown("**Legend:** 1 = Present, 0 = Absent | **🎯** = Kill, **❌** = Off")
         
-        # PDAC-specific detailed recommendation
-        st.subheader("🎯 Detailed PDAC Analysis")
         visualizer = TruthTableVisualizer()
         
-        # Side-by-side Truth Tables and Analysis
-        col_tables, col_analysis = st.columns([3, 2])
+        # Display truth tables in tabs
+        tab_names = list(results['truth_tables'].keys())
+        tabs = st.tabs([f"{gate} Gate" for gate in tab_names])
         
-        with col_tables:
-            st.subheader("📋 Truth Tables with Your Antigens")
-            st.markdown("**Legend:** 1 = Present, 0 = Absent | **🎯** = Kill, **❌** = Off")
-            
-            # Display simplified truth tables in a more compact format
-            for gate_name, truth_table in results['truth_tables'].items():
-                is_best = (gate_name == best_gate['gate'])
-                with st.expander(f"📈 {gate_name} Gate", expanded=is_best):
-                    if gate_name == 'NOT':
-                        # Show fixed NOT gate truth table
-                        fixed_not_fig = visualizer.create_fixed_not_truth_table()
-                        st.plotly_chart(fixed_not_fig, width='stretch')
-                    else:
-                        simplified_fig = visualizer.create_simplified_truth_table(truth_table, gate_name)
-                        st.plotly_chart(simplified_fig, width='stretch')
+        for i, (gate_name, truth_table) in enumerate(results['truth_tables'].items()):
+            with tabs[i]:
+                if gate_name == 'NOT':
+                    # Show fixed NOT gate truth table regardless of input
+                    fixed_not_fig = visualizer.create_fixed_not_truth_table()
+                    st.plotly_chart(fixed_not_fig, use_container_width=True)
+                else:
+                    simplified_fig = visualizer.create_simplified_truth_table(truth_table, gate_name)
+                    st.plotly_chart(simplified_fig, use_container_width=True)
         
-        with col_analysis:
-            st.subheader("📈 Gate Performance")
-            
-            # Enhanced selectivity comparison in sidebar
-            selectivity_fig = visualizer.create_selectivity_comparison(results['selectivity_scores'])
-            st.plotly_chart(selectivity_fig, width='stretch')
-            
-            # Additional PDAC insights
-            st.subheader("🩺 PDAC Insights")
-            st.markdown("""
-            **Best Practice for PDAC:**
-            - AND gates minimize off-target effects
-            - OR gates increase tumor coverage
-            - Monitor pancreatic enzymes during therapy
-            - Consider dose escalation protocols
-            """)
+        # Gate Performance section
+        st.subheader("📈 Gate Performance")
+        selectivity_fig = visualizer.create_selectivity_comparison(results['selectivity_scores'])
+        st.plotly_chart(selectivity_fig, use_container_width=True)
+        
+        # PDAC Insights section
+        st.subheader("🩺 PDAC Insights")
+        st.markdown("""
+        **Best Practice for PDAC:**
+        - AND gates minimize off-target effects
+        - OR gates increase tumor coverage
+        - Monitor pancreatic enzymes during therapy
+        - Consider dose escalation protocols
+        """)
 
 def cart_diagram_page():
     st.header("🧬 Personalized CAR-T Structure for PDAC")
@@ -425,7 +410,8 @@ def cart_diagram_page():
         # Display diagram if generated
         if 'cart_diagram' in st.session_state:
             st.subheader("🧬 Your Personalized CAR-T Structure")
-            components.html(st.session_state.cart_diagram, height=650)
+            # Adjust height to fit better in the available space
+            components.html(st.session_state.cart_diagram, height=500, scrolling=False)
             
             # Download options
             st.subheader("💾 Export Options")

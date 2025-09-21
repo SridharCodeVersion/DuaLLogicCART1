@@ -8,8 +8,8 @@ class CARTDiagramGenerator:
     
     def __init__(self, selected_antigens: Dict[str, List[str]]):
         self.selected_antigens = selected_antigens
-        self.svg_width = 800
-        self.svg_height = 600
+        self.svg_width = 700
+        self.svg_height = 480
     
     def generate_cart_diagram(self, costimulatory_domain: str = "CD28", style: str = "Standard") -> str:
         """
@@ -48,8 +48,8 @@ class CARTDiagramGenerator:
             </text>
             
             <!-- Cell membrane -->
-            <rect x="50" y="250" width="700" height="20" class="cell-membrane" rx="10"/>
-            <text x="400" y="290" text-anchor="middle" class="component-label">T-Cell Membrane</text>
+            <rect x="50" y="200" width="600" height="20" class="cell-membrane" rx="10"/>
+            <text x="350" y="240" text-anchor="middle" class="component-label">T-Cell Membrane</text>
             
             {self._generate_extracellular_domain(style)}
             {self._generate_intracellular_domain(costimulatory_domain, style)}
@@ -69,40 +69,40 @@ class CARTDiagramGenerator:
         # First scFv domain
         components.append(f'''
             <!-- First scFv Domain -->
-            <ellipse cx="300" cy="180" rx="60" ry="40" class="scfv-domain"/>
-            <text x="300" y="185" text-anchor="middle" class="antigen-label">{tumor_antigens[0]}</text>
-            <text x="300" y="140" text-anchor="middle" class="component-label">scFv Domain 1</text>
+            <ellipse cx="250" cy="130" rx="50" ry="35" class="scfv-domain"/>
+            <text x="250" y="135" text-anchor="middle" class="antigen-label">{tumor_antigens[0]}</text>
+            <text x="250" y="95" text-anchor="middle" class="component-label">scFv Domain 1</text>
         ''')
         
         # Second scFv domain (if available)
         if len(tumor_antigens) > 1:
             components.append(f'''
                 <!-- Second scFv Domain -->
-                <ellipse cx="500" cy="180" rx="60" ry="40" class="scfv-domain"/>
-                <text x="500" y="185" text-anchor="middle" class="antigen-label">{tumor_antigens[1]}</text>
-                <text x="500" y="140" text-anchor="middle" class="component-label">scFv Domain 2</text>
+                <ellipse cx="450" cy="130" rx="50" ry="35" class="scfv-domain"/>
+                <text x="450" y="135" text-anchor="middle" class="antigen-label">{tumor_antigens[1]}</text>
+                <text x="450" y="95" text-anchor="middle" class="component-label">scFv Domain 2</text>
             ''')
         else:
             components.append(f'''
                 <!-- Second scFv Domain (Generic) -->
-                <ellipse cx="500" cy="180" rx="60" ry="40" class="scfv-domain"/>
-                <text x="500" y="185" text-anchor="middle" class="antigen-label">Target 2</text>
-                <text x="500" y="140" text-anchor="middle" class="component-label">scFv Domain 2</text>
+                <ellipse cx="450" cy="130" rx="50" ry="35" class="scfv-domain"/>
+                <text x="450" y="135" text-anchor="middle" class="antigen-label">Target 2</text>
+                <text x="450" y="95" text-anchor="middle" class="component-label">scFv Domain 2</text>
             ''')
         
         # Hinge region
         components.append('''
             <!-- Hinge Region -->
-            <rect x="380" y="220" width="40" height="30" class="hinge-region" rx="5"/>
-            <text x="400" y="210" text-anchor="middle" class="component-label">Hinge Region</text>
+            <rect x="330" y="170" width="40" height="25" class="hinge-region" rx="5"/>
+            <text x="350" y="160" text-anchor="middle" class="component-label">Hinge Region</text>
         ''')
         
         # Connecting lines
         components.append('''
             <!-- Connecting lines -->
-            <line x1="300" y1="220" x2="380" y2="235" stroke="#34495e" stroke-width="3"/>
-            <line x1="500" y1="220" x2="420" y2="235" stroke="#34495e" stroke-width="3"/>
-            <line x1="400" y1="250" x2="400" y2="250" stroke="#34495e" stroke-width="4"/>
+            <line x1="250" y1="165" x2="330" y2="182" stroke="#34495e" stroke-width="3"/>
+            <line x1="450" y1="165" x2="370" y2="182" stroke="#34495e" stroke-width="3"/>
+            <line x1="350" y1="195" x2="350" y2="200" stroke="#34495e" stroke-width="4"/>
         ''')
         
         return ''.join(components)
@@ -125,31 +125,31 @@ class CARTDiagramGenerator:
         # Transmembrane domain
         components.append('''
             <!-- Transmembrane Domain -->
-            <rect x="380" y="250" width="40" height="20" class="transmembrane"/>
-            <text x="450" y="265" class="component-label">Transmembrane</text>
+            <rect x="330" y="200" width="40" height="20" class="transmembrane"/>
+            <text x="400" y="215" class="component-label">Transmembrane</text>
         ''')
         
         # Costimulatory domain
-        costim_y = 310
+        costim_y = 250
         components.append(f'''
             <!-- Costimulatory Domain -->
-            <rect x="360" y="{costim_y}" width="80" height="30" class="costimulatory" rx="15"/>
-            <text x="400" y="{costim_y + 20}" text-anchor="middle" class="component-label">{costimulatory_domain}</text>
+            <rect x="310" y="{costim_y}" width="80" height="25" class="costimulatory" rx="12"/>
+            <text x="350" y="{costim_y + 17}" text-anchor="middle" class="component-label">{costimulatory_domain}</text>
         ''')
         
         # CD3ζ signaling domain
-        cd3_y = 360
+        cd3_y = 300
         components.append(f'''
             <!-- CD3ζ Signaling Domain -->
-            <rect x="340" y="{cd3_y}" width="120" height="40" class="cd3zeta" rx="20"/>
-            <text x="400" y="{cd3_y + 25}" text-anchor="middle" class="component-label">CD3ζ Signaling</text>
+            <rect x="290" y="{cd3_y}" width="120" height="35" class="cd3zeta" rx="17"/>
+            <text x="350" y="{cd3_y + 22}" text-anchor="middle" class="component-label">CD3ζ Signaling</text>
         ''')
         
         # Connecting lines for intracellular
         components.append(f'''
             <!-- Intracellular connecting lines -->
-            <line x1="400" y1="270" x2="400" y2="{costim_y}" stroke="#34495e" stroke-width="3"/>
-            <line x1="400" y1="{costim_y + 30}" x2="400" y2="{cd3_y}" stroke="#34495e" stroke-width="3"/>
+            <line x1="350" y1="220" x2="350" y2="{costim_y}" stroke="#34495e" stroke-width="3"/>
+            <line x1="350" y1="{costim_y + 25}" x2="350" y2="{cd3_y}" stroke="#34495e" stroke-width="3"/>
         ''')
         
         return ''.join(components)
@@ -161,22 +161,24 @@ class CARTDiagramGenerator:
         # Extracellular vs Intracellular labels
         components.append('''
             <!-- Extracellular label -->
-            <text x="100" y="180" class="label" transform="rotate(-90 100 180)">EXTRACELLULAR</text>
-            <line x1="130" y1="100" x2="130" y2="240" stroke="#bdc3c7" stroke-width="2" stroke-dasharray="5,5"/>
+            <text x="80" y="130" class="label" transform="rotate(-90 80 130)">EXTRACELLULAR</text>
+            <line x1="110" y1="60" x2="110" y2="190" stroke="#bdc3c7" stroke-width="2" stroke-dasharray="5,5"/>
             
             <!-- Intracellular label -->
-            <text x="100" y="350" class="label" transform="rotate(-90 100 350)">INTRACELLULAR</text>
-            <line x1="130" y1="280" x2="130" y2="450" stroke="#bdc3c7" stroke-width="2" stroke-dasharray="5,5"/>
+            <text x="80" y="280" class="label" transform="rotate(-90 80 280)">INTRACELLULAR</text>
+            <line x1="110" y1="230" x2="110" y2="360" stroke="#bdc3c7" stroke-width="2" stroke-dasharray="5,5"/>
         ''')
         
         # Legend
-        legend_x = 550
-        legend_y = 450
+        legend_x = 450
+        legend_y = 380
+        tumor_text = ", ".join(self.selected_antigens['tumor'][:2]) if self.selected_antigens['tumor'] else "None"
+        healthy_text = ", ".join(self.selected_antigens['healthy'][:2]) if self.selected_antigens['healthy'] else "None"
         components.append(f'''
             <!-- Legend -->
             <text x="{legend_x}" y="{legend_y}" class="component-label">Selected Antigens:</text>
-            <text x="{legend_x}" y="{legend_y + 20}" class="label">Tumor: {", ".join(self.selected_antigens['tumor'])}</text>
-            <text x="{legend_x}" y="{legend_y + 40}" class="label">Healthy: {", ".join(self.selected_antigens['healthy'])}</text>
+            <text x="{legend_x}" y="{legend_y + 20}" class="label">Tumor: {tumor_text}</text>
+            <text x="{legend_x}" y="{legend_y + 40}" class="label">Healthy: {healthy_text}</text>
         ''')
         
         return ''.join(components)
