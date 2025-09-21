@@ -157,7 +157,7 @@ def antigen_selection_page():
             # Process indications using clean method
             processed_biomarkers = []
             for b in biomarkers_in_category:
-                clean_indication = st.session_state.data_processor._clean_indication(b['indication'])
+                clean_indication = st.session_state.data_processor.clean_indication(b['indication'])
                 processed_biomarkers.append({**b, 'indication_clean': clean_indication})
             
             # Multiselect for tumor antigens (oncogenic: ↑ or context-dependent ↑/↓)
@@ -333,6 +333,10 @@ def cart_diagram_page():
     
     if not st.session_state.selected_tumor_antigens:
         st.warning("⚠️ Please select tumor antigens first in the Antigen Selection page.")
+        return
+    
+    if len(st.session_state.selected_tumor_antigens) < 2:
+        st.warning("⚠️ Please select at least 2 tumor antigens for CAR-T diagram generation.")
         return
     
     # Selected antigens summary

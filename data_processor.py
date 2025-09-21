@@ -180,7 +180,7 @@ class DataProcessor:
         
         # Clean up indication symbols
         valid_df = valid_df.copy()
-        valid_df['indication_clean'] = valid_df['indication'].apply(self._clean_indication)
+        valid_df['indication_clean'] = valid_df['indication'].apply(self.clean_indication)
         
         categories = {}
         
@@ -194,7 +194,7 @@ class DataProcessor:
             
         return categories
     
-    def _clean_indication(self, indication: str) -> str:
+    def clean_indication(self, indication: str) -> str:
         """
         Clean indication symbols to standardize format.
         """

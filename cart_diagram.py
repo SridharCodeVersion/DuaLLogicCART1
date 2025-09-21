@@ -99,6 +99,17 @@ class CARTDiagramGenerator:
         
         return ''.join(components)
     
+    def _escape_svg_text(self, text: str) -> str:
+        """Escape text for safe SVG rendering."""
+        if not text:
+            return 'Unknown'
+        # Basic SVG text escaping
+        text = str(text).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        # Limit length to prevent overflow
+        if len(text) > 15:
+            text = text[:12] + '...'
+        return text
+    
     def _generate_intracellular_domain(self, costimulatory_domain: str, style: str) -> str:
         """Generate the intracellular domain components."""
         components = []
