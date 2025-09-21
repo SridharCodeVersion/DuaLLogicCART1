@@ -30,167 +30,61 @@ if 'selected_healthy_antigens' not in st.session_state:
     st.session_state.selected_healthy_antigens = []
 if 'analysis_results' not in st.session_state:
     st.session_state.analysis_results = None
-if 'dark_theme' not in st.session_state:
-    st.session_state.dark_theme = False
 
 def apply_modern_styling():
     """Apply modern, professional CSS styling with animations and responsive design."""
-    # Get current theme from session state
-    is_dark_theme = st.session_state.get('dark_theme', False)
-    
-    # Create CSS content without f-string to avoid syntax issues
-    dark_theme_css = """
-        /* Dark theme variables */
-        :root {
-            --bg-primary: #0a0e1a;
-            --bg-secondary: #1a2332;
-            --bg-card: rgba(26, 35, 50, 0.8);
-            --text-primary: #ffffff;
-            --text-secondary: #b0c4de;
-            --border-color: #2d3748;
-            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%);
-            --gradient-secondary: linear-gradient(135deg, #0d9488 0%, #0f766e 50%, #115e59 100%);
-            --medical-bg: linear-gradient(135deg, #0a0e1a 0%, #1a2332 25%, #2d3748 75%, #1a2332 100%);
-        }
-    """
-    
-    light_theme_css = """
-        /* Light theme variables */
-        :root {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.9);
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --gradient-primary: linear-gradient(135deg, #0073e6 0%, #005bb5 50%, #004494 100%);
-            --gradient-secondary: linear-gradient(135deg, #00a86b 0%, #008f5a 50%, #007849 100%);
-            --medical-bg: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #bae6fd 75%, #e0f2fe 100%);
-        }
-    """
-    
-    theme_css = dark_theme_css if is_dark_theme else light_theme_css
-    
-    st.markdown(f"""
+    st.markdown("""
     <style>
     /* Import Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
     /* Root variables for consistent theming */
-    :root {{
-        --primary-color: #0073e6;
-        --primary-hover: #005bb5;
-        --secondary-color: #00a86b;
+    :root {
+        --primary-color: #6366f1;
+        --primary-hover: #5855eb;
+        --secondary-color: #f59e0b;
         --success-color: #10b981;
         --danger-color: #ef4444;
         --warning-color: #f59e0b;
         --info-color: #3b82f6;
-        --medical-blue: #0073e6;
-        --medical-green: #00a86b;
-        --medical-teal: #20b2aa;
+        --dark-bg: #0f172a;
+        --light-bg: #ffffff;
+        --card-bg: #f8fafc;
+        --border-color: #e2e8f0;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
         --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
         --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-    }}
-    
-    /* Theme-specific variables */
-    {theme_css}
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
     
     /* Global styling */
-    .stApp {{
+    .stApp {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: var(--medical-bg);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
-        position: relative;
-    }}
-    
-    /* Medical background pattern overlay */
-    .stApp::before {{
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: 
-            radial-gradient(circle at 20% 80%, rgba(0, 115, 230, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(0, 168, 107, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(32, 178, 170, 0.05) 0%, transparent 50%);
-        pointer-events: none;
-        z-index: -1;
-    }}
+    }
     
     /* Hide Streamlit branding */
-    #MainMenu {{visibility: hidden;}}
-    footer {{visibility: hidden;}}
-    header {{visibility: hidden;}}
-    
-    /* Show sidebar toggle button */
-    .stSidebar > div:first-child {{
-        background: var(--bg-card);
-        border-right: 2px solid var(--border-color);
-    }}
-    
-    /* Make sidebar toggle visible */
-    button[data-testid="collapsedControl"] {{
-        background: var(--bg-card) !important;
-        border: 2px solid var(--medical-blue) !important;
-        border-radius: 50% !important;
-        box-shadow: var(--shadow-lg) !important;
-        color: var(--medical-blue) !important;
-        font-size: 1.2rem !important;
-        width: 40px !important;
-        height: 40px !important;
-        margin: 1rem !important;
-        transition: all 0.3s ease !important;
-    }}
-    
-    button[data-testid="collapsedControl"]:hover {{
-        background: var(--medical-blue) !important;
-        color: white !important;
-        transform: scale(1.1) !important;
-    }}
-    
-    /* Theme toggle button */
-    .theme-toggle {{
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        z-index: 9999;
-        background: var(--bg-card);
-        border: 2px solid var(--medical-blue);
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: var(--shadow-lg);
-        font-size: 1.5rem;
-    }}
-    
-    .theme-toggle:hover {{
-        background: var(--medical-blue);
-        color: white;
-        transform: scale(1.1);
-    }}
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
     
     /* Custom header */
-    .main-header {{
-        background: var(--bg-card);
+    .main-header {
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
         border-radius: 20px;
         padding: 2rem;
         margin: 1rem 0 2rem 0;
         box-shadow: var(--shadow-lg);
-        border: 2px solid var(--border-color);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         animation: slideInDown 0.6s ease-out;
-        color: var(--text-primary);
-    }}
+    }
     
-    .main-title {{
+    .main-title {
         font-size: 2.5rem;
         font-weight: 700;
         background: var(--gradient-primary);
@@ -200,79 +94,63 @@ def apply_modern_styling():
         text-align: center;
         margin-bottom: 0.5rem;
         animation: fadeInUp 0.8s ease-out 0.2s both;
-    }}
+    }
     
-    .main-subtitle {{
+    .main-subtitle {
         font-size: 1.1rem;
         color: var(--text-secondary);
         text-align: center;
         margin-bottom: 1rem;
         animation: fadeInUp 0.8s ease-out 0.4s both;
-    }}
+    }
     
-    /* Medical-themed cards */
-    .glass-card {{
-        background: var(--bg-card);
+    /* Glassmorphism cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(20px);
         border-radius: 20px;
         padding: 2rem;
         margin: 1rem 0;
         box-shadow: var(--shadow-lg);
-        border: 2px solid var(--border-color);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         transition: all 0.3s ease;
         animation: fadeInUp 0.6s ease-out;
-        color: var(--text-primary);
-    }}
+    }
     
-    .glass-card:hover {{
+    .glass-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 20px 25px -5px var(--medical-blue) / 0.2;
-        border-color: var(--medical-blue);
-    }}
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    }
     
     /* Enhanced sidebar */
-    .css-1d391kg {{
-        background: var(--bg-card) !important;
+    .css-1d391kg {
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
         border-radius: 0 20px 20px 0;
         box-shadow: var(--shadow-lg);
-        border-right: 2px solid var(--border-color);
-    }}
-    
-    /* Sidebar content */
-    .stSidebar .stMarkdown {{
-        color: var(--text-primary);
-    }}
+    }
     
     /* Navigation styling */
-    .stRadio > div {{
-        background: var(--bg-card);
+    .stRadio > div {
+        background: rgba(255, 255, 255, 0.1);
         border-radius: 15px;
         padding: 1rem;
         backdrop-filter: blur(10px);
-        border: 1px solid var(--border-color);
-    }}
+    }
     
-    .stRadio > div > label {{
+    .stRadio > div > label {
         padding: 0.75rem 1rem;
         border-radius: 10px;
         margin: 0.25rem 0;
         transition: all 0.3s ease;
         cursor: pointer;
         font-weight: 500;
-        color: var(--text-primary) !important;
-    }}
+    }
     
-    .stRadio > div > label:hover {{
-        background: var(--medical-blue) !important;
-        color: white !important;
+    .stRadio > div > label:hover {
+        background: rgba(255, 255, 255, 0.2);
         transform: translateX(5px);
-    }}
-    
-    .stRadio > div > label[aria-checked="true"] {{
-        background: var(--gradient-primary) !important;
-        color: white !important;
-    }}
+    }
     
     /* Enhanced buttons */
     .stButton > button {
@@ -315,78 +193,58 @@ def apply_modern_styling():
     }
     
     /* Enhanced metrics */
-    .metric-card {{
-        background: var(--bg-card);
+    .metric-card {
+        background: rgba(255, 255, 255, 0.9);
         border-radius: 15px;
         padding: 1.5rem;
         text-align: center;
         box-shadow: var(--shadow-md);
         transition: all 0.3s ease;
-        border: 2px solid var(--border-color);
-        color: var(--text-primary);
-    }}
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
     
-    .metric-card:hover {{
+    .metric-card:hover {
         transform: translateY(-3px);
         box-shadow: var(--shadow-lg);
-        border-color: var(--medical-blue);
-    }}
+    }
     
-    .metric-value {{
+    .metric-value {
         font-size: 2rem;
         font-weight: 700;
-        color: var(--medical-blue);
+        color: var(--primary-color);
         margin-bottom: 0.5rem;
-    }}
+    }
     
-    .metric-label {{
+    .metric-label {
         font-size: 0.9rem;
         color: var(--text-secondary);
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-    }}
+    }
     
     /* Enhanced selectboxes and inputs */
-    .stSelectbox > div > div, .stMultiSelect > div > div {{
-        background: var(--bg-card) !important;
+    .stSelectbox > div > div, .stMultiSelect > div > div {
+        background: rgba(255, 255, 255, 0.9);
         border-radius: 12px;
-        border: 2px solid var(--border-color) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3);
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
-        color: var(--text-primary) !important;
-    }}
+    }
     
-    .stSelectbox > div > div:focus-within, .stMultiSelect > div > div:focus-within {{
-        border-color: var(--medical-blue) !important;
-        box-shadow: 0 0 0 3px var(--medical-blue) / 0.1 !important;
-    }}
+    .stSelectbox > div > div:focus-within, .stMultiSelect > div > div:focus-within {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
     
     /* Enhanced dataframes */
-    .stDataFrame {{
-        background: var(--bg-card);
+    .stDataFrame {
+        background: rgba(255, 255, 255, 0.95);
         border-radius: 15px;
         overflow: hidden;
         box-shadow: var(--shadow-md);
         backdrop-filter: blur(10px);
-        border: 2px solid var(--border-color);
-    }}
-    
-    /* Text color fixes */
-    .stMarkdown, .stText {{
-        color: var(--text-primary) !important;
-    }}
-    
-    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4 {{
-        color: var(--text-primary) !important;
-    }}
-    
-    /* Info/warning/error boxes */
-    .stInfo, .stWarning, .stError, .stSuccess {{
-        background: var(--bg-card) !important;
-        border: 2px solid var(--border-color) !important;
-        color: var(--text-primary) !important;
-    }}
+    }
     
     /* Animations */
     @keyframes fadeInUp {
@@ -580,30 +438,6 @@ def create_metric_card(title, value, icon="📊"):
 def main():
     apply_modern_styling()
     
-    # Theme toggle button (fixed position)
-    theme_icon = "🌙" if not st.session_state.dark_theme else "☀️"
-    theme_text = "Dark Mode" if not st.session_state.dark_theme else "Light Mode"
-    
-    st.markdown(f"""
-    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle {theme_text}">
-        {theme_icon}
-    </div>
-    
-    <script>
-    function toggleTheme() {{
-        // This will be handled by Streamlit rerun
-        window.parent.postMessage({{type: 'theme-toggle'}}, '*');
-    }}
-    </script>
-    """, unsafe_allow_html=True)
-    
-    # Theme toggle handling
-    col_theme1, col_theme2, col_theme3 = st.columns([1, 1, 1])
-    with col_theme3:
-        if st.button(f"{theme_icon} {theme_text}", key="theme_toggle", help=f"Switch to {theme_text}"):
-            st.session_state.dark_theme = not st.session_state.dark_theme
-            st.rerun()
-    
     # Modern header
     create_modern_header()
     
@@ -621,10 +455,9 @@ def main():
     """, unsafe_allow_html=True)
     
     page = st.sidebar.radio(
-        "Navigation Menu",
+        "",
         ["🎯 Antigen Selection", "🔬 Logic Gate Analysis", "🧬 CAR-T Diagram"],
-        key="navigation",
-        label_visibility="collapsed"
+        key="navigation"
     )
     
     # Auto-refresh logic gate analysis and CAR-T diagram when antigens change
@@ -751,7 +584,7 @@ def antigen_selection_page():
         if not display_df.empty:
             display_df = display_df[['biomarker_name', 'category', 'indication']].copy()
             st.markdown("#### 📋 Biomarker Details")
-            st.dataframe(display_df, width='stretch')
+            st.dataframe(display_df, use_container_width=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
     
