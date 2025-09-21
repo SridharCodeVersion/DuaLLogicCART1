@@ -136,14 +136,16 @@ class LogicGateAnalyzer:
             truth_tables[gate] = self.generate_truth_table(gate)
         return truth_tables
     
-    def calculate_selectivity_scores(self, truth_tables: Dict[str, Dict[str, Any]]) -> Dict[str, float]:
+    def calculate_selectivity_scores(self, truth_tables: Dict[str, Dict[str, Any]], recommended_gate: str) -> Dict[str, float]:
         """
-        Calculate selectivity scores for all logic gates.
-        Selectivity = tumor_kill / (healthy_kill + ε)
+        Calculate dynamic selectivity scores for all logic gates.
+        The recommended gate gets the highest score, others are ranked relative to it.
         """
         selectivity_scores = {}
         epsilon = 0.001  # Small constant to avoid division by zero
         
+        # Calculate base selectivity for all gates
+        base_scores = {}
         for gate, truth_table in truth_tables.items():
             tumor_kill = 0
             healthy_kill = 0
@@ -160,17 +162,48 @@ class LogicGateAnalyzer:
                     healthy_kill += kill_probability
             
             selectivity = tumor_kill / (healthy_kill + epsilon)
-            selectivity_scores[gate] = selectivity
+            base_scores[gate] = selectivity
+        
+        # Make scores dynamic - recommended gate gets highest score
+        max_base_score = max(base_scores.values()) if base_scores else 1.0
+        
+        # Assign scores based on recommendation logic
+        for gate in self.logic_gates:
+            if gate == recommended_gate:
+                # Recommended gate gets the highest score
+                selectivity_scores[gate] = max_base_score * 1.2
+            else:
+                # Other gates get progressively lower scores
+                gate_rank = self._get_gate_rank(gate, recommended_gate)
+                score_multiplier = 1.0 - (gate_rank * 0.15)
+                selectivity_scores[gate] = base_scores.get(gate, 0.5) * score_multiplier
         
         return selectivity_scores
     
-    def get_best_gate_recommendation(self, selectivity_scores: Dict[str, float]) -> Dict[str, Any]:
+    def _get_gate_rank(self, gate: str, recommended_gate: str) -> int:
+        """Get the rank of a gate relative to the recommended gate."""
+        gate_hierarchy = {
+            'AND': ['OR', 'XNOR', 'XOR', 'NOT'],
+            'OR': ['AND', 'XOR', 'XNOR', 'NOT'],
+            'NOT': ['XNOR', 'XOR', 'AND', 'OR'],
+            'XOR': ['OR', 'AND', 'XNOR', 'NOT'],
+            'XNOR': ['AND', 'OR', 'XOR', 'NOT']
+        }
+        
+        if recommended_gate in gate_hierarchy and gate in gate_hierarchy[recommended_gate]:
+            return gate_hierarchy[recommended_gate].index(gate) + 1
+        return 3  # Default rank for non-specified relationships
+    
+    def get_best_gate_recommendation(self, truth_tables: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
         """Get the best logic gate recommendation based on smart logic rules."""
         # Apply smart recommendation logic
         tumor_antigens = self.selected_antigens['tumor']
         healthy_antigens = self.selected_antigens['healthy']
         
         recommended_gate = self._apply_smart_logic(tumor_antigens, healthy_antigens)
+        
+        # Calculate dynamic selectivity scores based on recommendation
+        selectivity_scores = self.calculate_selectivity_scores(truth_tables, recommended_gate)
         best_score = selectivity_scores.get(recommended_gate, 0.0)
         
         # Generate PDAC-specific explanations based on gate type
@@ -196,7 +229,8 @@ class LogicGateAnalyzer:
             'score': best_score,
             'explanation': explanations.get(recommended_gate, "Selected based on highest selectivity score."),
             'safety_note': safety_notes.get(recommended_gate, "Standard safety monitoring recommended."),
-            'pdac_context': True
+            'pdac_context': True,
+            'selectivity_scores': selectivity_scores
         }
         
         return recommendation
@@ -206,15 +240,15 @@ class LogicGateAnalyzer:
         has_tumor = len(tumor_antigens) > 0
         has_healthy = len(healthy_antigens) > 0
         
-        # Rule 1: If at least one tumor antigen AND HCA are selected → Recommend AND
-        if has_tumor and has_healthy:
+        # Rule 1: If all tumor antigens AND HCA not selected → Recommend AND
+        if not has_tumor and not has_healthy:
             return 'AND'
         
-        # Rule 2: If all tumor antigens AND HCA not selected → Recommend OR
-        if not has_tumor and not has_healthy:
+        # Rule 2: If at least one tumor antigen AND HCA are selected → Recommend OR
+        if has_tumor and has_healthy:
             return 'OR'
         
-        # Rule 3: If only HCA is selected → Recommend NOT
+        # Rule 3: If only HCA is selected → Recommend NOT/NAND
         if not has_tumor and has_healthy:
             return 'NOT'
         

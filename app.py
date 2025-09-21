@@ -268,8 +268,8 @@ def logic_gate_analysis_page():
                 
                 # Generate analysis
                 truth_tables = analyzer.generate_all_truth_tables()
-                selectivity_scores = analyzer.calculate_selectivity_scores(truth_tables)
-                best_gate = analyzer.get_best_gate_recommendation(selectivity_scores)
+                best_gate = analyzer.get_best_gate_recommendation(truth_tables)
+                selectivity_scores = best_gate['selectivity_scores']
                 
                 st.session_state.analysis_results = {
                     'truth_tables': truth_tables,
