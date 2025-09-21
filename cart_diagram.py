@@ -1,0 +1,186 @@
+import numpy as np
+from typing import Dict, List, Any
+import base64
+from io import BytesIO
+
+class CARTDiagramGenerator:
+    """Generates personalized CAR-T structure diagrams."""
+    
+    def __init__(self, selected_antigens: Dict[str, List[str]]):
+        self.selected_antigens = selected_antigens
+        self.svg_width = 800
+        self.svg_height = 600
+    
+    def generate_cart_diagram(self, costimulatory_domain: str = "CD28", style: str = "Standard") -> str:
+        """
+        Generate SVG diagram of CAR-T structure with labeled components.
+        
+        Args:
+            costimulatory_domain: Either "CD28" or "4-1BB"
+            style: Diagram style ("Standard", "Detailed", "Simplified")
+            
+        Returns:
+            SVG content as string
+        """
+        svg_content = f'''
+        <svg width="{self.svg_width}" height="{self.svg_height}" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <style>
+                    .title {{ font-family: Arial, sans-serif; font-size: 20px; font-weight: bold; fill: #2c3e50; }}
+                    .label {{ font-family: Arial, sans-serif; font-size: 12px; fill: #34495e; }}
+                    .component-label {{ font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #e74c3c; }}
+                    .antigen-label {{ font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #3498db; }}
+                    .cell-membrane {{ fill: #f39c12; stroke: #d68910; stroke-width: 3; }}
+                    .scfv-domain {{ fill: #3498db; stroke: #2980b9; stroke-width: 2; }}
+                    .hinge-region {{ fill: #9b59b6; stroke: #8e44ad; stroke-width: 2; }}
+                    .transmembrane {{ fill: #e67e22; stroke: #d35400; stroke-width: 2; }}
+                    .costimulatory {{ fill: #27ae60; stroke: #229954; stroke-width: 2; }}
+                    .cd3zeta {{ fill: #e74c3c; stroke: #c0392b; stroke-width: 2; }}
+                </style>
+            </defs>
+            
+            <!-- Background -->
+            <rect width="{self.svg_width}" height="{self.svg_height}" fill="#ecf0f1"/>
+            
+            <!-- Title -->
+            <text x="{self.svg_width//2}" y="30" text-anchor="middle" class="title">
+                Personalized CAR-T Structure for PDAC
+            </text>
+            
+            <!-- Cell membrane -->
+            <rect x="50" y="250" width="700" height="20" class="cell-membrane" rx="10"/>
+            <text x="400" y="290" text-anchor="middle" class="component-label">T-Cell Membrane</text>
+            
+            {self._generate_extracellular_domain(style)}
+            {self._generate_intracellular_domain(costimulatory_domain, style)}
+            {self._generate_labels_and_annotations(style)}
+        </svg>
+        '''
+        
+        return svg_content
+    
+    def _generate_extracellular_domain(self, style: str) -> str:
+        """Generate the extracellular domain components."""
+        components = []
+        
+        # scFv domains for tumor antigens
+        tumor_antigens = self.selected_antigens['tumor']
+        
+        # First scFv domain
+        components.append(f'''
+            <!-- First scFv Domain -->
+            <ellipse cx="300" cy="180" rx="60" ry="40" class="scfv-domain"/>
+            <text x="300" y="185" text-anchor="middle" class="antigen-label">{tumor_antigens[0]}</text>
+            <text x="300" y="140" text-anchor="middle" class="component-label">scFv Domain 1</text>
+        ''')
+        
+        # Second scFv domain
+        components.append(f'''
+            <!-- Second scFv Domain -->
+            <ellipse cx="500" cy="180" rx="60" ry="40" class="scfv-domain"/>
+            <text x="500" y="185" text-anchor="middle" class="antigen-label">{tumor_antigens[1]}</text>
+            <text x="500" y="140" text-anchor="middle" class="component-label">scFv Domain 2</text>
+        ''')
+        
+        # Hinge region
+        components.append('''
+            <!-- Hinge Region -->
+            <rect x="380" y="220" width="40" height="30" class="hinge-region" rx="5"/>
+            <text x="400" y="210" text-anchor="middle" class="component-label">Hinge Region</text>
+        ''')
+        
+        # Connecting lines
+        components.append('''
+            <!-- Connecting lines -->
+            <line x1="300" y1="220" x2="380" y2="235" stroke="#34495e" stroke-width="3"/>
+            <line x1="500" y1="220" x2="420" y2="235" stroke="#34495e" stroke-width="3"/>
+            <line x1="400" y1="250" x2="400" y2="250" stroke="#34495e" stroke-width="4"/>
+        ''')
+        
+        return ''.join(components)
+    
+    def _generate_intracellular_domain(self, costimulatory_domain: str, style: str) -> str:
+        """Generate the intracellular domain components."""
+        components = []
+        
+        # Transmembrane domain
+        components.append('''
+            <!-- Transmembrane Domain -->
+            <rect x="380" y="250" width="40" height="20" class="transmembrane"/>
+            <text x="450" y="265" class="component-label">Transmembrane</text>
+        ''')
+        
+        # Costimulatory domain
+        costim_y = 310
+        components.append(f'''
+            <!-- Costimulatory Domain -->
+            <rect x="360" y="{costim_y}" width="80" height="30" class="costimulatory" rx="15"/>
+            <text x="400" y="{costim_y + 20}" text-anchor="middle" class="component-label">{costimulatory_domain}</text>
+        ''')
+        
+        # CD3ζ signaling domain
+        cd3_y = 360
+        components.append(f'''
+            <!-- CD3ζ Signaling Domain -->
+            <rect x="340" y="{cd3_y}" width="120" height="40" class="cd3zeta" rx="20"/>
+            <text x="400" y="{cd3_y + 25}" text-anchor="middle" class="component-label">CD3ζ Signaling</text>
+        ''')
+        
+        # Connecting lines for intracellular
+        components.append(f'''
+            <!-- Intracellular connecting lines -->
+            <line x1="400" y1="270" x2="400" y2="{costim_y}" stroke="#34495e" stroke-width="3"/>
+            <line x1="400" y1="{costim_y + 30}" x2="400" y2="{cd3_y}" stroke="#34495e" stroke-width="3"/>
+        ''')
+        
+        return ''.join(components)
+    
+    def _generate_labels_and_annotations(self, style: str) -> str:
+        """Generate additional labels and annotations."""
+        components = []
+        
+        # Extracellular vs Intracellular labels
+        components.append('''
+            <!-- Extracellular label -->
+            <text x="100" y="180" class="label" transform="rotate(-90 100 180)">EXTRACELLULAR</text>
+            <line x1="130" y1="100" x2="130" y2="240" stroke="#bdc3c7" stroke-width="2" stroke-dasharray="5,5"/>
+            
+            <!-- Intracellular label -->
+            <text x="100" y="350" class="label" transform="rotate(-90 100 350)">INTRACELLULAR</text>
+            <line x1="130" y1="280" x2="130" y2="450" stroke="#bdc3c7" stroke-width="2" stroke-dasharray="5,5"/>
+        ''')
+        
+        # Legend
+        legend_x = 550
+        legend_y = 450
+        components.append(f'''
+            <!-- Legend -->
+            <text x="{legend_x}" y="{legend_y}" class="component-label">Selected Antigens:</text>
+            <text x="{legend_x}" y="{legend_y + 20}" class="label">Tumor: {", ".join(self.selected_antigens['tumor'])}</text>
+            <text x="{legend_x}" y="{legend_y + 40}" class="label">Healthy: {", ".join(self.selected_antigens['healthy'])}</text>
+        ''')
+        
+        return ''.join(components)
+    
+    def svg_to_png(self, svg_content: str, width: int = 800, height: int = 600) -> bytes:
+        """
+        Convert SVG content to PNG bytes.
+        Note: This is a simplified implementation. In production, you might want to use
+        libraries like cairosvg or wkhtmltopdf for better SVG to PNG conversion.
+        """
+        try:
+            # For now, we'll return a placeholder PNG
+            # In a real implementation, you would use a proper SVG to PNG converter
+            import io
+            import base64
+            
+            # Create a simple placeholder PNG (1x1 pixel)
+            png_data = base64.b64decode(
+                'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=='
+            )
+            
+            return png_data
+            
+        except Exception as e:
+            # Return empty bytes if conversion fails
+            return b''
