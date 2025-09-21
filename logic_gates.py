@@ -237,24 +237,24 @@ class LogicGateAnalyzer:
     
     def _apply_smart_logic(self, tumor_antigens: List[str], healthy_antigens: List[str]) -> str:
         """Apply smart logic rules to recommend the best gate."""
-        has_tumor = len(tumor_antigens) > 0
-        has_healthy = len(healthy_antigens) > 0
+        tumor_count = len(tumor_antigens)
+        healthy_count = len(healthy_antigens)
         
-        # Rule 1: If all tumor antigens AND HCA not selected → Recommend AND
-        if not has_tumor and not has_healthy:
-            return 'AND'
-        
-        # Rule 2: If at least one tumor antigen AND HCA are selected → Recommend OR
-        if has_tumor and has_healthy:
+        # Rule 1: If only 2 tumor antigens are selected → Recommend OR
+        if tumor_count == 2 and healthy_count == 0:
             return 'OR'
         
-        # Rule 3: If only HCA is selected → Recommend NOT/NAND
-        if not has_tumor and has_healthy:
+        # Rule 2: If both tumor and healthy are selected → Recommend AND
+        if tumor_count > 0 and healthy_count > 0:
+            return 'AND'
+        
+        # Rule 3: If only healthy is selected OR If only 1 tumor antigen is selected → Recommend NOT
+        if (tumor_count == 0 and healthy_count > 0) or (tumor_count == 1 and healthy_count == 0):
             return 'NOT'
         
-        # Rule 4: If tumor antigens and HCA are mutually exclusive → Recommend XOR
-        if has_tumor and not has_healthy:
+        # Rule 4: If only 1 tumor and 1 healthy antigen is selected → Recommend XOR
+        if tumor_count == 1 and healthy_count == 1:
             return 'XOR'
         
-        # Rule 5: Else, otherwise → Recommend XNOR
+        # Rule 5: Otherwise → Recommend XNOR
         return 'XNOR'
