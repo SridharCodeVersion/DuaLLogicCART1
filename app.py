@@ -92,7 +92,7 @@ def data_upload_page():
                 with col1:
                     st.metric("Total Biomarkers", len(df))
                 with col2:
-                    st.metric("Categories", df['category'].nunique())
+                    st.metric("Categories", int(df['category'].nunique()))
                 with col3:
                     oncogenic_count = len(df[df['indication'].str.contains('↑', na=False)])
                     st.metric("Oncogenic Markers", oncogenic_count)

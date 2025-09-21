@@ -26,7 +26,7 @@ class DataProcessor:
                 }
             
             # Check for empty values
-            if self.df[self.required_columns].isnull().any().any():
+            if self.df[self.required_columns].isnull().values.any():
                 return {
                     'valid': False,
                     'error': "Dataset contains empty values in required columns"
@@ -72,7 +72,7 @@ class DataProcessor:
                 'is_suppressor': '↓' in biomarker_row['indication']
             }
         except (IndexError, KeyError):
-            return None
+            return {}
     
     def generate_expression_data(self, biomarker_names: List[str]) -> Dict[str, Dict[str, float]]:
         """

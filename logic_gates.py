@@ -165,7 +165,7 @@ class LogicGateAnalyzer:
     
     def get_best_gate_recommendation(self, selectivity_scores: Dict[str, float]) -> Dict[str, Any]:
         """Get the best logic gate recommendation with explanation."""
-        best_gate = max(selectivity_scores, key=selectivity_scores.get)
+        best_gate = max(selectivity_scores.keys(), key=lambda x: selectivity_scores[x])
         best_score = selectivity_scores[best_gate]
         
         # Generate explanation based on gate type
