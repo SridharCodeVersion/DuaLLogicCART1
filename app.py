@@ -30,564 +30,378 @@ if 'selected_healthy_antigens' not in st.session_state:
     st.session_state.selected_healthy_antigens = []
 if 'analysis_results' not in st.session_state:
     st.session_state.analysis_results = None
-if 'theme_mode' not in st.session_state:
-    st.session_state.theme_mode = 'light'
 
-def apply_medical_styling():
-    """Apply modern medical-themed CSS styling with dark/light mode support."""
-    theme = st.session_state.theme_mode
-    
-    if theme == 'dark':
-        primary_bg = "linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%)"
-        card_bg = "rgba(45, 55, 72, 0.95)"
-        text_primary = "#f7fafc"
-        text_secondary = "#e2e8f0"
-        border_color = "#4a5568"
-        accent_color = "#63b3ed"
-        accent_hover = "#4299e1"
-        success_color = "#68d391"
-        danger_color = "#fc8181"
-        warning_color = "#f6e05e"
-        sidebar_bg = "rgba(26, 32, 44, 0.98)"
-        glass_bg = "rgba(45, 55, 72, 0.85)"
-        shadow_color = "rgba(0, 0, 0, 0.4)"
-    else:
-        primary_bg = "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 30%, #bae6fd 70%, #7dd3fc 100%)"
-        card_bg = "rgba(255, 255, 255, 0.95)"
-        text_primary = "#1e293b"
-        text_secondary = "#64748b"
-        border_color = "#e2e8f0"
-        accent_color = "#0ea5e9"
-        accent_hover = "#0284c7"
-        success_color = "#10b981"
-        danger_color = "#ef4444"
-        warning_color = "#f59e0b"
-        sidebar_bg = "rgba(255, 255, 255, 0.98)"
-        glass_bg = "rgba(255, 255, 255, 0.85)"
-        shadow_color = "rgba(0, 0, 0, 0.1)"
-    
-    st.markdown(f"""
+def apply_modern_styling():
+    """Apply modern, professional CSS styling with animations and responsive design."""
+    st.markdown("""
     <style>
-    /* Import Medical-grade Typography */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
-    /* Root CSS Variables for Theme Management */
-    :root {{
-        --primary-bg: {primary_bg};
-        --card-bg: {card_bg};
-        --text-primary: {text_primary};
-        --text-secondary: {text_secondary};
-        --border-color: {border_color};
-        --accent-color: {accent_color};
-        --accent-hover: {accent_hover};
-        --success-color: {success_color};
-        --danger-color: {danger_color};
-        --warning-color: {warning_color};
-        --sidebar-bg: {sidebar_bg};
-        --glass-bg: {glass_bg};
-        --shadow-color: {shadow_color};
-        --medical-blue: #1e40af;
-        --medical-teal: #0d9488;
-        --medical-green: #059669;
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }}
+    /* Root variables for consistent theming */
+    :root {
+        --primary-color: #6366f1;
+        --primary-hover: #5855eb;
+        --secondary-color: #f59e0b;
+        --success-color: #10b981;
+        --danger-color: #ef4444;
+        --warning-color: #f59e0b;
+        --info-color: #3b82f6;
+        --dark-bg: #0f172a;
+        --light-bg: #ffffff;
+        --card-bg: #f8fafc;
+        --border-color: #e2e8f0;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
     
-    /* Global Application Styling */
-    .stApp {{
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        background: var(--primary-bg);
+    /* Global styling */
+    .stApp {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
-        transition: var(--transition);
-    }}
+    }
     
-    /* Hide Streamlit Branding */
-    #MainMenu {{visibility: hidden;}}
-    footer {{visibility: hidden;}}
-    header {{visibility: hidden;}}
-    .stDeployButton {{visibility: hidden;}}
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
     
-    /* Theme Toggle Button */
-    .theme-toggle {{
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        background: var(--card-bg);
-        border: 2px solid var(--border-color);
-        border-radius: 25px;
-        padding: 8px 16px;
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text-primary);
-        cursor: pointer;
-        transition: var(--transition);
-        box-shadow: 0 4px 12px var(--shadow-color);
-        backdrop-filter: blur(10px);
-    }}
-    
-    .theme-toggle:hover {{
-        background: var(--accent-color);
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px var(--shadow-color);
-    }}
-    
-    /* Enhanced Medical Header */
-    .medical-header {{
-        background: var(--card-bg);
+    /* Custom header */
+    .main-header {
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
         border-radius: 20px;
-        padding: 2.5rem;
+        padding: 2rem;
         margin: 1rem 0 2rem 0;
-        box-shadow: 0 10px 30px var(--shadow-color);
-        border: 1px solid var(--border-color);
-        position: relative;
-        overflow: hidden;
-        transition: var(--transition);
-    }}
+        box-shadow: var(--shadow-lg);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: slideInDown 0.6s ease-out;
+    }
     
-    .medical-header::before {{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, var(--medical-blue), var(--medical-teal), var(--medical-green));
-    }}
-    
-    .medical-title {{
-        font-size: 3rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, var(--medical-blue) 0%, var(--medical-teal) 50%, var(--medical-green) 100%);
+    .main-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: var(--gradient-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         text-align: center;
-        margin-bottom: 1rem;
-        letter-spacing: -0.02em;
-        line-height: 1.1;
-    }}
+        margin-bottom: 0.5rem;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
     
-    .medical-subtitle {{
-        font-size: 1.25rem;
+    .main-subtitle {
+        font-size: 1.1rem;
         color: var(--text-secondary);
         text-align: center;
         margin-bottom: 1rem;
-        font-weight: 500;
-        letter-spacing: 0.02em;
-    }}
+        animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
     
-    .disclaimer-badge {{
-        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 50%);
-        color: #991b1b;
-        padding: 0.75rem 1.5rem;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        border: 2px solid #fca5a5;
-        display: inline-block;
-    }}
-    
-    /* Medical Card System */
-    .medical-card {{
-        background: var(--card-bg);
+    /* Glassmorphism cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(20px);
         border-radius: 20px;
         padding: 2rem;
-        margin: 1.5rem 0;
-        box-shadow: 0 10px 30px var(--shadow-color);
-        border: 1px solid var(--border-color);
-        transition: var(--transition);
-        position: relative;
-    }}
+        margin: 1rem 0;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.6s ease-out;
+    }
     
-    .medical-card:hover {{
+    .glass-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 20px 40px var(--shadow-color);
-    }}
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    }
     
-    .medical-card::before {{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--accent-color), var(--medical-teal));
-        border-radius: 20px 20px 0 0;
-    }}
-    
-    /* Enhanced Sidebar */
-    .css-1d391kg {{
-        background: var(--sidebar-bg) !important;
+    /* Enhanced sidebar */
+    .css-1d391kg {
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
         border-radius: 0 20px 20px 0;
-        box-shadow: 0 0 30px var(--shadow-color);
-        border-right: 1px solid var(--border-color);
-    }}
+        box-shadow: var(--shadow-lg);
+    }
     
-    .css-1lcbmhc {{
-        background: transparent;
-        padding-top: 2rem;
-    }}
-    
-    /* Navigation Enhancement */
-    .stRadio > div {{
-        background: var(--glass-bg);
+    /* Navigation styling */
+    .stRadio > div {
+        background: rgba(255, 255, 255, 0.1);
         border-radius: 15px;
-        padding: 1.5rem;
-        backdrop-filter: blur(15px);
-        border: 1px solid var(--border-color);
-    }}
+        padding: 1rem;
+        backdrop-filter: blur(10px);
+    }
     
-    .stRadio > div > label {{
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        margin: 0.5rem 0;
-        transition: var(--transition);
+    .stRadio > div > label {
+        padding: 0.75rem 1rem;
+        border-radius: 10px;
+        margin: 0.25rem 0;
+        transition: all 0.3s ease;
         cursor: pointer;
         font-weight: 500;
-        font-size: 1rem;
-        color: var(--text-primary);
-        border: 1px solid transparent;
-    }}
+    }
     
-    .stRadio > div > label:hover {{
-        background: var(--accent-color);
-        color: white;
-        transform: translateX(8px) scale(1.02);
-        border-color: var(--accent-hover);
-    }}
+    .stRadio > div > label:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(5px);
+    }
     
-    /* Enhanced Button System */
-    .stButton > button {{
-        background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+    /* Enhanced buttons */
+    .stButton > button {
+        background: var(--gradient-primary);
         color: white;
         border: none;
         border-radius: 12px;
-        padding: 1rem 2.5rem;
+        padding: 0.75rem 2rem;
         font-weight: 600;
         font-size: 1rem;
-        transition: var(--transition);
-        box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-md);
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        position: relative;
-        overflow: hidden;
-    }}
+    }
     
-    .stButton > button:hover {{
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
-        background: linear-gradient(135deg, var(--accent-hover) 0%, var(--medical-teal) 100%);
-    }}
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        background: var(--gradient-secondary);
+    }
     
-    .stButton > button:active {{
-        transform: translateY(-1px);
-    }}
+    .stButton > button:active {
+        transform: translateY(0);
+    }
     
-    /* Primary Button Variant */
-    .primary-button {{
-        background: linear-gradient(135deg, var(--medical-blue) 0%, var(--medical-teal) 100%) !important;
-        box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3) !important;
-    }}
+    /* Primary button variant */
+    .primary-button {
+        background: var(--gradient-primary) !important;
+        border: 2px solid transparent !important;
+        background-clip: padding-box !important;
+    }
     
-    .success-button {{
-        background: linear-gradient(135deg, var(--success-color) 0%, var(--medical-green) 100%) !important;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
-    }}
+    .success-button {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    }
     
-    .danger-button {{
-        background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%) !important;
-        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3) !important;
-    }}
+    .danger-button {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    }
     
-    /* Medical Metrics Cards */
-    .metric-card {{
-        background: var(--card-bg);
-        border-radius: 16px;
-        padding: 2rem;
-        text-align: center;
-        box-shadow: 0 8px 25px var(--shadow-color);
-        transition: var(--transition);
-        border: 1px solid var(--border-color);
-        position: relative;
-        overflow: hidden;
-    }}
-    
-    .metric-card::before {{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: var(--accent-color);
-    }}
-    
-    .metric-card:hover {{
-        transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 15px 35px var(--shadow-color);
-    }}
-    
-    .metric-value {{
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: var(--accent-color);
-        margin-bottom: 0.5rem;
-        font-family: 'JetBrains Mono', monospace;
-    }}
-    
-    .metric-label {{
-        font-size: 1rem;
-        color: var(--text-secondary);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }}
-    
-    /* Enhanced Form Controls */
-    .stSelectbox > div > div, .stMultiSelect > div > div {{
-        background: var(--card-bg) !important;
-        border-radius: 12px !important;
-        border: 2px solid var(--border-color) !important;
-        transition: var(--transition) !important;
-        backdrop-filter: blur(10px) !important;
-        color: var(--text-primary) !important;
-    }}
-    
-    .stSelectbox > div > div:focus-within, .stMultiSelect > div > div:focus-within {{
-        border-color: var(--accent-color) !important;
-        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1) !important;
-        transform: scale(1.02) !important;
-    }}
-    
-    /* Enhanced DataFrames */
-    .stDataFrame {{
-        background: var(--card-bg);
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 8px 25px var(--shadow-color);
-        backdrop-filter: blur(15px);
-        border: 1px solid var(--border-color);
-    }}
-    
-    /* Medical Alert System */
-    .medical-alert {{
-        border-radius: 12px;
+    /* Enhanced metrics */
+    .metric-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
         padding: 1.5rem;
-        margin: 1rem 0;
+        text-align: center;
+        box-shadow: var(--shadow-md);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .metric-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+    
+    .metric-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
         font-weight: 500;
-        border-left: 4px solid;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    /* Enhanced selectboxes and inputs */
+    .stSelectbox > div > div, .stMultiSelect > div > div {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
         backdrop-filter: blur(10px);
-        box-shadow: 0 4px 15px var(--shadow-color);
-    }}
+    }
     
-    .medical-alert.success {{
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
-        border-left-color: var(--success-color);
-        color: var(--success-color);
-    }}
+    .stSelectbox > div > div:focus-within, .stMultiSelect > div > div:focus-within {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
     
-    .medical-alert.error {{
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%);
-        border-left-color: var(--danger-color);
-        color: var(--danger-color);
-    }}
+    /* Enhanced dataframes */
+    .stDataFrame {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        backdrop-filter: blur(10px);
+    }
     
-    .medical-alert.warning {{
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
-        border-left-color: var(--warning-color);
-        color: var(--warning-color);
-    }}
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
     
-    /* Antigen Selection Cards */
-    .antigen-card {{
-        background: var(--card-bg);
-        border: 2px solid var(--border-color);
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+    
+    /* Loading animations */
+    .loading-pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    /* Success/Error states */
+    .success-alert {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border: 1px solid #10b981;
         border-radius: 12px;
         padding: 1rem;
-        margin: 0.5rem 0;
-        transition: var(--transition);
-        position: relative;
-        backdrop-filter: blur(10px);
-    }}
+        color: #065f46;
+        animation: slideInLeft 0.5s ease-out;
+    }
     
-    .antigen-card.tumor {{
-        border-left: 4px solid var(--danger-color);
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%);
-    }}
+    .error-alert {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        border: 1px solid #ef4444;
+        border-radius: 12px;
+        padding: 1rem;
+        color: #991b1b;
+        animation: slideInLeft 0.5s ease-out;
+    }
     
-    .antigen-card.healthy {{
-        border-left: 4px solid var(--success-color);
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
-    }}
+    .warning-alert {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border: 1px solid #f59e0b;
+        border-radius: 12px;
+        padding: 1rem;
+        color: #92400e;
+        animation: slideInLeft 0.5s ease-out;
+    }
     
-    .antigen-card:hover {{
-        transform: translateY(-2px) scale(1.01);
-        box-shadow: 0 8px 20px var(--shadow-color);
-    }}
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .main-title {
+            font-size: 1.8rem;
+        }
+        
+        .glass-card {
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        
+        .metric-card {
+            padding: 1rem;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+        }
+    }
     
-    /* Enhanced Tabs */
-    .stTabs [data-baseweb="tab-list"] {{
-        background: var(--glass-bg);
+    @media (max-width: 480px) {
+        .main-title {
+            font-size: 1.5rem;
+        }
+        
+        .main-subtitle {
+            font-size: 1rem;
+        }
+        
+        .glass-card {
+            padding: 0.75rem;
+        }
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: var(--gradient-primary);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-hover);
+    }
+    
+    /* Plotly chart enhancements */
+    .js-plotly-plot {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+    }
+    
+    /* Tab styling */
+    .stTabs [data-baseweb="tab-list"] {
+        background: rgba(255, 255, 255, 0.1);
         border-radius: 15px;
         padding: 0.5rem;
-        backdrop-filter: blur(15px);
-        border: 1px solid var(--border-color);
-    }}
+        backdrop-filter: blur(10px);
+    }
     
-    .stTabs [data-baseweb="tab"] {{
+    .stTabs [data-baseweb="tab"] {
         border-radius: 10px;
-        padding: 1rem 2rem;
+        padding: 0.75rem 1.5rem;
         font-weight: 600;
-        transition: var(--transition);
-        color: var(--text-primary);
-    }}
+        transition: all 0.3s ease;
+    }
     
-    .stTabs [aria-selected="true"] {{
-        background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+    .stTabs [aria-selected="true"] {
+        background: var(--gradient-primary);
         color: white;
-        box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
-    }}
-    
-    /* Plotly Chart Enhancements */
-    .js-plotly-plot {{
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 8px 25px var(--shadow-color);
-        border: 1px solid var(--border-color);
-    }}
-    
-    /* Responsive Design */
-    @media (max-width: 768px) {{
-        .medical-title {{
-            font-size: 2rem;
-        }}
-        
-        .medical-card {{
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }}
-        
-        .metric-card {{
-            padding: 1.5rem;
-        }}
-        
-        .metric-value {{
-            font-size: 2rem;
-        }}
-        
-        .theme-toggle {{
-            top: 10px;
-            right: 10px;
-            padding: 6px 12px;
-            font-size: 12px;
-        }}
-    }}
-    
-    @media (max-width: 480px) {{
-        .medical-title {{
-            font-size: 1.75rem;
-        }}
-        
-        .medical-subtitle {{
-            font-size: 1rem;
-        }}
-        
-        .medical-card {{
-            padding: 1rem;
-            border-radius: 15px;
-        }}
-        
-        .metric-card {{
-            padding: 1rem;
-        }}
-        
-        .metric-value {{
-            font-size: 1.5rem;
-        }}
-    }}
-    
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {{
-        width: 8px;
-    }}
-    
-    ::-webkit-scrollbar-track {{
-        background: var(--border-color);
-        border-radius: 10px;
-    }}
-    
-    ::-webkit-scrollbar-thumb {{
-        background: var(--accent-color);
-        border-radius: 10px;
-    }}
-    
-    ::-webkit-scrollbar-thumb:hover {{
-        background: var(--accent-hover);
-    }}
-    
-    /* Loading States */
-    .loading-shimmer {{
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-        animation: shimmer 2s infinite;
-    }}
-    
-    @keyframes shimmer {{
-        0% {{ transform: translateX(-100%); }}
-        100% {{ transform: translateX(100%); }}
-    }}
-    
-    /* Animation Classes */
-    .fade-in {{
-        animation: fadeIn 0.6s ease-out;
-    }}
-    
-    .slide-up {{
-        animation: slideUp 0.6s ease-out;
-    }}
-    
-    @keyframes fadeIn {{
-        from {{ opacity: 0; }}
-        to {{ opacity: 1; }}
-    }}
-    
-    @keyframes slideUp {{
-        from {{ 
-            opacity: 0;
-            transform: translateY(20px); 
-        }}
-        to {{ 
-            opacity: 1;
-            transform: translateY(0); 
-        }}
-    }}
-    
-    /* Focus States for Accessibility */
-    .stButton > button:focus,
-    .stSelectbox > div > div:focus,
-    .stMultiSelect > div > div:focus {{
-        outline: 3px solid var(--accent-color);
-        outline-offset: 2px;
-    }}
+    }
     </style>
-    """, unsafe_allow_html=True)
-
-def toggle_theme():
-    """Toggle between light and dark themes."""
-    st.session_state.theme_mode = 'dark' if st.session_state.theme_mode == 'light' else 'light'
-
-def create_theme_toggle():
-    """Create theme toggle button."""
-    theme_icon = "🌙" if st.session_state.theme_mode == 'light' else "☀️"
-    theme_text = "Dark" if st.session_state.theme_mode == 'light' else "Light"
-    
-    st.markdown(f"""
-    <button class="theme-toggle" onclick="window.parent.postMessage({{type: 'streamlit:themeToggle'}}, '*')">
-        {theme_icon} {theme_text} Mode
-    </button>
     """, unsafe_allow_html=True)
 
 def reset_all_selections():
@@ -597,58 +411,51 @@ def reset_all_selections():
     st.session_state.analysis_results = None
     st.rerun()
 
-def create_medical_header():
-    """Create medical-themed header with professional design."""
+def create_modern_header():
+    """Create modern header with glassmorphism design."""
     st.markdown("""
-    <div class="medical-header fade-in">
-        <h1 class="medical-title">🧬 ImmunoGate</h1>
-        <p class="medical-subtitle">Advanced Dual Logic CAR-T Cell Therapy Platform for PDAC</p>
-        <div style="text-align: center; margin-top: 1.5rem;">
-            <span class="disclaimer-badge">
-                ⚠️ RESEARCH USE ONLY - Not for clinical diagnosis or treatment
+    <div class="main-header">
+        <h1 class="main-title">🧬 ImmunoGate</h1>
+        <p class="main-subtitle">Dual Logic CAR-T Cell Therapy for PDAC</p>
+        <div style="text-align: center; margin-top: 1rem;">
+            <span style="background: rgba(239, 68, 68, 0.1); color: #dc2626; padding: 0.5rem 1rem; border-radius: 25px; font-weight: 600; font-size: 0.9rem;">
+                ⚠️ RESEARCH USE ONLY - Not for clinical diagnosis
             </span>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-def create_metric_card(title, value, icon="📊", color="accent"):
-    """Create enhanced metric card with medical styling."""
+def create_metric_card(title, value, icon="📊"):
+    """Create animated metric card."""
     return f"""
-    <div class="metric-card slide-up">
-        <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--{color}-color);">{icon}</div>
+    <div class="metric-card">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">{icon}</div>
         <div class="metric-value">{value}</div>
         <div class="metric-label">{title}</div>
     </div>
     """
 
 def main():
-    apply_medical_styling()
+    apply_modern_styling()
     
-    # Theme toggle in header
+    # Modern header
+    create_modern_header()
+    
+    # Top controls with modern styling
     col1, col2 = st.columns([10, 1])
     with col2:
         if st.button("🔄", key="refresh_all", help="Reset All Selections"):
             reset_all_selections()
-        
-        # Theme toggle button
-        theme_icon = "🌙" if st.session_state.theme_mode == 'light' else "☀️"
-        if st.button(theme_icon, key="theme_toggle", help="Toggle Theme"):
-            toggle_theme()
-            st.rerun()
     
-    # Medical header
-    create_medical_header()
-    
-    # Enhanced sidebar navigation
+    # Modern sidebar navigation
     st.sidebar.markdown("""
-    <div style="text-align: center; padding: 1.5rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 1.5rem;">
-        <h3 style="color: var(--accent-color); font-weight: 700; margin: 0; font-size: 1.5rem;">Navigation Center</h3>
-        <p style="color: var(--text-secondary); margin: 0.5rem 0 0 0; font-size: 0.9rem;">Select Analysis Module</p>
+    <div style="text-align: center; padding: 1rem 0; border-bottom: 2px solid rgba(255,255,255,0.1); margin-bottom: 1rem;">
+        <h3 style="color: #6366f1; font-weight: 700; margin: 0;">Navigation</h3>
     </div>
     """, unsafe_allow_html=True)
     
     page = st.sidebar.radio(
-        "Choose Analysis Module:",
+        "",
         ["🎯 Antigen Selection", "🔬 Logic Gate Analysis", "🧬 CAR-T Diagram"],
         key="navigation"
     )
@@ -657,7 +464,7 @@ def main():
     if page in ["🔬 Logic Gate Analysis", "🧬 CAR-T Diagram"]:
         # Auto-generate analysis if antigens are selected
         if (st.session_state.selected_tumor_antigens or st.session_state.selected_healthy_antigens) and not st.session_state.analysis_results:
-            with st.spinner("🧠 Auto-generating advanced analysis..."):
+            with st.spinner("Auto-generating analysis..."):
                 try:
                     selected_antigens = {
                         'tumor': st.session_state.selected_tumor_antigens,
@@ -686,50 +493,40 @@ def main():
         cart_diagram_page()
 
 def antigen_selection_page():
-    """Enhanced antigen selection page with medical UI."""
-    st.markdown('<div class="medical-card slide-up">', unsafe_allow_html=True)
-    st.markdown("### 🎯 Intelligent Biomarker Selection Platform")
-    st.markdown("Advanced antigen selection system with real-time validation and clinical insights")
+    """Enhanced antigen selection page with modern UI."""
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("### 🎯 Intelligent Antigen Selection")
+    st.markdown("Select biomarkers from our comprehensive pancreatic cancer dataset with real-time validation")
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Enhanced dataset overview with animated metrics
-    st.markdown('<div class="medical-card fade-in">', unsafe_allow_html=True)
-    st.markdown("### 📊 Dataset Intelligence Dashboard")
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("### 📊 Dataset Intelligence")
     
     total_biomarkers = sum(len(biomarkers) for biomarkers in st.session_state.biomarkers_data.values())
     oncogenic_count = len(st.session_state.data_processor.get_oncogenic_biomarkers())
-    category_count = len(st.session_state.biomarkers_data)
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown(create_metric_card("Total Biomarkers", total_biomarkers, "🧬", "medical-blue"), unsafe_allow_html=True)
+        st.markdown(create_metric_card("Total Biomarkers", total_biomarkers, "🧬"), unsafe_allow_html=True)
     with col2:
-        st.markdown(create_metric_card("Categories", category_count, "📂", "medical-teal"), unsafe_allow_html=True)
+        st.markdown(create_metric_card("Categories", len(st.session_state.biomarkers_data), "📂"), unsafe_allow_html=True)
     with col3:
-        st.markdown(create_metric_card("Oncogenic Markers", oncogenic_count, "🎯", "medical-green"), unsafe_allow_html=True)
+        st.markdown(create_metric_card("Oncogenic Markers", oncogenic_count, "🎯"), unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Enhanced category selection
-    st.markdown('<div class="medical-card slide-up">', unsafe_allow_html=True)
-    st.markdown("### 🗂️ Biomarker Category Explorer")
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("### 🗂️ Smart Category Explorer")
     
-    # Create category options with biomarker counts
-    category_options = []
-    for category, biomarkers in st.session_state.biomarkers_data.items():
-        count = len(biomarkers)
-        category_options.append(f"{category} ({count} biomarkers)")
-    
-    selected_category_with_count = st.selectbox(
-        "Select Biomarker Category:",
-        category_options,
+    selected_category = st.selectbox(
+        "Select Category to Explore:",
+        list(st.session_state.biomarkers_data.keys()),
         key="category_selector",
-        help="Choose a biomarker category to explore available antigens"
+        help="Choose a biomarker category to view and select antigens"
     )
-    
-    # Extract actual category name (remove count)
-    selected_category = selected_category_with_count.split(' (')[0] if selected_category_with_count else None
     
     if selected_category:
         biomarkers_in_category = st.session_state.biomarkers_data[selected_category]
@@ -744,7 +541,7 @@ def antigen_selection_page():
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("#### 🔴 Tumor Target Antigens (Oncogenic ↑)")
+            st.markdown("#### 🔴 Tumor Antigens (Oncogenic ↑)")
             tumor_options = [b['biomarker_name'] for b in processed_biomarkers 
                            if b['indication_clean'] in ['↑', '↑/↓']]
             selected_tumor = st.multiselect(
@@ -752,19 +549,19 @@ def antigen_selection_page():
                 tumor_options,
                 default=[x for x in st.session_state.selected_tumor_antigens if x in tumor_options],
                 key=f"tumor_{selected_category}",
-                help="These antigens will trigger CAR-T cell activation and elimination"
+                help="These antigens will trigger CAR-T cell activation"
             )
         
         with col2:
-            st.markdown("#### 🟢 Healthy Cell Protection Antigens (Suppressors ↓)")
+            st.markdown("#### 🟢 Healthy Cell Antigens (Suppressors ↓)")
             healthy_options = [b['biomarker_name'] for b in processed_biomarkers 
                              if b['indication_clean'] in ['↓', '↑/↓']]
             selected_healthy = st.multiselect(
-                "Select targets for tissue protection:",
+                "Select targets for protection:",
                 healthy_options,
                 default=[x for x in st.session_state.selected_healthy_antigens if x in healthy_options],
                 key=f"healthy_{selected_category}",
-                help="These antigens will prevent CAR-T activation to protect healthy tissue"
+                help="These antigens will prevent CAR-T activation"
             )
         
         # Update global selections
@@ -786,14 +583,14 @@ def antigen_selection_page():
         display_df = pd.DataFrame(biomarkers_in_category)
         if not display_df.empty:
             display_df = display_df[['biomarker_name', 'category', 'indication']].copy()
-            st.markdown("#### 📋 Biomarker Clinical Profile")
-            st.dataframe(display_df, width=None)
+            st.markdown("#### 📋 Biomarker Details")
+            st.dataframe(display_df, use_container_width=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Enhanced selection summary
-    st.markdown('<div class="medical-card slide-up">', unsafe_allow_html=True)
-    st.markdown("### 📋 Current Selection Portfolio")
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("### 📋 Current Selection Summary")
     
     col1, col2 = st.columns(2)
     
@@ -802,36 +599,24 @@ def antigen_selection_page():
         if st.session_state.selected_tumor_antigens:
             for i, antigen in enumerate(st.session_state.selected_tumor_antigens):
                 st.markdown(f"""
-                <div class="antigen-card tumor">
-                    <strong>{i+1}. {antigen}</strong><br>
-                    <span style="color: var(--danger-color); font-weight: 600;">🎯 ELIMINATION TARGET</span>
+                <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 0.75rem; margin: 0.5rem 0; border-radius: 8px;">
+                    <strong>{i+1}. {antigen}</strong> → 🎯 <span style="color: #ef4444;">KILL TARGET</span>
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.markdown("""
-            <div class="medical-alert warning">
-                <strong>No tumor antigens selected</strong><br>
-                Select at least one tumor antigen to proceed with analysis.
-            </div>
-            """, unsafe_allow_html=True)
+            st.info("No tumor antigens selected yet")
     
     with col2:
         st.markdown("#### 🟢 Selected Healthy Cell Antigens")
         if st.session_state.selected_healthy_antigens:
             for i, antigen in enumerate(st.session_state.selected_healthy_antigens):
                 st.markdown(f"""
-                <div class="antigen-card healthy">
-                    <strong>{i+1}. {antigen}</strong><br>
-                    <span style="color: var(--success-color); font-weight: 600;">🛡️ PROTECTION MARKER</span>
+                <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 0.75rem; margin: 0.5rem 0; border-radius: 8px;">
+                    <strong>{i+1}. {antigen}</strong> → 🛡️ <span style="color: #10b981;">PROTECT</span>
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.markdown("""
-            <div class="medical-alert">
-                <strong>No protection antigens selected</strong><br>
-                Consider adding healthy cell markers for enhanced safety.
-            </div>
-            """, unsafe_allow_html=True)
+            st.info("No healthy cell antigens selected yet")
     
     # Action buttons
     col1, col2 = st.columns(2)
@@ -845,46 +630,37 @@ def antigen_selection_page():
     with col2:
         total_selected = len(st.session_state.selected_tumor_antigens) + len(st.session_state.selected_healthy_antigens)
         if total_selected > 0:
-            st.markdown(f"""
-            <div class="medical-alert success">
-                <strong>✅ Selection Complete: {total_selected} antigens</strong><br>
-                Ready for advanced logic gate analysis
-            </div>
-            """, unsafe_allow_html=True)
+            st.success(f"✅ {total_selected} antigens selected - Ready for analysis!")
     
     st.markdown('</div>', unsafe_allow_html=True)
 
 def logic_gate_analysis_page():
     """Enhanced logic gate analysis page."""
-    st.markdown('<div class="medical-card slide-up">', unsafe_allow_html=True)
-    st.markdown("### 🔬 Advanced Logic Gate Analysis Engine")
-    st.markdown("AI-powered optimization of dual-target CAR-T therapy strategies with clinical insights")
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("### 🔬 Advanced Logic Gate Analysis")
+    st.markdown("AI-powered analysis of optimal logic gates for dual-target CAR-T therapy")
     st.markdown('</div>', unsafe_allow_html=True)
     
     if not st.session_state.selected_tumor_antigens and not st.session_state.selected_healthy_antigens:
         st.markdown("""
-        <div class="medical-alert warning">
-            <h4 style="margin: 0 0 1rem 0;">⚠️ Insufficient Input Data</h4>
-            <p style="margin: 0;">Navigate to <strong>Antigen Selection</strong> to begin biomarker selection and enable analysis.</p>
+        <div class="warning-alert">
+            <h4 style="margin: 0 0 1rem 0;">⚠️ No Antigens Selected</h4>
+            <p style="margin: 0;">Please select antigens first in the <strong>Antigen Selection</strong> page to begin analysis.</p>
         </div>
         """, unsafe_allow_html=True)
         return
     
-    # Display selected antigens with medical styling
-    st.markdown('<div class="medical-card fade-in">', unsafe_allow_html=True)
-    st.markdown("### 🎯 Analysis Input Configuration")
+    # Display selected antigens with modern styling
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("### 🎯 Analysis Input Summary")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("#### 🔴 Primary Tumor Targets")
+        st.markdown("#### 🔴 Tumor Antigens")
         if st.session_state.selected_tumor_antigens:
             for antigen in st.session_state.selected_tumor_antigens:
-                st.markdown(f"""
-                <div class="antigen-card tumor">
-                    <strong>{antigen}</strong> → 🎯 <span style="color: var(--danger-color);">Elimination Signal</span>
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown(f"• **{antigen}** → 🎯 Kill Signal")
         else:
             st.write("None selected")
     
@@ -892,11 +668,7 @@ def logic_gate_analysis_page():
         st.markdown("#### 🟢 Healthy Cell Antigens (HCA)")
         if st.session_state.selected_healthy_antigens:
             for antigen in st.session_state.selected_healthy_antigens:
-                st.markdown(f"""
-                <div class="antigen-card healthy">
-                    <strong>{antigen}</strong> → 🛡️ <span style="color: var(--success-color);">Protection Signal</span>
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown(f"• **{antigen}** → 🛡️ Protection Signal")
         else:
             st.write("None selected")
     
@@ -904,8 +676,8 @@ def logic_gate_analysis_page():
     
     # Analysis generation
     if not st.session_state.analysis_results:
-        if st.button("🚀 Generate Clinical Analysis", type="primary", use_container_width=True):
-            with st.spinner("🧠 Processing advanced AI algorithms..."):
+        if st.button("🚀 Generate Advanced Analysis", type="primary", use_container_width=True):
+            with st.spinner("🧠 AI analyzing optimal logic gates..."):
                 try:
                     selected_antigens = {
                         'tumor': st.session_state.selected_tumor_antigens,
@@ -924,18 +696,18 @@ def logic_gate_analysis_page():
                     }
                     
                     st.markdown("""
-                    <div class="medical-alert success">
-                        <h4 style="margin: 0 0 1rem 0;">✅ Analysis Complete</h4>
-                        <p style="margin: 0;">Advanced logic gate optimization completed with clinical recommendations.</p>
+                    <div class="success-alert">
+                        <h4 style="margin: 0 0 1rem 0;">✅ Analysis Complete!</h4>
+                        <p style="margin: 0;">Advanced logic gate analysis has been successfully generated with AI recommendations.</p>
                     </div>
                     """, unsafe_allow_html=True)
                     st.rerun()
                     
                 except Exception as e:
                     st.markdown(f"""
-                    <div class="medical-alert error">
+                    <div class="error-alert">
                         <h4 style="margin: 0 0 1rem 0;">❌ Analysis Error</h4>
-                        <p style="margin: 0;">System error during analysis: {str(e)}</p>
+                        <p style="margin: 0;">Error during analysis: {str(e)}</p>
                     </div>
                     """, unsafe_allow_html=True)
                     return
@@ -945,110 +717,104 @@ def logic_gate_analysis_page():
         results = st.session_state.analysis_results
         
         # AI Recommendation section
-        st.markdown('<div class="medical-card slide-up">', unsafe_allow_html=True)
-        st.markdown("### 🏆 AI-Powered Clinical Recommendation")
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        st.markdown("### 🏆 AI-Powered Gate Recommendation")
         
         best_gate = results['best_gate']
         
         # Create recommendation card
         st.markdown(f"""
-        <div style="background: linear-gradient(135deg, var(--success-color) 0%, var(--medical-green) 100%); color: white; padding: 2.5rem; border-radius: 20px; text-align: center; margin: 1.5rem 0; box-shadow: 0 15px 35px rgba(16, 185, 129, 0.3);">
-            <h2 style="margin: 0 0 1rem 0; font-size: 3rem; font-weight: 800;">🏆 {best_gate['gate']} GATE</h2>
-            <div style="font-size: 1.4rem; margin-bottom: 1.5rem; font-weight: 600;">
-                <strong>Clinical Selectivity Score: {best_gate['score']:.3f}</strong>
+        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 2rem; border-radius: 20px; text-align: center; margin: 1rem 0;">
+            <h2 style="margin: 0 0 1rem 0; font-size: 2.5rem;">🏆 {best_gate['gate']} GATE</h2>
+            <div style="font-size: 1.2rem; margin-bottom: 1rem;">
+                <strong>Selectivity Score: {best_gate['score']:.3f}</strong>
             </div>
-            <p style="margin: 0; font-size: 1.2rem; opacity: 0.95; line-height: 1.5;">{best_gate['explanation']}</p>
+            <p style="margin: 0; font-size: 1.1rem; opacity: 0.9;">{best_gate['explanation']}</p>
         </div>
         """, unsafe_allow_html=True)
         
         # Safety note
         if 'safety_note' in best_gate:
-            st.markdown(f"""
-            <div class="medical-alert warning">
-                <strong>🛡️ Clinical Safety Recommendation:</strong> {best_gate['safety_note']}
-            </div>
-            """, unsafe_allow_html=True)
+            st.info(f"🛡️ **Safety Recommendation:** {best_gate['safety_note']}")
         
         st.markdown('</div>', unsafe_allow_html=True)
         
         # Truth Tables section
-        st.markdown('<div class="medical-card fade-in">', unsafe_allow_html=True)
-        st.markdown("### 📋 Interactive Truth Tables & Logic Analysis")
-        st.markdown("**Clinical Legend:** 1 = Antigen Present, 0 = Antigen Absent | **Output:** 🎯 = Activate CAR-T, ❌ = Deactivate")
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        st.markdown("### 📋 Interactive Truth Tables")
+        st.markdown("**Legend:** 1 = Present, 0 = Absent | **🎯** = Kill, **❌** = Off")
         
         visualizer = TruthTableVisualizer()
         
         # Enhanced tabs
         tab_names = list(results['truth_tables'].keys())
-        tabs = st.tabs([f"🔘 {gate} Gate Logic" for gate in tab_names])
+        tabs = st.tabs([f"🔘 {gate} Gate" for gate in tab_names])
         
         for i, (gate_name, truth_table) in enumerate(results['truth_tables'].items()):
             with tabs[i]:
                 if gate_name == 'NOT':
                     fixed_not_fig = visualizer.create_fixed_not_truth_table()
-                    st.plotly_chart(fixed_not_fig, width=None)
+                    st.plotly_chart(fixed_not_fig, use_container_width=True)
                 else:
                     simplified_fig = visualizer.create_simplified_truth_table(truth_table, gate_name)
-                    st.plotly_chart(simplified_fig, width=None)
+                    st.plotly_chart(simplified_fig, use_container_width=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
         
         # Performance Analytics
-        st.markdown('<div class="medical-card slide-up">', unsafe_allow_html=True)
-        st.markdown("### 📈 Clinical Performance Analytics")
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        st.markdown("### 📈 Performance Analytics")
         selectivity_fig = visualizer.create_selectivity_comparison(results['selectivity_scores'])
-        st.plotly_chart(selectivity_fig, width=None)
+        st.plotly_chart(selectivity_fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
         
         # PDAC Clinical Insights
-        st.markdown('<div class="medical-card fade-in">', unsafe_allow_html=True)
-        st.markdown("### 🩺 PDAC Clinical Implementation Insights")
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        st.markdown("### 🩺 PDAC Clinical Insights")
         
         col1, col2 = st.columns(2)
         
         with col1:
             st.markdown("""
-            #### 🎯 **Therapeutic Optimization Strategies**
-            - **AND gates:** Minimize off-target cytotoxicity
-            - **OR gates:** Maximize tumor cell coverage
-            - **NOT gates:** Implement safety circuit protection
-            - **XOR gates:** Enable precise dual-target activation
-            - **XNOR gates:** Advanced multi-conditional logic
+            #### 🎯 **Therapy Optimization**
+            - **AND gates** minimize off-target effects
+            - **OR gates** increase tumor coverage
+            - **NOT gates** provide safety switches
+            - **XOR gates** enable precise targeting
             """)
         
         with col2:
             st.markdown("""
-            #### 🩺 **Clinical Monitoring Protocol**
-            - Real-time pancreatic enzyme monitoring
-            - Cytokine release syndrome assessment
-            - Systematic dose escalation protocols
-            - Regular MRI/CT imaging surveillance
-            - Biomarker-guided therapy adjustments
+            #### 🩺 **Clinical Monitoring**
+            - Monitor pancreatic enzyme levels
+            - Track cytokine release syndrome
+            - Implement dose escalation protocols
+            - Regular imaging assessments
             """)
         
         st.markdown('</div>', unsafe_allow_html=True)
 
 def cart_diagram_page():
-    """Enhanced CAR-T diagram page with medical UI."""
-    st.markdown('<div class="medical-card slide-up">', unsafe_allow_html=True)
-    st.markdown("### 🧬 Precision CAR-T Structure Designer")
-    st.markdown("Generate publication-ready, personalized CAR-T diagrams optimized for your therapeutic strategy")
+    """Enhanced CAR-T diagram page with modern UI."""
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("### 🧬 Personalized CAR-T Structure Designer")
+    st.markdown("Generate publication-ready CAR-T diagrams tailored to your selected antigens")
     st.markdown('</div>', unsafe_allow_html=True)
     
     if not st.session_state.selected_tumor_antigens:
         st.markdown("""
-        <div class="medical-alert warning">
-            <h4 style="margin: 0 0 1rem 0;">⚠️ Insufficient Target Data</h4>
-            <p style="margin: 0;">Navigate to <strong>Antigen Selection</strong> to select tumor antigens for CAR-T design.</p>
+        <div class="warning-alert">
+            <h4 style="margin: 0 0 1rem 0;">⚠️ Insufficient Data</h4>
+            <p style="margin: 0;">Please select tumor antigens first in the <strong>Antigen Selection</strong> page.</p>
         </div>
         """, unsafe_allow_html=True)
         return
     
     if len(st.session_state.selected_tumor_antigens) < 2:
         st.markdown("""
-        <div class="medical-alert warning">
-            <h4 style="margin: 0 0 1rem 0;">⚠️ Dual-Logic Requirements</h4>
-            <p style="margin: 0;">Select at least <strong>2 tumor antigens</strong> to enable dual-logic CAR-T diagram generation.</p>
+        <div class="warning-alert">
+            <h4 style="margin: 0 0 1rem 0;">⚠️ Minimum Requirements</h4>
+            <p style="margin: 0;">Please select at least <strong>2 tumor antigens</strong> for dual-logic CAR-T diagram generation.</p>
         </div>
         """, unsafe_allow_html=True)
         return
@@ -1057,47 +823,39 @@ def cart_diagram_page():
     col_left, col_right = st.columns([3, 2])
     
     with col_right:
-        st.markdown('<div class="medical-card fade-in">', unsafe_allow_html=True)
-        st.markdown("### 🎯 Therapeutic Target Strategy")
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        st.markdown("### 🎯 Target Strategy Overview")
         
         # Enhanced antigen display
-        st.markdown("#### 🔴 Primary Elimination Targets")
+        st.markdown("#### 🔴 Primary Kill Targets")
         for i, antigen in enumerate(st.session_state.selected_tumor_antigens):
             st.markdown(f"""
-            <div class="antigen-card tumor">
-                <strong>Target {i+1}:</strong> {antigen}<br>
-                <span style="color: var(--danger-color); font-weight: 600;">🎯 ELIMINATE</span>
+            <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; padding: 0.75rem; margin: 0.5rem 0; border-radius: 10px;">
+                <strong>Target {i+1}:</strong> {antigen} → <span style="color: #ef4444;">🎯 ELIMINATE</span>
             </div>
             """, unsafe_allow_html=True)
         
         if st.session_state.selected_healthy_antigens:
-            st.markdown("#### 🟢 Tissue Protection Markers")
+            st.markdown("#### 🟢 Protection Targets")
             for i, antigen in enumerate(st.session_state.selected_healthy_antigens):
                 st.markdown(f"""
-                <div class="antigen-card healthy">
-                    <strong>Safety {i+1}:</strong> {antigen}<br>
-                    <span style="color: var(--success-color); font-weight: 600;">🛡️ PROTECT</span>
+                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 0.75rem; margin: 0.5rem 0; border-radius: 10px;">
+                    <strong>Guard {i+1}:</strong> {antigen} → <span style="color: #10b981;">🛡️ PROTECT</span>
                 </div>
                 """, unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
         
         # Configuration panel
-        st.markdown('<div class="medical-card slide-up">', unsafe_allow_html=True)
-        st.markdown("### ⚙️ CAR-T Design Configuration")
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        st.markdown("### ⚙️ CAR-T Configuration")
         
-        st.markdown("""
-        <div style="background: var(--glass-bg); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color);">
-            <strong>Costimulatory Domain:</strong> 4-1BB (PDAC Optimized)<br>
-            <strong>Design Standard:</strong> Clinical Publication Grade<br>
-            <strong>Target Disease:</strong> Pancreatic Ductal Adenocarcinoma<br>
-            <strong>Safety Profile:</strong> Dual-Logic Protection System
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("**Costimulatory Domain:** 4-1BB (Optimized for PDAC)")
+        st.markdown("**Design Style:** Professional Publication Ready")
         
         # Enhanced generate button
         if st.button("🚀 Generate CAR-T Design", type="primary", use_container_width=True):
-            with st.spinner("🧬 Creating precision CAR-T architecture..."):
+            with st.spinner("🧬 Creating personalized CAR-T structure..."):
                 selected_antigens = {
                     'tumor': st.session_state.selected_tumor_antigens,
                     'healthy': st.session_state.selected_healthy_antigens
@@ -1115,65 +873,87 @@ def cart_diagram_page():
                     'style': "Standard"
                 }
                 
-                st.markdown("""
-                <div class="medical-alert success">
-                    <strong>✅ CAR-T Design Generated Successfully</strong><br>
-                    Your personalized therapeutic diagram is ready for clinical review.
-                </div>
-                """, unsafe_allow_html=True)
+                st.success("✅ CAR-T design generated successfully!")
         
         # Design summary
         if 'cart_diagram' in st.session_state:
             st.markdown("### 📋 Design Specifications")
             
             st.markdown(f"""
-            <div style="background: var(--glass-bg); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); margin: 1rem 0;">
-                <strong>🎯 Therapeutic Strategy:</strong> Dual-Logic CAR-T<br>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+                <strong>🎯 Strategy:</strong> Dual-Logic CAR-T<br>
                 <strong>🔴 Primary Targets:</strong> {', '.join(st.session_state.selected_tumor_antigens[:2])}<br>
-                <strong>⚙️ Costimulatory:</strong> 4-1BB (Enhanced Persistence)<br>
-                <strong>🛡️ Safety Profile:</strong> Healthy Tissue Sparing<br>
-                <strong>🩺 Clinical Application:</strong> PDAC Immunotherapy
+                <strong>⚙️ Costimulatory:</strong> 4-1BB (PDAC Optimized)<br>
+                <strong>🛡️ Safety Profile:</strong> Healthy tissue sparing
             </div>
             """, unsafe_allow_html=True)
             
-            st.markdown("""
-            <div class="medical-alert">
-                <strong>🩺 Clinical Advantage:</strong> This dual-logic design maximizes pancreatic tumor elimination while preserving critical organ functions through selective targeting mechanisms.
-            </div>
-            """, unsafe_allow_html=True)
+            st.info("👉 **PDAC Advantage:** This dual-logic design maximizes tumor elimination while preserving critical pancreatic functions.")
         
         st.markdown('</div>', unsafe_allow_html=True)
     
     with col_left:
-        st.markdown('<div class="medical-card fade-in">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         
         if 'cart_diagram' in st.session_state:
-            st.markdown("### 🧬 Your Precision CAR-T Architecture")
+            st.markdown("### 🧬 Your Personalized CAR-T Structure")
             
-            # Enhanced diagram display with better sizing
+            # Enhanced diagram display
             components.html(st.session_state.cart_diagram, height=520, scrolling=False)
             
-            # Enhanced download options (removed report download)
+            # Enhanced download options
             st.markdown("### 💾 Export Options")
+            col1, col2 = st.columns(2)
             
-            st.download_button(
-                label="📥 Download SVG Vector",
-                data=st.session_state.cart_diagram,
-                file_name=f"immunogate_cart_design_{'-'.join(st.session_state.selected_tumor_antigens[:2])}.svg",
-                mime="image/svg+xml",
-                use_container_width=True
-            )
+            with col1:
+                st.download_button(
+                    label="📥 Download SVG",
+                    data=st.session_state.cart_diagram,
+                    file_name=f"immunogate_cart_design_{'-'.join(st.session_state.selected_tumor_antigens[:2])}.svg",
+                    mime="image/svg+xml",
+                    use_container_width=True
+                )
             
+            with col2:
+                # Create summary report
+                summary_report = f"""
+                ImmunoGate CAR-T Design Report
+                =============================
+                
+                Design ID: {'-'.join(st.session_state.selected_tumor_antigens[:2])}
+                Generated: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}
+                
+                Target Antigens:
+                {chr(10).join([f"- {antigen} (Kill)" for antigen in st.session_state.selected_tumor_antigens])}
+                
+                Protection Antigens:
+                {chr(10).join([f"- {antigen} (Protect)" for antigen in st.session_state.selected_healthy_antigens]) if st.session_state.selected_healthy_antigens else "None"}
+                
+                Configuration:
+                - Costimulatory Domain: 4-1BB
+                - Target Disease: PDAC
+                - Safety Profile: Dual-logic protection
+                
+                Generated by ImmunoGate v1.0
+                """
+                
+                st.download_button(
+                    label="📄 Design Report",
+                    data=summary_report,
+                    file_name=f"immunogate_report_{'-'.join(st.session_state.selected_tumor_antigens[:2])}.txt",
+                    mime="text/plain",
+                    use_container_width=True
+                )
         else:
-            st.markdown("### 🎨 CAR-T Design Laboratory")
+            st.markdown("### 🎨 CAR-T Design Studio")
             
             st.markdown("""
-            <div style="text-align: center; padding: 4rem; background: var(--glass-bg); border-radius: 20px; border: 2px dashed var(--border-color);">
-                <div style="font-size: 5rem; margin-bottom: 1.5rem; color: var(--accent-color);">🧬</div>
-                <h3 style="color: var(--accent-color); margin-bottom: 1.5rem; font-size: 2rem;">Ready for CAR-T Design</h3>
-                <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">
-                    Configure your therapeutic parameters and generate your personalized 
-                    CAR-T structure diagram optimized for PDAC treatment.
+            <div style="text-align: center; padding: 3rem; background: rgba(255, 255, 255, 0.05); border-radius: 15px; border: 2px dashed rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🧬</div>
+                <h3 style="color: #6366f1; margin-bottom: 1rem;">Ready to Create Your CAR-T Design</h3>
+                <p style="font-size: 1.1rem; color: #64748b; margin-bottom: 2rem;">
+                    Configure your parameters on the right and click <strong>"Generate CAR-T Design"</strong> 
+                    to create your personalized diagram.
                 </p>
             </div>
             """, unsafe_allow_html=True)
@@ -1182,28 +962,16 @@ def cart_diagram_page():
             st.markdown("""
             ### 🧬 CAR-T Component Architecture
             
-            Your personalized clinical diagram will include:
+            Your personalized diagram will include:
             
-            **🔍 scFv Recognition Domains**  
-            Target-specific antibody fragments engineered for your selected tumor antigens
+            - **🔍 scFv Domains**: Target-specific antibody fragments for your selected antigens
+            - **🔗 Hinge Region**: Flexible spacer optimizing antigen binding geometry  
+            - **📡 Transmembrane**: Membrane anchor ensuring stable CAR expression
+            - **💪 4-1BB Costimulatory**: Enhanced T-cell activation and persistence
+            - **⚡ CD3ζ Signaling**: Primary activation signal for cytotoxic response
             
-            **🔗 Flexible Hinge Region**  
-            Optimized spacer region ensuring proper antigen binding geometry and accessibility
-            
-            **📡 Transmembrane Anchor**  
-            Stable membrane integration ensuring persistent CAR expression on T-cells
-            
-            **💪 4-1BB Costimulatory Domain**  
-            Enhanced T-cell activation, proliferation, and long-term persistence signals
-            
-            **⚡ CD3ζ Primary Signaling**  
-            Core activation domain triggering immediate cytotoxic response pathways
-            
-            ---
-            
-            **🎯 Elimination Mechanism:** Tumor antigen recognition triggers immediate CAR-T activation  
-            **🛡️ Safety Mechanism:** Healthy cell antigens provide protective override signals  
-            **🩺 Clinical Outcome:** Selective PDAC elimination with preserved pancreatic function
+            **🎯 Kill Mechanism**: Tumor antigens trigger immediate activation  
+            **🛡️ Safety Mechanism**: Healthy cell antigens provide protection override
             """)
         
         st.markdown('</div>', unsafe_allow_html=True)
