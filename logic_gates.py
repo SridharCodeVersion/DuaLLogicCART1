@@ -40,12 +40,12 @@ class LogicGateAnalyzer:
             'inputs': [],
             'outputs': [],
             'probabilities': [],
-            'cell_types': []
+            'cell_types': [],
+            'antigen_names': tumor_antigens[:2]  # Only use first 2 for binary logic
         }
         
-        # Generate all possible input combinations (binary)
-        n_antigens = len(tumor_antigens)  # We focus on tumor antigens for CAR-T logic
-        input_combinations = list(product([0, 1], repeat=n_antigens))
+        # Generate all possible input combinations (binary) - limit to 2 inputs
+        input_combinations = list(product([0, 1], repeat=2))
         
         for inputs in input_combinations:
             # Calculate logic gate output
@@ -53,7 +53,7 @@ class LogicGateAnalyzer:
             
             # Calculate probabilistic output based on expression levels
             prob_output = self._calculate_probabilistic_output(
-                gate_type, inputs, tumor_antigens, expression_data, thresholds
+                gate_type, inputs, tumor_antigens[:2], expression_data, thresholds
             )
             
             truth_table['inputs'].append(inputs)
@@ -61,7 +61,7 @@ class LogicGateAnalyzer:
             truth_table['probabilities'].append(prob_output)
             
             # Determine cell type based on antigen expression pattern
-            cell_type = self._determine_cell_type(inputs, tumor_antigens, expression_data)
+            cell_type = self._determine_cell_type(inputs, tumor_antigens[:2], expression_data)
             truth_table['cell_types'].append(cell_type)
         
         return truth_table
@@ -165,23 +165,34 @@ class LogicGateAnalyzer:
         return selectivity_scores
     
     def get_best_gate_recommendation(self, selectivity_scores: Dict[str, float]) -> Dict[str, Any]:
-        """Get the best logic gate recommendation with explanation."""
+        """Get the best logic gate recommendation with explanation for PDAC therapy."""
         best_gate = max(selectivity_scores.keys(), key=lambda x: selectivity_scores[x])
         best_score = selectivity_scores[best_gate]
         
-        # Generate explanation based on gate type
+        # Generate PDAC-specific explanations based on gate type
         explanations = {
-            'AND': "Both tumor antigens must be present for activation, maximizing tumor specificity while minimizing healthy tissue damage.",
-            'OR': "Either tumor antigen can trigger activation, increasing sensitivity but potentially reducing specificity.",
-            'NOT': "Activates when the primary antigen is absent, useful for targeting antigen-loss variants.",
-            'XOR': "Activates when only one antigen is present, targeting heterogeneous tumor populations.",
-            'XNOR': "Activates when both antigens have the same state, targeting consistent expression patterns."
+            'AND': "🎯 OPTIMAL for PDAC: Both tumor antigens must be present for activation. This maximizes tumor specificity and minimizes pancreatic healthy tissue damage, critical for preserving pancreatic function.",
+            'OR': "⚡ SENSITIVE for PDAC: Either tumor antigen can trigger activation. Increases sensitivity to heterogeneous PDAC tumors but may increase off-target effects on healthy pancreatic cells.",
+            'NOT': "🔄 ALTERNATIVE for PDAC: Activates when primary antigen is absent. Useful for targeting PDAC antigen-loss escape variants but requires careful healthy tissue monitoring.",
+            'XOR': "🎲 SELECTIVE for PDAC: Activates when only one antigen is present. Targets heterogeneous PDAC populations while avoiding dual-positive healthy pancreatic cells.",
+            'XNOR': "⚖️ BALANCED for PDAC: Activates when both antigens have same state. Provides balanced targeting of consistent PDAC expression patterns."
+        }
+        
+        # Add PDAC-specific safety recommendation
+        safety_notes = {
+            'AND': "Lowest risk of pancreatic toxicity. Recommended for first-line PDAC therapy.",
+            'OR': "Monitor for pancreatic enzyme levels. Consider dose escalation protocol.",
+            'NOT': "Requires extensive safety monitoring. Consider as second-line therapy.",
+            'XOR': "Moderate safety profile. Monitor for pancreatic function.",
+            'XNOR': "Balanced safety profile. Standard monitoring recommended."
         }
         
         recommendation = {
             'gate': best_gate,
             'score': best_score,
-            'explanation': explanations.get(best_gate, "Selected based on highest selectivity score.")
+            'explanation': explanations.get(best_gate, "Selected based on highest selectivity score."),
+            'safety_note': safety_notes.get(best_gate, "Standard safety monitoring recommended."),
+            'pdac_context': True
         }
         
         return recommendation
