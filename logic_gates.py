@@ -192,10 +192,10 @@ class LogicGateAnalyzer:
         }
         
         recommendation = {
-            'gate': best_gate,
+            'gate': recommended_gate,
             'score': best_score,
-            'explanation': explanations.get(best_gate, "Selected based on highest selectivity score."),
-            'safety_note': safety_notes.get(best_gate, "Standard safety monitoring recommended."),
+            'explanation': explanations.get(recommended_gate, "Selected based on highest selectivity score."),
+            'safety_note': safety_notes.get(recommended_gate, "Standard safety monitoring recommended."),
             'pdac_context': True
         }
         
