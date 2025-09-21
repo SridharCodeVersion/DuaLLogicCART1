@@ -154,8 +154,15 @@ def antigen_selection_page():
             # Display the table with selection
             st.write(f"**{selected_category}** ({len(biomarkers_in_category)} biomarkers)")
             
-            # Multiselect for tumor antigens
-            tumor_options = [b['biomarker_name'] for b in biomarkers_in_category if b['indication'] in ['↑', '↑/↓']]
+            # Process indications using clean method
+            processed_biomarkers = []
+            for b in biomarkers_in_category:
+                clean_indication = st.session_state.data_processor._clean_indication(b['indication'])
+                processed_biomarkers.append({**b, 'indication_clean': clean_indication})
+            
+            # Multiselect for tumor antigens (oncogenic: ↑ or context-dependent ↑/↓)
+            tumor_options = [b['biomarker_name'] for b in processed_biomarkers 
+                           if b['indication_clean'] in ['↑', '↑/↓']]
             selected_tumor = st.multiselect(
                 "Select Tumor Antigens (↑ oncogenic):",
                 tumor_options,
@@ -163,8 +170,9 @@ def antigen_selection_page():
                 key=f"tumor_{selected_category}"
             )
             
-            # Multiselect for healthy cell antigens
-            healthy_options = [b['biomarker_name'] for b in biomarkers_in_category if b['indication'] in ['↓', '↑/↓']]
+            # Multiselect for healthy cell antigens (tumor suppressors: ↓ or context-dependent ↑/↓)
+            healthy_options = [b['biomarker_name'] for b in processed_biomarkers 
+                             if b['indication_clean'] in ['↓', '↑/↓']]
             selected_healthy = st.multiselect(
                 "Select Healthy Cell Antigens (↓ suppressor):",
                 healthy_options,
@@ -224,14 +232,18 @@ def logic_gate_analysis_page():
         st.warning("⚠️ Please select at least 2 tumor antigens for logic gate analysis.")
         return
     
+    # Show constraint message if more than 2 selected
+    if len(st.session_state.selected_tumor_antigens) > 2:
+        st.info(f"ℹ️ Logic gate analysis uses the first 2 tumor antigens for binary logic gates. Selected: {st.session_state.selected_tumor_antigens[:2]}")
+    
     # Display selected antigens for analysis
     st.subheader("🎯 Selected Antigens for Analysis")
     col1, col2 = st.columns(2)
     
     with col1:
-        st.write("**Tumor Antigens:**")
-        for antigen in st.session_state.selected_tumor_antigens[:2]:  # Limit to first 2 for binary logic
-            st.write(f"• {antigen}")
+        st.write("**Tumor Antigens (for Binary Logic):**")
+        for i, antigen in enumerate(st.session_state.selected_tumor_antigens[:2]):
+            st.write(f"• Input {chr(65+i)}: {antigen}")
     
     with col2:
         st.write("**Healthy Cell Antigens:**")
