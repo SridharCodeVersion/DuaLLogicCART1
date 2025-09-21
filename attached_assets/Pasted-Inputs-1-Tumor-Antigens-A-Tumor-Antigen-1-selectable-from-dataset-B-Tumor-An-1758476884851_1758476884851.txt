@@ -1,0 +1,36 @@
+Inputs: 
+1. Tumor Antigens: 
+   - A = Tumor Antigen 1 (selectable from dataset)
+   - B = Tumor Antigen 2 (selectable from dataset)
+   - Optional C = Tumor Antigen 3 (for three-input logic)
+2. Healthy Antigens: select from dataset for safety visualization.
+3. Logic Gate: select from OR, AND, XOR, XNOR, NOT.
+
+Requirements:
+
+1. **Truth Table Generation**:
+   - Create separate columns for inputs A and B, labeled with the **actual antigen names selected by the user**.
+   - Output column: Y (0 or 1).
+   - Explanation column: 
+     - 1 → Activate (Kill)
+     - 0 → Deactivate (Off)
+   - Remove unnecessary columns: cell type, probabilistic output, and pattern diagrams.
+   - Only include relevant logic for the selected gate.
+
+2. **Personalized CAR-T Cell Diagram**:
+   - Draw a visually appealing CAR-T cell diagram including all standard components: scFv, hinge, transmembrane, co-stimulatory and signaling domains.
+   - Label tumor antigens (inputs) and healthy antigens clearly, making them visually distinguishable.
+   - Show the killing action of CAR-T cells:
+     - Highlight tumor antigens targeted for activation (Y=1) with action arrows or color coding.
+     - Show OFF/Deactivation for non-target or healthy antigens (Y=0).
+   - Make the diagram highly **personalized** according to the antigens selected by the user.
+
+3. **Interactive Features**:
+   - Add a **Refresh button (top right)** to reset all pages of the navigation pane and allow the user to input new antigens and logic selections from the beginning.
+   - Display truth table, explanation, and CAR-T diagram side by side for clarity.
+
+4. **Output Focus**:
+   - Emphasize PDAC-targeted therapy.
+   - Recommend the **best logic gate** for maximal tumor selectivity and minimal off-target effect.
+
+Generate the result in a **ready-to-use interactive dashboard format** where the user can select antigens, logic gates, and immediately see the truth table, explanation, and personalized CAR-T diagram.
