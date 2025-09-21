@@ -38,6 +38,39 @@ def apply_modern_styling():
     # Get current theme from session state
     is_dark_theme = st.session_state.get('dark_theme', False)
     
+    # Create CSS content without f-string to avoid syntax issues
+    dark_theme_css = """
+        /* Dark theme variables */
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #1a2332;
+            --bg-card: rgba(26, 35, 50, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: #b0c4de;
+            --border-color: #2d3748;
+            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%);
+            --gradient-secondary: linear-gradient(135deg, #0d9488 0%, #0f766e 50%, #115e59 100%);
+            --medical-bg: linear-gradient(135deg, #0a0e1a 0%, #1a2332 25%, #2d3748 75%, #1a2332 100%);
+        }
+    """
+    
+    light_theme_css = """
+        /* Light theme variables */
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --gradient-primary: linear-gradient(135deg, #0073e6 0%, #005bb5 50%, #004494 100%);
+            --gradient-secondary: linear-gradient(135deg, #00a86b 0%, #008f5a 50%, #007849 100%);
+            --medical-bg: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #bae6fd 75%, #e0f2fe 100%);
+        }
+    """
+    
+    theme_css = dark_theme_css if is_dark_theme else light_theme_css
+    
     st.markdown(f"""
     <style>
     /* Import Google Fonts */
@@ -61,35 +94,7 @@ def apply_modern_styling():
     }}
     
     /* Theme-specific variables */
-    {''.join([
-        f"""
-        /* Dark theme variables */
-        :root {{
-            --bg-primary: #0a0e1a;
-            --bg-secondary: #1a2332;
-            --bg-card: rgba(26, 35, 50, 0.8);
-            --text-primary: #ffffff;
-            --text-secondary: #b0c4de;
-            --border-color: #2d3748;
-            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%);
-            --gradient-secondary: linear-gradient(135deg, #0d9488 0%, #0f766e 50%, #115e59 100%);
-            --medical-bg: linear-gradient(135deg, #0a0e1a 0%, #1a2332 25%, #2d3748 75%, #1a2332 100%);
-        }}
-        """ if is_dark_theme else f"""
-        /* Light theme variables */
-        :root {{
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.9);
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --gradient-primary: linear-gradient(135deg, #0073e6 0%, #005bb5 50%, #004494 100%);
-            --gradient-secondary: linear-gradient(135deg, #00a86b 0%, #008f5a 50%, #007849 100%);
-            --medical-bg: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #bae6fd 75%, #e0f2fe 100%);
-        }}
-        """
-    ])}
+    {theme_css}
     
     /* Global styling */
     .stApp {{
