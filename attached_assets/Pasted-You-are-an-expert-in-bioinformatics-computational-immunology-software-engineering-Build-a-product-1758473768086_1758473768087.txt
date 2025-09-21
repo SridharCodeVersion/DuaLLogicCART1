@@ -1,0 +1,76 @@
+You are an expert in bioinformatics + computational immunology software engineering. Build a production-ready, reproducible tool that helps clinicians design dual-logic CAR-T strategies for PDAC using the provided biomarker dataset.
+
+Input
+
+CSV file with:
+
+biomarker_name
+
+category
+
+indication (↑ oncogenic, ↓ suppressor)
+
+Core Features
+
+Antigen Pair Selection
+
+Clinician selects any 2 biomarkers (provide a dropdown or table of options for selection of antigen pairs as per the dataset)
+Provide separate inputs for selecting 2 tumor antigens and 2 healthy cell antigens
+
+System compares tumor vs healthy expression (fold-change, indication).
+
+Truth Table & Gate Suggestion
+
+Generate truth tables for AND/OR/NOT/XOR/XNOR (hard + probabilistic).
+
+Rank gates by selectivity score = tumor kill / (healthy kill + ε).
+
+Recommend the best gate and provide a 2 line explaination giving concise reason why the gate was chosen?
+
+CAR-T Diagram Builder (Unique Feature)
+
+Dynamically generate a labeled CAR-T structure based on selected antigens.
+
+Include standard components:
+
+scFv domains (mapped to selected antigens, labeled with biomarker names)
+
+Hinge region
+
+Transmembrane domain
+
+Costimulatory domain (CD28/4-1BB)
+
+CD3ζ signaling domain
+
+Personalize the diagram: labels show patient-specific antigen names.
+
+Output as downloadable PNG/SVG for clinician reference.
+
+Outputs
+
+Truth tables (CSV/JSON + visual matrix)
+
+Best logic gate recommendation with explanation
+
+Personalized CAR-T diagram with labeled components
+
+Tech Requirements
+
+Backend: Python (Pandas, NumPy, SciPy)
+
+Visualization: Matplotlib / Plotly (truth tables, CAR-T diagram)
+
+UI: Streamlit or Flask for dataset upload, antigen selection, results, and diagram display
+
+Deployable on Replit (no GPU).
+
+Deliverables
+
+Modular Git repo with code + sample dataset
+
+Web UI runnable on Replit
+
+Example outputs (truth tables, diagrams, reports)
+
+README + ethics disclaimer (“Research use only, not for clinical use”).
