@@ -74,13 +74,21 @@ class CARTDiagramGenerator:
             <text x="300" y="140" text-anchor="middle" class="component-label">scFv Domain 1</text>
         ''')
         
-        # Second scFv domain
-        components.append(f'''
-            <!-- Second scFv Domain -->
-            <ellipse cx="500" cy="180" rx="60" ry="40" class="scfv-domain"/>
-            <text x="500" y="185" text-anchor="middle" class="antigen-label">{tumor_antigens[1]}</text>
-            <text x="500" y="140" text-anchor="middle" class="component-label">scFv Domain 2</text>
-        ''')
+        # Second scFv domain (if available)
+        if len(tumor_antigens) > 1:
+            components.append(f'''
+                <!-- Second scFv Domain -->
+                <ellipse cx="500" cy="180" rx="60" ry="40" class="scfv-domain"/>
+                <text x="500" y="185" text-anchor="middle" class="antigen-label">{tumor_antigens[1]}</text>
+                <text x="500" y="140" text-anchor="middle" class="component-label">scFv Domain 2</text>
+            ''')
+        else:
+            components.append(f'''
+                <!-- Second scFv Domain (Generic) -->
+                <ellipse cx="500" cy="180" rx="60" ry="40" class="scfv-domain"/>
+                <text x="500" y="185" text-anchor="middle" class="antigen-label">Target 2</text>
+                <text x="500" y="140" text-anchor="middle" class="component-label">scFv Domain 2</text>
+            ''')
         
         # Hinge region
         components.append('''

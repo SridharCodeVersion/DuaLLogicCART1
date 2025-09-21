@@ -165,9 +165,13 @@ class LogicGateAnalyzer:
         return selectivity_scores
     
     def get_best_gate_recommendation(self, selectivity_scores: Dict[str, float]) -> Dict[str, Any]:
-        """Get the best logic gate recommendation with explanation for PDAC therapy."""
-        best_gate = max(selectivity_scores.keys(), key=lambda x: selectivity_scores[x])
-        best_score = selectivity_scores[best_gate]
+        """Get the best logic gate recommendation based on smart logic rules."""
+        # Apply smart recommendation logic
+        tumor_antigens = self.selected_antigens['tumor']
+        healthy_antigens = self.selected_antigens['healthy']
+        
+        recommended_gate = self._apply_smart_logic(tumor_antigens, healthy_antigens)
+        best_score = selectivity_scores.get(recommended_gate, 0.0)
         
         # Generate PDAC-specific explanations based on gate type
         explanations = {
@@ -196,3 +200,27 @@ class LogicGateAnalyzer:
         }
         
         return recommendation
+    
+    def _apply_smart_logic(self, tumor_antigens: List[str], healthy_antigens: List[str]) -> str:
+        """Apply smart logic rules to recommend the best gate."""
+        has_tumor = len(tumor_antigens) > 0
+        has_healthy = len(healthy_antigens) > 0
+        
+        # Rule 1: If at least one tumor antigen AND HCA are selected → Recommend AND
+        if has_tumor and has_healthy:
+            return 'AND'
+        
+        # Rule 2: If all tumor antigens AND HCA not selected → Recommend OR
+        if not has_tumor and not has_healthy:
+            return 'OR'
+        
+        # Rule 3: If only HCA is selected → Recommend NOT
+        if not has_tumor and has_healthy:
+            return 'NOT'
+        
+        # Rule 4: If tumor antigens and HCA are mutually exclusive → Recommend XOR
+        if has_tumor and not has_healthy:
+            return 'XOR'
+        
+        # Rule 5: Else, otherwise → Recommend XNOR
+        return 'XNOR'

@@ -94,13 +94,9 @@ def reset_all_selections():
 def main():
     apply_theme()
     
-    # Top right controls: Theme toggle and Refresh button
-    col1, col2, col3 = st.columns([9, 1, 1])
+    # Top right controls: Refresh button only
+    col1, col2 = st.columns([10, 1])
     with col2:
-        if st.button("🌓", key="theme_toggle", help="Toggle Dark/Light Mode"):
-            toggle_theme()
-            st.rerun()
-    with col3:
         if st.button("🔄", key="refresh_all", help="Reset All Selections"):
             reset_all_selections()
     
@@ -318,11 +314,6 @@ def logic_gate_analysis_page():
         st.subheader("🎯 Detailed PDAC Analysis")
         visualizer = TruthTableVisualizer()
         
-        # Enhanced recommendation with safety notes (in main column)
-        if 'safety_note' in best_gate:
-            recommendation_fig = visualizer.create_pdac_recommendation_card(best_gate)
-            st.plotly_chart(recommendation_fig, width='stretch')
-        
         # Side-by-side Truth Tables and Analysis
         col_tables, col_analysis = st.columns([3, 2])
         
@@ -334,8 +325,13 @@ def logic_gate_analysis_page():
             for gate_name, truth_table in results['truth_tables'].items():
                 is_best = (gate_name == best_gate['gate'])
                 with st.expander(f"📈 {gate_name} Gate", expanded=is_best):
-                    simplified_fig = visualizer.create_simplified_truth_table(truth_table, gate_name)
-                    st.plotly_chart(simplified_fig, width='stretch')
+                    if gate_name == 'NOT':
+                        # Show fixed NOT gate truth table
+                        fixed_not_fig = visualizer.create_fixed_not_truth_table()
+                        st.plotly_chart(fixed_not_fig, width='stretch')
+                    else:
+                        simplified_fig = visualizer.create_simplified_truth_table(truth_table, gate_name)
+                        st.plotly_chart(simplified_fig, width='stretch')
         
         with col_analysis:
             st.subheader("📈 Gate Performance")
@@ -383,22 +379,11 @@ def cart_diagram_page():
             for antigen in st.session_state.selected_healthy_antigens:
                 st.markdown(f"- 🛡️ {antigen} → **PROTECT**")
         
-        # Diagram customization in compact form
+        # CAR-T Configuration (simplified)
         st.subheader("⚙️ CAR-T Configuration")
         
-        costimulatory_domain = st.selectbox(
-            "Costimulatory Domain:",
-            options=["CD28", "4-1BB"],
-            index=1,  # Default to 4-1BB which is often preferred for solid tumors
-            help="4-1BB is often preferred for solid tumors like PDAC due to enhanced persistence"
-        )
-        
-        diagram_style = st.selectbox(
-            "Detail Level:",
-            options=["Standard", "Detailed", "Simplified"],
-            index=1,  # Default to Detailed
-            help="Choose the level of detail for the diagram"
-        )
+        costimulatory_domain = "4-1BB"  # Fixed to 4-1BB for PDAC
+        diagram_style = "Standard"  # Fixed style
         
         # Enhanced generate button
         if st.button("🚀 Generate Personalized CAR-T", type="primary", use_container_width=True):
@@ -430,7 +415,7 @@ def cart_diagram_page():
             
             st.markdown(f"**🎯 Strategy:** Dual-Logic CAR-T")
             st.markdown(f"**🔴 Primary Targets:** {', '.join(st.session_state.selected_tumor_antigens[:2])}")
-            st.markdown(f"**⚙️ Costimulatory:** {config['costimulatory']}")
+            st.markdown(f"**⚙️ Costimulatory:** 4-1BB (Optimized for PDAC)")
             st.markdown(f"**🛡️ Safety Profile:** Designed to spare healthy pancreatic tissue")
             
             # PDAC-specific notes
@@ -444,16 +429,12 @@ def cart_diagram_page():
             
             # Download options
             st.subheader("💾 Export Options")
-            col1, col2 = st.columns(2)
-            with col1:
-                st.download_button(
-                    label="💾 Download SVG",
-                    data=st.session_state.cart_diagram,
-                    file_name=f"cart_design_{'-'.join(st.session_state.selected_tumor_antigens[:2])}.svg",
-                    mime="image/svg+xml"
-                )
-            with col2:
-                st.info("📄 PNG export coming soon")
+            st.download_button(
+                label="💾 Download SVG",
+                data=st.session_state.cart_diagram,
+                file_name=f"cart_design_{'-'.join(st.session_state.selected_tumor_antigens[:2])}.svg",
+                mime="image/svg+xml"
+            )
         else:
             # Placeholder when no diagram is generated
             st.info("📍 Configure your CAR-T parameters on the right and click 'Generate' to see your personalized diagram here.")

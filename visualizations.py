@@ -7,6 +7,43 @@ from typing import Dict, List, Any
 class TruthTableVisualizer:
     """Creates visualizations for truth tables and analysis results."""
     
+    def create_fixed_not_truth_table(self) -> go.Figure:
+        """Create fixed NOT gate truth table for HCA input."""
+        table_data = {
+            'Input (HCA)': [0, 1],
+            'Y (Output)': [1, 0],
+            'Explanation': ['Activate (kill)', 'Deactivate (off)']
+        }
+        
+        fig = go.Figure(data=[go.Table(
+            header=dict(
+                values=[f'<b>{col}</b>' for col in table_data.keys()],
+                fill_color='#34495e',
+                font=dict(color='white', size=14),
+                align='center',
+                height=40
+            ),
+            cells=dict(
+                values=list(table_data.values()),
+                fill_color=[['#ecf0f1' if i % 2 == 0 else 'white' for i in range(2)] for _ in range(len(table_data))],
+                font=dict(size=12),
+                align='center',
+                height=35
+            )
+        )])
+        
+        fig.update_layout(
+            title=dict(
+                text=f'<b>NOT Gate Fixed Truth Table</b><br><sub>Input: 1=Present, 0=Absent | Output: 1=Kill, 0=Off</sub>',
+                x=0.5,
+                font=dict(size=16)
+            ),
+            height=300,
+            margin=dict(l=20, r=20, t=80, b=20)
+        )
+        
+        return fig
+
     def create_simplified_truth_table(self, truth_table: Dict[str, Any], gate_name: str) -> go.Figure:
         """
         Create a simplified truth table with actual antigen names as headers.
