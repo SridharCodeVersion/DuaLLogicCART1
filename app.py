@@ -84,15 +84,25 @@ def toggle_theme():
     """Toggle between light and dark theme."""
     st.session_state.theme = 'dark' if st.session_state.theme == 'light' else 'light'
 
+def reset_all_selections():
+    """Reset all user selections and analysis results."""
+    st.session_state.selected_tumor_antigens = []
+    st.session_state.selected_healthy_antigens = []
+    st.session_state.analysis_results = None
+    st.rerun()
+
 def main():
     apply_theme()
     
-    # Theme toggle button
-    col1, col2 = st.columns([10, 1])
+    # Top right controls: Theme toggle and Refresh button
+    col1, col2, col3 = st.columns([9, 1, 1])
     with col2:
         if st.button("🌓", key="theme_toggle", help="Toggle Dark/Light Mode"):
             toggle_theme()
             st.rerun()
+    with col3:
+        if st.button("🔄", key="refresh_all", help="Reset All Selections"):
+            reset_all_selections()
     
     st.title("🧬 CAR-T Design Tool for PDAC")
     st.markdown("### Dual-Logic CAR-T Strategy Designer for Pancreatic Ductal Adenocarcinoma")
@@ -193,7 +203,7 @@ def antigen_selection_page():
             ] + selected_healthy
             
             # Display table
-            st.dataframe(display_df[['biomarker_name', 'category', 'indication']], use_container_width=True)
+            st.dataframe(display_df[['biomarker_name', 'category', 'indication']], width='stretch')
     
     # Selection summary
     st.subheader("📋 Current Selection Summary")
@@ -276,17 +286,22 @@ def logic_gate_analysis_page():
     if st.session_state.analysis_results:
         results = st.session_state.analysis_results
         
-        # Best gate recommendation
-        st.subheader("🏆 Best Logic Gate Recommendation")
-        best_gate = results['best_gate']
+        # Enhanced layout for results display
+        col_main, col_sidebar = st.columns([2, 1])
         
-        col1, col2 = st.columns([1, 2])
-        with col1:
+        with col_sidebar:
+            # Quick recommendation summary
+            st.subheader("🏆 Top Choice")
+            best_gate = results['best_gate']
+            
             st.metric("Recommended Gate", best_gate['gate'])
             st.metric("Selectivity Score", f"{best_gate['score']:.3f}")
+            
+            if 'safety_note' in best_gate:
+                st.success(f"🛡️ {best_gate['safety_note']}")
         
-        with col2:
-            st.write("**Explanation:**")
+        with col_main:
+            st.subheader("🎯 PDAC-Optimized Logic Gate Analysis")
             st.write(best_gate['explanation'])
         
         # Selectivity scores comparison
@@ -297,39 +312,50 @@ def logic_gate_analysis_page():
                 sorted(results['selectivity_scores'].items(), key=lambda x: x[1], reverse=True)
             )
         ])
-        st.dataframe(scores_df, use_container_width=True)
+        st.dataframe(scores_df, width='stretch')
         
-        # Truth tables
-        st.subheader("📋 Truth Tables")
+        # PDAC-specific detailed recommendation
+        st.subheader("🎯 Detailed PDAC Analysis")
+        visualizer = TruthTableVisualizer()
         
-        for gate_name, truth_table in results['truth_tables'].items():
-            with st.expander(f"📈 {gate_name} Gate Truth Table"):
-                # Create tabular display
-                table_data = []
-                inputs = truth_table['inputs']
-                outputs = truth_table['outputs']
-                probabilities = truth_table['probabilities']
-                cell_types = truth_table['cell_types']
-                
-                for i in range(len(inputs)):
-                    input_str = ''.join(map(str, inputs[i]))
-                    table_data.append({
-                        'Input Pattern': input_str,
-                        'Hard Logic Output': outputs[i],
-                        'Probabilistic Output': f"{probabilities[i]:.3f}",
-                        'Cell Type': cell_types[i]
-                    })
-                
-                truth_df = pd.DataFrame(table_data)
-                st.dataframe(truth_df, use_container_width=True)
-                
-                # Visualize with heatmap
-                visualizer = TruthTableVisualizer()
-                fig = visualizer.create_truth_table_heatmap(truth_table, gate_name)
-                st.plotly_chart(fig, use_container_width=True)
+        # Enhanced recommendation with safety notes (in main column)
+        if 'safety_note' in best_gate:
+            recommendation_fig = visualizer.create_pdac_recommendation_card(best_gate)
+            st.plotly_chart(recommendation_fig, width='stretch')
+        
+        # Side-by-side Truth Tables and Analysis
+        col_tables, col_analysis = st.columns([3, 2])
+        
+        with col_tables:
+            st.subheader("📋 Truth Tables with Your Antigens")
+            st.markdown("**Legend:** 1 = Present, 0 = Absent | **🎯** = Kill, **❌** = Off")
+            
+            # Display simplified truth tables in a more compact format
+            for gate_name, truth_table in results['truth_tables'].items():
+                is_best = (gate_name == best_gate['gate'])
+                with st.expander(f"📈 {gate_name} Gate", expanded=is_best):
+                    simplified_fig = visualizer.create_simplified_truth_table(truth_table, gate_name)
+                    st.plotly_chart(simplified_fig, width='stretch')
+        
+        with col_analysis:
+            st.subheader("📈 Gate Performance")
+            
+            # Enhanced selectivity comparison in sidebar
+            selectivity_fig = visualizer.create_selectivity_comparison(results['selectivity_scores'])
+            st.plotly_chart(selectivity_fig, width='stretch')
+            
+            # Additional PDAC insights
+            st.subheader("🩺 PDAC Insights")
+            st.markdown("""
+            **Best Practice for PDAC:**
+            - AND gates minimize off-target effects
+            - OR gates increase tumor coverage
+            - Monitor pancreatic enzymes during therapy
+            - Consider dose escalation protocols
+            """)
 
 def cart_diagram_page():
-    st.header("🧬 CAR-T Structure Diagram")
+    st.header("🧬 Personalized CAR-T Structure for PDAC")
     
     if not st.session_state.selected_tumor_antigens:
         st.warning("⚠️ Please select tumor antigens first in the Antigen Selection page.")
@@ -339,63 +365,114 @@ def cart_diagram_page():
         st.warning("⚠️ Please select at least 2 tumor antigens for CAR-T diagram generation.")
         return
     
-    # Selected antigens summary
-    st.subheader("🎯 Selected Antigens for CAR-T Design")
-    col1, col2 = st.columns(2)
+    # Enhanced layout with side-by-side components
+    col_left, col_right = st.columns([3, 2])
     
-    with col1:
-        st.write("**Tumor Antigens (Target for Killing):**")
+    with col_right:
+        # Selected antigens summary with enhanced visual indicators
+        st.subheader("🎯 Target Strategy")
+        
+        # Tumor antigens with kill indicators
+        st.markdown("**🔴 Tumor Antigens (Kill Targets):**")
         for antigen in st.session_state.selected_tumor_antigens:
-            st.write(f"🔴 {antigen}")
-    
-    with col2:
-        st.write("**Healthy Cell Antigens (Protect from Killing):**")
-        for antigen in st.session_state.selected_healthy_antigens:
-            st.write(f"🟢 {antigen}")
-    
-    # Diagram customization
-    st.subheader("⚙️ Diagram Customization")
-    col1, col2 = st.columns(2)
-    
-    with col1:
+            st.markdown(f"- 🎯 {antigen} → **KILL**")
+        
+        # Healthy cell antigens with protection indicators
+        if st.session_state.selected_healthy_antigens:
+            st.markdown("**🟢 Healthy Cell Antigens (Protect):**")
+            for antigen in st.session_state.selected_healthy_antigens:
+                st.markdown(f"- 🛡️ {antigen} → **PROTECT**")
+        
+        # Diagram customization in compact form
+        st.subheader("⚙️ CAR-T Configuration")
+        
         costimulatory_domain = st.selectbox(
             "Costimulatory Domain:",
             options=["CD28", "4-1BB"],
-            help="Select the costimulatory domain for the CAR-T construct"
+            index=1,  # Default to 4-1BB which is often preferred for solid tumors
+            help="4-1BB is often preferred for solid tumors like PDAC due to enhanced persistence"
         )
-    
-    with col2:
+        
         diagram_style = st.selectbox(
-            "Diagram Style:",
+            "Detail Level:",
             options=["Standard", "Detailed", "Simplified"],
+            index=1,  # Default to Detailed
             help="Choose the level of detail for the diagram"
         )
+        
+        # Enhanced generate button
+        if st.button("🚀 Generate Personalized CAR-T", type="primary", use_container_width=True):
+            with st.spinner("Creating your personalized CAR-T design..."):
+                # Prepare antigen data
+                selected_antigens = {
+                    'tumor': st.session_state.selected_tumor_antigens,
+                    'healthy': st.session_state.selected_healthy_antigens
+                }
+                
+                # Generate diagram
+                diagram_gen = CARTDiagramGenerator(selected_antigens)
+                svg_content = diagram_gen.generate_cart_diagram(
+                    costimulatory_domain=costimulatory_domain,
+                    style=diagram_style
+                )
+                
+                # Store for display in left column
+                st.session_state.cart_diagram = svg_content
+                st.session_state.cart_config = {
+                    'costimulatory': costimulatory_domain,
+                    'style': diagram_style
+                }
+        
+        # PDAC-specific design summary
+        if 'cart_diagram' in st.session_state:
+            st.subheader("📋 PDAC Design Summary")
+            config = st.session_state.cart_config
+            
+            st.markdown(f"**🎯 Strategy:** Dual-Logic CAR-T")
+            st.markdown(f"**🔴 Primary Targets:** {', '.join(st.session_state.selected_tumor_antigens[:2])}")
+            st.markdown(f"**⚙️ Costimulatory:** {config['costimulatory']}")
+            st.markdown(f"**🛡️ Safety Profile:** Designed to spare healthy pancreatic tissue")
+            
+            # PDAC-specific notes
+            st.info("👉 **PDAC Note:** This dual-logic design targets heterogeneous pancreatic tumors while minimizing damage to critical pancreatic functions.")
     
-    if st.button("🚀 Generate CAR-T Diagram"):
-        with st.spinner("Generating personalized CAR-T diagram..."):
-            # Prepare antigen data
-            selected_antigens = {
-                'tumor': st.session_state.selected_tumor_antigens,
-                'healthy': st.session_state.selected_healthy_antigens
-            }
+    with col_left:
+        # Display diagram if generated
+        if 'cart_diagram' in st.session_state:
+            st.subheader("🧬 Your Personalized CAR-T Structure")
+            components.html(st.session_state.cart_diagram, height=650)
             
-            # Generate diagram
-            diagram_gen = CARTDiagramGenerator(selected_antigens)
-            svg_content = diagram_gen.generate_cart_diagram(
-                costimulatory_domain=costimulatory_domain,
-                style=diagram_style
-            )
+            # Download options
+            st.subheader("💾 Export Options")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.download_button(
+                    label="💾 Download SVG",
+                    data=st.session_state.cart_diagram,
+                    file_name=f"cart_design_{'-'.join(st.session_state.selected_tumor_antigens[:2])}.svg",
+                    mime="image/svg+xml"
+                )
+            with col2:
+                st.info("📄 PNG export coming soon")
+        else:
+            # Placeholder when no diagram is generated
+            st.info("📍 Configure your CAR-T parameters on the right and click 'Generate' to see your personalized diagram here.")
             
-            # Display diagram
-            st.subheader("🧬 Personalized CAR-T Structure")
-            components.html(svg_content, height=600)
+            # Show example or instructional content
+            st.markdown("""
+            ### 🧬 CAR-T Components Overview
             
-            # Information about the design
-            st.subheader("📋 CAR-T Design Summary")
-            st.write(f"**Target Strategy:** Dual-logic CAR-T for PDAC")
-            st.write(f"**Primary Targets:** {', '.join(st.session_state.selected_tumor_antigens[:2])}")
-            st.write(f"**Costimulatory Domain:** {costimulatory_domain}")
-            st.write(f"**Design Principle:** Selectively target tumor cells expressing oncogenic markers while sparing healthy cells with tumor suppressor expression")
+            Your personalized diagram will include:
+            
+            - **🔍 scFv Domains**: Target-specific antibody fragments for your selected antigens
+            - **🔗 Hinge Region**: Flexible spacer for optimal antigen binding
+            - **📡 Transmembrane**: Anchors CAR to T-cell surface
+            - **💪 Costimulatory**: Enhances T-cell activation and persistence
+            - **⚡ Signaling Domain**: Triggers T-cell cytotoxic response
+            
+            **🎯 Kill Action**: Shown for tumor antigens with targeting arrows
+            **🛡️ Protect Action**: Indicated for healthy cell antigens with safety symbols
+            """)
 
 if __name__ == "__main__":
     main()
