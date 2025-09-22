@@ -12,7 +12,7 @@ from visualizations import TruthTableVisualizer
 
 # Set page configuration
 st.set_page_config(
-    page_title="CAR-T Design Tool for PDAC",
+    page_title="ImmunoGate: Dual Logic CAR-T Therapy for PDAC",
     page_icon="🧬",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -100,7 +100,7 @@ def main():
         if st.button("🔄", key="refresh_all", help="Reset All Selections"):
             reset_all_selections()
     
-    st.title("🧬 CAR-T Design Tool for PDAC")
+    st.title("🧬 ImmunoGate: Dual Logic CAR-T Therapy for PDAC")
     st.markdown("### Dual-Logic CAR-T Strategy Designer for Pancreatic Ductal Adenocarcinoma")
     
     # Ethics disclaimer
